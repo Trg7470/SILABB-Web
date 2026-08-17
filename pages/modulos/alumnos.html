@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Focus - Bootstrap Admin Dashboard </title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
+    <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.theme.default.min.css">
+    <link href="/vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="/pages/dashboard/dashboard_u.html" class="brand-logo">
+                <img class="logo-abbr" src="./images/logo.png" alt="">
+                <img class="logo-compact" src="./images/logo-text.png" alt="">
+                <img class="brand-title" src="./images/logo-text.png" alt="">
+            </a>
+
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+                            <div class="search_bar dropdown">
+                                <span class="search_icon p-3 c-pointer" data-toggle="dropdown">
+                                    <i class="mdi mdi-magnify"></i>
+                                </span>
+                                <div class="dropdown-menu p-0 m-0">
+                                    <form>
+                                        <input class="form-control" type="search" placeholder="Search"
+                                            aria-label="Search">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="navbar-nav header-right">
+                            <li class="nav-item dropdown notification_dropdown">
+                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                                    <i class="mdi mdi-bell"></i>
+                                    <div class="pulse-css"></div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="list-unstyled">
+                                        <li class="media dropdown-item">
+                                            <span class="success"><i class="ti-user"></i></span>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                    <p><strong>Martin</strong> has added a <strong>customer</strong>
+                                                        Successfully
+                                                    </p>
+                                                </a>
+                                            </div>
+                                            <span class="notify-time">3:20 am</span>
+                                        </li>
+                                        <li class="media dropdown-item">
+                                            <span class="primary"><i class="ti-shopping-cart"></i></span>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                    <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p>
+                                                </a>
+                                            </div>
+                                            <span class="notify-time">3:20 am</span>
+                                        </li>
+                                        <li class="media dropdown-item">
+                                            <span class="danger"><i class="ti-bookmark"></i></span>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                    <p><strong>Robin</strong> marked a <strong>ticket</strong> as
+                                                        unsolved.
+                                                    </p>
+                                                </a>
+                                            </div>
+                                            <span class="notify-time">3:20 am</span>
+                                        </li>
+                                        <li class="media dropdown-item">
+                                            <span class="primary"><i class="ti-heart"></i></span>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                    <p><strong>David</strong> purchased Light Dashboard 1.0.</p>
+                                                </a>
+                                            </div>
+                                            <span class="notify-time">3:20 am</span>
+                                        </li>
+                                        <li class="media dropdown-item">
+                                            <span class="success"><i class="ti-image"></i></span>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                    <p><strong> James.</strong> has added a<strong>customer</strong>
+                                                        Successfully
+                                                    </p>
+                                                </a>
+                                            </div>
+                                            <span class="notify-time">3:20 am</span>
+                                        </li>
+                                    </ul>
+                                    <a class="all-notification" href="#">See all notifications <i
+                                            class="ti-arrow-right"></i></a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown header-profile">
+                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                                    <i class="mdi mdi-account"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="./app-profile.html" class="dropdown-item">
+                                        <i class="icon-user"></i>
+                                        <span class="ml-2">Profile </span>
+                                    </a>
+                                    <a href="./email-inbox.html" class="dropdown-item">
+                                        <i class="icon-envelope-open"></i>
+                                        <span class="ml-2">Inbox </span>
+                                    </a>
+                                    <a href="./page-login.html" class="dropdown-item">
+                                        <i class="icon-key"></i>
+                                        <span class="ml-2">Logout </span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="quixnav">
+            <div class="quixnav-scroll">
+                <ul class="metismenu" id="menu">
+                    <li class="nav-label first">Main Menu</li>
+                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-single-04"></i><span
+                                class="nav-text">Dashboard</span></a>
+                    </li>
+                    <li class="nav-label">Escolar</li>
+                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-app-store"></i><span
+                                class="nav-text">Alumnos</span></a>
+                    </li>
+                    <li class="nav-label">Biblioteca</li>
+                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-world-2"></i><span
+                                class="nav-text">Libros</span></a>
+                    </li>
+                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-plug"></i><span
+                                class="nav-text">Prestamos</span></a>
+                    </li>
+
+                    <li class="nav-label">Control</li>
+                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-form"></i><span
+                                class="nav-text">Adeudos</span></a>
+                    </li>
+                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-form"></i><span
+                                class="nav-text">Cartas de No Adeudo</span></a>
+                    </li>
+                    <li class="nav-label">Métricas</li>
+                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-layout-25"></i><span
+                                class="nav-text">Reportes</span></a>
+                    </li>
+
+                </ul>
+            </div>
+
+
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <div class="container-fluid">
+                <!-- CONTENEDOR PRINCIPAL -->
+                <div class="card shadow-sm border-0">
+                    <!-- ENCABEZADO -->
+                    <div class="card-body p-4 pb-2">
+                        <h5 class="card-title mb-0">
+                            Alumnos
+                        </h5>
+                    </div>
+                    <!-- TOTAL DE ALUMNOS -->
+                    <div class="px-4">
+                        <div class="card border mb-4">
+                            <div class="card-body p-4">
+                                <h6 class="mb-0" id="total_alumnos">
+                                    Total de alumnos registrados: 0
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BUSCADOR -->
+                    <div class="card-body pt-0 px-4 pb-4">
+                        <div class="row align-items-end g-3">
+                            <!-- BUSCAR -->
+                            <div class="col-lg-10">
+                                <label class="form-label" for="buscar_nombre">
+                                    Nombre completo o número de control
+                                </label>
+                                <div class="input-group buscador-expediente">
+                                    <span class="input-group-text">
+                                        <img src="/assets/images/buscador_prueba.png" class="icono-busqueda"
+                                            alt="Buscar">
+                                    </span>
+                                    <input type="text" id="buscar_nombre" class="form-control"
+                                        placeholder="Buscar por nombre o número de control..." autocomplete="off">
+                                </div>
+                            </div>
+                            <!-- BUSCAR -->
+                            <div class="col-lg-2">
+                                <button type="button" class="btn btn-buscar w-100" id="btn_buscar">
+                                    Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FILTROS -->
+                    <div class="card-body pt-0 px-4 pb-4">
+                        <div class="row g-3 align-items-end">
+                            <!-- ADSCRIPCIÓN -->
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label" for="filtro_adscripcion">
+                                    Adscripción
+                                </label>
+                                <select class="form-select" id="filtro_adscripcion">
+                                    <option value="">
+                                        Todas
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- CARRERA -->
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label" for="filtro_carrera">
+                                    Carrera
+                                </label>
+                                <select class="form-select" id="filtro_carrera">
+                                    <option value="">
+                                        Todas
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- LIMPIAR -->
+                            <div class="col-lg-4 col-md-12">
+                                <button type="button" class="btn btn-limpiar w-100" id="btn_limpiar">
+                                    <img src="/assets/images/limpiar_filtros.png" alt="Limpiar">
+                                    Limpiar filtros
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- TABLA DE ALUMNOS -->
+                <div class="card card-tabla mt-4">
+                    <!-- ENCABEZADO -->
+                    <div class="card-header encabezado-tabla">
+                        <img src="/assets/images/logo-tabla-azul.png" class="icono-tabla" alt="Alumnos">
+                        <span>
+                            Alumnos registrados
+                        </span>
+                    </div>
+                    <!-- CUERPO -->
+                    <div class="card-body">
+                        <!-- TABLA -->
+                        <div class="table-responsive tabla-contenedor">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            NÚMERO DE CONTROL
+                                        </th>
+                                        <th>
+                                            NOMBRE COMPLETO
+                                        </th>
+                                        <th>
+                                            ADSCRIPCIÓN
+                                        </th>
+                                        <th>
+                                            CARRERA
+                                        </th>
+                                        <th>
+                                            ESTADO
+                                        </th>
+                                        <th>
+                                            ACCIONES
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <!-- LOS ALUMNOS SE CARGAN DESDE JS -->
+                                <tbody id="tabla_alumnos">
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- PAGINACIÓN -->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                <span class="text-muted" id="info_paginacion">
+                                    Mostrando 0 alumnos
+                                </span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-secondary" id="btnAnterior">
+                                    Anterior
+                                </button>
+                                <span class="d-flex align-items-center px-2" id="paginaActual">
+                                    1
+                                </span>
+                                <button type="button" class="btn btn-outline-secondary" id="btnSiguiente">
+                                    Siguiente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button end
+        ***********************************-->
+
+
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="/vendor/global/global.min.js"></script>
+    <script src="/js/quixnav-init.js"></script>
+    <script src="/js/custom.min.js"></script>
+
+
+    <!-- Vectormap -->
+    <script src="/vendor/raphael/raphael.min.js"></script>
+    <script src="/vendor/morris/morris.min.js"></script>
+
+
+    <script src="/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="/vendor/chart.js/Chart.bundle.min.js"></script>
+
+    <script src="/vendor/gaugeJS/dist/gauge.min.js"></script>
+
+    <!--  flot-chart js -->
+    <script src="/vendor/flot/jquery.flot.js"></script>
+    <script src="/vendor/flot/jquery.flot.resize.js"></script>
+
+    <!-- Owl Carousel -->
+    <script src="/vendor/owl-carousel/js/owl.carousel.min.js"></script>
+
+    <!-- Counter Up -->
+    <script src="/vendor/jqvmap/js/jquery.vmap.min.js"></script>
+    <script src="/vendor/jqvmap/js/jquery.vmap.usa.js"></script>
+    <script src="/vendor/jquery.counterup/jquery.counterup.min.js"></script>
+
+
+    <script src="/js/dashboard.js"></script>
+
+</body>
+
+</html>
