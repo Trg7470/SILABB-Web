@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Focus - Bootstrap Admin Dashboard </title>
-    <!-- Favicon icon -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Focus - Gestión de Alumnos</title>
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
+
+    <!-- CSS del Tema y Librerías -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.theme.default.min.css">
-    <link href="/vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
-    <link href="/css/dashboard.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/css/alumnos.css">
 </head>
 
 <body>
 
-    <!--*******************
-        Preloader start
-    ********************-->
+    <!-- Preloader -->
     <div id="preloader">
         <div class="sk-three-bounce">
             <div class="sk-child sk-bounce1"></div>
@@ -27,39 +27,23 @@
             <div class="sk-child sk-bounce3"></div>
         </div>
     </div>
-    <!--*******************
-        Preloader end
-    ********************-->
 
-
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
     <div id="main-wrapper">
 
-        <!--**********************************
-            Nav header start
-        ***********************************-->
+        <!-- Nav Header -->
         <div class="nav-header">
             <a href="/pages/dashboard/dashboard_u.html" class="brand-logo">
-                <img class="logo-abbr" src="./images/logo.png" alt="">
-                <img class="logo-compact" src="./images/logo-text.png" alt="">
-                <img class="brand-title" src="./images/logo-text.png" alt="">
+                <img class="logo-abbr" src="./images/logo.png" alt="Logo">
+                <span class="brand-title font-weight-bold text-primary ml-2">FOCUS</span>
             </a>
-
             <div class="nav-control">
                 <div class="hamburger">
                     <span class="line"></span><span class="line"></span><span class="line"></span>
                 </div>
             </div>
         </div>
-        <!--**********************************
-            Nav header end
-        ***********************************-->
 
-        <!--**********************************
-            Header start
-        ***********************************-->
+        <!-- Header -->
         <div class="header">
             <div class="header-content">
                 <nav class="navbar navbar-expand">
@@ -67,11 +51,11 @@
                         <div class="header-left">
                             <div class="search_bar dropdown">
                                 <span class="search_icon p-3 c-pointer" data-toggle="dropdown">
-                                    <i class="mdi mdi-magnify"></i>
+                                    <i class="fa-solid fa-magnifying-glass text-muted"></i>
                                 </span>
                                 <div class="dropdown-menu p-0 m-0">
                                     <form>
-                                        <input class="form-control" type="search" placeholder="Search"
+                                        <input class="form-control" type="search" placeholder="Buscar en el sistema..."
                                             aria-label="Search">
                                     </form>
                                 </div>
@@ -81,83 +65,20 @@
                         <ul class="navbar-nav header-right">
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-bell"></i>
+                                    <i class="fa-regular fa-bell"></i>
                                     <div class="pulse-css"></div>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <ul class="list-unstyled">
-                                        <li class="media dropdown-item">
-                                            <span class="success"><i class="ti-user"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Martin</strong> has added a <strong>customer</strong>
-                                                        Successfully
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="primary"><i class="ti-shopping-cart"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="danger"><i class="ti-bookmark"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Robin</strong> marked a <strong>ticket</strong> as
-                                                        unsolved.
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="primary"><i class="ti-heart"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>David</strong> purchased Light Dashboard 1.0.</p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="success"><i class="ti-image"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong> James.</strong> has added a<strong>customer</strong>
-                                                        Successfully
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                    </ul>
-                                    <a class="all-notification" href="#">See all notifications <i
-                                            class="ti-arrow-right"></i></a>
-                                </div>
                             </li>
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-account"></i>
+                                    <i class="fa-regular fa-user-circle fa-lg"></i>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-menu dropdown-menu-right shadow-sm">
                                     <a href="./app-profile.html" class="dropdown-item">
-                                        <i class="icon-user"></i>
-                                        <span class="ml-2">Profile </span>
+                                        <i class="fa-regular fa-user mr-2"></i> Perfil
                                     </a>
-                                    <a href="./email-inbox.html" class="dropdown-item">
-                                        <i class="icon-envelope-open"></i>
-                                        <span class="ml-2">Inbox </span>
-                                    </a>
-                                    <a href="./page-login.html" class="dropdown-item">
-                                        <i class="icon-key"></i>
-                                        <span class="ml-2">Logout </span>
+                                    <a href="./page-login.html" class="dropdown-item text-danger">
+                                        <i class="fa-solid fa-right-from-bracket mr-2"></i> Cerrar Sesión
                                     </a>
                                 </div>
                             </li>
@@ -166,128 +87,55 @@
                 </nav>
             </div>
         </div>
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
 
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
+        <!-- Sidebar -->
         <div class="quixnav">
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li class="nav-label first">Main Menu</li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-single-04"></i><span
-                                class="nav-text">Dashboard</span></a>
-                    </li>
+                    <li class="nav-label first">Navegación</li>
+                    <li><a href="/pages/dashboard/dashboard_u.html"><i class="fa-solid fa-house"></i><span
+                                class="nav-text">Dashboard</span></a></li>
+
                     <li class="nav-label">Escolar</li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-app-store"></i><span
-                                class="nav-text">Alumnos</span></a>
-                    </li>
+                    <li class="mm-active"><a href="#"><i class="fa-solid fa-user-graduate"></i><span
+                                class="nav-text">Alumnos</span></a></li>
+
                     <li class="nav-label">Biblioteca</li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-world-2"></i><span
-                                class="nav-text">Libros</span></a>
-                    </li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i class="icon icon-plug"></i><span
-                                class="nav-text">Prestamos</span></a>
+                    <li><a href="#"><i class="fa-solid fa-book"></i><span class="nav-text">Libros</span></a></li>
+                    <li><a href="#"><i class="fa-solid fa-hand-holding"></i><span class="nav-text">Préstamos</span></a>
                     </li>
 
                     <li class="nav-label">Control</li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-form"></i><span class="nav-text">Adeudos</span></a>
-                    </li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-form"></i><span class="nav-text">Cartas de No Adeudo</span></a>
-                    </li>
-                    <li class="nav-label">Métricas</li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-layout-25"></i><span class="nav-text">Reportes</span></a>
-                    </li>
-
+                    <li><a href="#"><i class="fa-solid fa-file-invoice-dollar"></i><span
+                                class="nav-text">Adeudos</span></a></li>
+                    <li><a href="#"><i class="fa-solid fa-certificate"></i><span class="nav-text">Cartas No
+                                Adeudo</span></a></li>
                 </ul>
             </div>
-
-
         </div>
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
 
-        <!--**********************************
-            Content body start
-        ***********************************-->
+        <!-- Content Body -->
         <div class="content-body">
-            <!-- row -->
             <div class="container-fluid">
 
 
             </div>
         </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
 
-
-        <!--**********************************
-            Footer start
-        ***********************************-->
+        <!-- Footer -->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
+                <p class="small text-muted mb-0">Copyright © Diseñado &amp; Desarrollado por <a href="#"
+                        target="_blank">Quixkit</a> 2026</p>
             </div>
         </div>
-        <!--**********************************
-            Footer end
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-
 
     </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
 
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
+    <!-- Scripts -->
     <script src="/vendor/global/global.min.js"></script>
     <script src="/js/quixnav-init.js"></script>
     <script src="/js/custom.min.js"></script>
-
-
-    <!-- Vectormap -->
-    <script src="/vendor/raphael/raphael.min.js"></script>
-    <script src="/vendor/morris/morris.min.js"></script>
-
-
-    <script src="/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="/vendor/chart.js/Chart.bundle.min.js"></script>
-
-    <script src="/vendor/gaugeJS/dist/gauge.min.js"></script>
-
-    <!--  flot-chart js -->
-    <script src="/vendor/flot/jquery.flot.js"></script>
-    <script src="/vendor/flot/jquery.flot.resize.js"></script>
-
-    <!-- Owl Carousel -->
-    <script src="/vendor/owl-carousel/js/owl.carousel.min.js"></script>
-
-    <!-- Counter Up -->
-    <script src="/vendor/jqvmap/js/jquery.vmap.min.js"></script>
-    <script src="/vendor/jqvmap/js/jquery.vmap.usa.js"></script>
-    <script src="/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-
-
-    <script src="/js/dashboard.js"></script>
-
 </body>
 
 </html>
