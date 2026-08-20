@@ -104,16 +104,18 @@ function renderizarTabla(alumnos) {
             <td>Semestre ${alumno.Semestre}</td>
             <td>${alumno.Carrera}</td>
             <td>${estadoBadge}</td>
-          <td class="text-center pr-4">
-    <div class="dropdown">
-        <button class="btn btn-link text-muted p-0 border-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa-solid fa-ellipsis-vertical fa-lg"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right shadow-sm">
-            <a class="dropdown-item" href="/pages/alumnos/informacion.html"><i class="fa-regular fa-eye mr-2 text-primary"></i>Ver detalles</a>
-        </div>
-    </div>
-</td>
+            <td class="text-center pr-4">
+                <div class="dropdown">
+                    <button class="btn btn-link text-muted p-0 border-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis-vertical fa-lg"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right shadow-sm">
+                        <a class="dropdown-item btn-ver-detalles" href="/pages/alumnos/informacion.html?numero_control=${alumno.Numero_Control}">
+                            <i class="fa-regular fa-eye mr-2 text-primary"></i>Ver detalles
+                        </a>
+                    </div>
+                </div>
+            </td>
         `;
 
         tbody.appendChild(tr);
@@ -205,13 +207,4 @@ function actualizarPaginacionInfo(mostrando, total) {
     if (elemInfo) {
         elemInfo.textContent = `Mostrando ${mostrando} de ${total} alumnos`;
     }
-}
-
-// Funciones placeholder para botones de acción
-function editarAlumno(id) {
-    console.log("Editar alumno ID:", id);
-}
-
-function eliminarAlumno(id) {
-    console.log("Eliminar/Desactivar alumno ID:", id);
 }
