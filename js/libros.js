@@ -146,16 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
 
                 <td>
-    ${obtenerBadgeEstado(libro)}
-</td>
-
-                <td class="text-center align-middle">
-                    <span class="badge badge-secondary px-2 py-1">
-                        Pendiente
-                    </span>
+                ${obtenerBadgeEstado(libro)}
                 </td>
 
                 <td class="text-center align-middle">
+                ${obtenerBadgeDisponibilidad(libro)}
+                </td>
+
+                    <td class="text-center align-middle">
                     <div class="d-inline-flex justify-content-center align-items-center gap-1">
                         <button
                             class="btn btn-sm btn-outline-primary"
@@ -172,13 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         </button>
                     </div>
                 </td>
-
             `;
-
             tabla.appendChild(fila);
-
         });
-
 
         // -----------------------------------------------
         // Información de paginación
@@ -237,6 +231,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    function obtenerBadgeDisponibilidad(libro) {
+
+    if (libro.Disponible) {
+
+        return `
+            <span class="badge badge-success px-2 py-1">
+                <i class="fa-solid fa-circle-check mr-1"></i>
+                Disponible
+            </span>
+        `;
+
+    }
+
+    return `
+        <span class="badge badge-warning px-2 py-1">
+            <i class="fa-solid fa-clock mr-1"></i>
+            Prestado
+        </span>
+    `;
+
+}
 
     // =====================================================
     // TOTAL DE LIBROS
@@ -556,11 +571,263 @@ document.addEventListener('DOMContentLoaded', () => {
     // EDITAR
     // =====================================================
 
-    window.editarLibro = function(id) {
+    window.editarLibro = async function(id) {
 
-        alert(`Editar libro #${id}`);
+    try {
 
-    };
+        const respuesta = await fetch(
+            `http://localhost:3000/api/libros/${id}`
+        );
+
+        const resultado = await respuesta.json();
+
+        if (!respuesta.ok || !resultado.success) {
+
+            throw new Error(
+                resultado.mensaje ||
+                'No fue posible obtener la información del libro'
+            );
+
+        }
+
+        const libro = resultado.data;
+
+
+        // =====================================================
+        // CARGAR DATOS EN EL FORMULARIO
+        // =====================================================
+
+        document.getElementById('editar_id_libro').value =
+            libro.Id_Libro;
+
+        document.getElementById('editar_titulo').value =
+            libro.Titulo || '';
+
+        document.getElementById('editar_autor').value =
+            libro.Autor || '';
+
+        document.getElementById('editar_editorial').value =
+            libro.Editorial || '';
+
+        document.getElementById('editar_isbn').value =
+            libro.ISBN || '';
+
+        document.getElementById('editar_anio').value =
+            libro.Anio_Publicacion || '';
+
+
+        // =====================================================
+        // ABRIR MODAL
+        // =====================================================
+
+        $('#modal_editar_libro').modal('show');
+
+
+    } catch (error) {
+
+        console.error(
+            'Error al cargar libro para editar:',
+            error
+        );
+
+        alert(error.message);
+
+    }
+
+};
+
+    // =====================================================
+// GUARDAR EDICIÓN
+// =====================================================
+
+document
+    .getElementById('form_editar_libro')
+    .addEventListener('submit', async event => {
+
+        event.preventDefault();
+
+
+        const id =
+            document.getElementById('editar_id_libro').value;
+
+        const Titulo =
+            document.getElementById('editar_titulo').value.trim();
+
+        const Autor =
+            document.getElementById('editar_autor').value.trim();
+
+        const Editorial =
+            document.getElementById('editar_editorial').value.trim();
+
+        const ISBN =
+            document.getElementById('editar_isbn').value.trim();
+
+        const Anio_Publicacion =
+            document.getElementById('editar_anio').value;
+
+
+        // =====================================================
+        // VALIDACIÓN
+        // =====================================================
+
+        if (!Titulo) {
+
+            alert('El título del libro es obligatorio');
+
+            return;
+
+        }
+
+
+        // =====================================================
+        // DATOS
+        // =====================================================
+
+        const datos = {
+
+            Titulo,
+            Autor: Autor || null,
+            Editorial: Editorial || null,
+            ISBN: ISBN || null,
+            Anio_Publicacion:
+                Anio_Publicacion || null
+
+        };
+
+
+        const btnGuardar =
+            document.getElementById('btn_guardar_edicion');
+
+
+        try {
+
+            // Desactivar botón mientras se guarda
+
+            btnGuardar.disabled = true;
+
+            btnGuardar.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin mr-1"></i>
+                Guardando...
+            `;
+
+
+            // =================================================
+            // ACTUALIZAR LIBRO
+            // =================================================
+
+            const respuesta = await fetch(
+                `http://localhost:3000/api/libros/${id}`,
+                {
+                    method: 'PUT',
+
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify(datos)
+                }
+            );
+
+
+            const resultado =
+                await respuesta.json();
+
+
+            if (!respuesta.ok || !resultado.success) {
+
+                throw new Error(
+                    resultado.mensaje ||
+                    'No fue posible actualizar el libro'
+                );
+
+            }
+
+
+            // =================================================
+            // CERRAR MODAL
+            // =================================================
+
+            $('#modal_editar_libro').modal('hide');
+
+
+            // =================================================
+            // ACTUALIZAR LIBRO EN MEMORIA
+            // =================================================
+
+            const libroActualizado =
+                resultado.data;
+
+
+            const indice =
+                libros.findIndex(
+                    libro =>
+                        libro.Id_Libro ===
+                        libroActualizado.Id_Libro
+                );
+
+
+            if (indice !== -1) {
+
+                libros[indice] =
+                    libroActualizado;
+
+            }
+
+
+            // Actualizar también los resultados filtrados
+
+            const indiceFiltrado =
+                librosFiltrados.findIndex(
+                    libro =>
+                        libro.Id_Libro ===
+                        libroActualizado.Id_Libro
+                );
+
+
+            if (indiceFiltrado !== -1) {
+
+                librosFiltrados[indiceFiltrado] =
+                    libroActualizado;
+
+            }
+
+
+            // =================================================
+            // ACTUALIZAR TABLA
+            // =================================================
+
+            renderizarTabla();
+
+
+            alert(
+                'Libro actualizado correctamente'
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                'Error al actualizar libro:',
+                error
+            );
+
+            alert(error.message);
+
+
+        } finally {
+
+            // Restaurar botón
+
+            btnGuardar.disabled = false;
+
+            btnGuardar.innerHTML = `
+                <i class="fa-solid fa-save mr-1"></i>
+                Guardar cambios
+            `;
+
+        }
+
+    });
 
 
     // =====================================================

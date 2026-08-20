@@ -35,7 +35,7 @@
     <div id="main-wrapper">
 
         <!-- =====================================================
-             NAV HEADER
+        NAV HEADER
         ====================================================== -->
         <div class="nav-header">
 
@@ -59,7 +59,7 @@
 
 
         <!-- =====================================================
-             HEADER
+        HEADER
         ====================================================== -->
         <div class="header">
 
@@ -164,7 +164,7 @@
 
 
         <!-- =====================================================
-             SIDEBAR
+            SIDEBAR
         ====================================================== -->
         <div class="quixnav">
 
@@ -296,7 +296,7 @@
 
 
         <!-- =====================================================
-             CONTENT
+            CONTENT
         ====================================================== -->
         <div class="content-body">
 
@@ -304,7 +304,7 @@
 
 
                 <!-- =================================================
-                     HEADER DEL MÓDULO
+                HEADER DEL MÓDULO
                 ================================================== -->
                 <div class="card shadow-sm border-0 mb-4 rounded-lg">
 
@@ -350,7 +350,7 @@
 
 
                 <!-- =================================================
-                     BÚSQUEDA Y FILTROS
+                    BÚSQUEDA Y FILTROS
                 ================================================== -->
                 <div class="card shadow-sm border-0 mb-4 rounded-lg">
 
@@ -501,7 +501,7 @@
 
 
                 <!-- =================================================
-                     TABLA DE LIBROS
+                    TABLA DE LIBROS
                 ================================================== -->
                 <div class="card shadow-sm border-0 rounded-lg">
 
@@ -637,7 +637,7 @@
 
 
                         <!-- =================================================
-                             CARGANDO
+                            CARGANDO
                         ================================================== -->
                         <div
                             id="estado_cargando"
@@ -661,7 +661,7 @@
 
 
                         <!-- =================================================
-                             PAGINACIÓN
+                            PAGINACIÓN
                         ================================================== -->
                         <div
                             class="d-flex justify-content-between align-items-center p-4 border-top">
@@ -724,9 +724,204 @@
 
         </div>
 
+        
+        <!-- =====================================================
+    MODAL EDITAR LIBRO
+====================================================== -->
+<div
+    class="modal fade"
+    id="modal_editar_libro"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalEditarLibroLabel"
+    aria-hidden="true">
+
+    <div
+        class="modal-dialog modal-lg modal-dialog-centered"
+        role="document">
+
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+
+                <h5
+                    class="modal-title font-weight-bold"
+                    id="modalEditarLibroLabel">
+
+                    <i class="fa-solid fa-pen text-primary mr-2"></i>
+
+                    Editar libro
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Cerrar">
+
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <!-- FORMULARIO -->
+            <form id="form_editar_libro">
+
+                <div class="modal-body">
+
+                    <!-- ID oculto -->
+                    <input
+                        type="hidden"
+                        id="editar_id_libro">
+
+
+                    <div class="row">
+
+
+                        <!-- TÍTULO -->
+                        <div class="col-md-12 mb-3">
+
+                            <label
+                                for="editar_titulo"
+                                class="font-weight-bold small">
+
+                                Título
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="editar_titulo"
+                                required>
+
+                        </div>
+
+
+                        <!-- AUTOR -->
+                        <div class="col-md-6 mb-3">
+
+                            <label
+                                for="editar_autor"
+                                class="font-weight-bold small">
+
+                                Autor
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="editar_autor">
+
+                        </div>
+
+
+                        <!-- EDITORIAL -->
+                        <div class="col-md-6 mb-3">
+
+                            <label
+                                for="editar_editorial"
+                                class="font-weight-bold small">
+
+                                Editorial
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="editar_editorial">
+
+                        </div>
+
+
+                        <!-- ISBN -->
+                        <div class="col-md-6 mb-3">
+
+                            <label
+                                for="editar_isbn"
+                                class="font-weight-bold small">
+
+                                ISBN
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="editar_isbn">
+
+                        </div>
+
+
+                        <!-- AÑO -->
+                        <div class="col-md-6 mb-3">
+
+                            <label
+                                for="editar_anio"
+                                class="font-weight-bold small">
+
+                                Año de publicación
+
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="editar_anio"
+                                min="1000"
+                                max="9999">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOOTER -->
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        data-dismiss="modal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="btn_guardar_edicion">
+
+                        <i class="fa-solid fa-save mr-1"></i>
+
+                        Guardar cambios
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
 
         <!-- =====================================================
-             FOOTER
+            FOOTER
         ====================================================== -->
         <div class="footer">
 
@@ -744,9 +939,11 @@
 
     </div>
 
+    
+
 
     <!-- =========================================================
-         SCRIPTS
+        SCRIPTS
     ========================================================== -->
 
     <script src="/vendor/global/global.min.js"></script>
