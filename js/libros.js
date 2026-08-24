@@ -555,16 +555,212 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =====================================================
-    // NUEVO LIBRO
+// NUEVO LIBRO - ABRIR MODAL
+// =====================================================
+
+document
+    .getElementById('btn_nuevo_libro')
+    .addEventListener('click', () => {
+
+        // Limpiar el formulario antes de abrirlo
+        document
+            .getElementById('form_nuevo_libro')
+            .reset();
+
+        $('#modal_nuevo_libro').modal('show');
+
+    });
+
     // =====================================================
+// NUEVO LIBRO - GUARDAR
+// =====================================================
 
-    document
-        .getElementById('btn_nuevo_libro')
-        .addEventListener('click', () => {
+document
+    .getElementById('form_nuevo_libro')
+    .addEventListener('submit', async event => {
 
-            alert('Formulario de nuevo libro próximamente.');
+        event.preventDefault();
 
-        });
+
+        // =================================================
+        // OBTENER DATOS DEL FORMULARIO
+        // =================================================
+
+        const Titulo =
+            document
+                .getElementById('nuevo_titulo')
+                .value
+                .trim();
+
+        const Autor =
+            document
+                .getElementById('nuevo_autor')
+                .value
+                .trim();
+
+        const Editorial =
+            document
+                .getElementById('nuevo_editorial')
+                .value
+                .trim();
+
+        const ISBN =
+            document
+                .getElementById('nuevo_isbn')
+                .value
+                .trim();
+
+        const Anio_Publicacion =
+            document
+                .getElementById('nuevo_anio')
+                .value;
+
+
+        // =================================================
+        // VALIDACIÓN BÁSICA
+        // =================================================
+
+        if (!Titulo) {
+
+            alert('El título del libro es obligatorio');
+
+            return;
+
+        }
+
+
+        // =================================================
+        // PREPARAR DATOS
+        // =================================================
+
+        const datos = {
+            Titulo,
+            Autor: Autor || null,
+            Editorial: Editorial || null,
+            ISBN: ISBN || null,
+            Anio_Publicacion:
+                Anio_Publicacion || null
+        };
+
+
+        const btnGuardar =
+            document.getElementById('btn_guardar_nuevo');
+
+
+        try {
+
+            // Desactivar el botón mientras se guarda
+            btnGuardar.disabled = true;
+
+            btnGuardar.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin mr-1"></i>
+                Guardando...
+            `;
+
+
+            // =================================================
+            // ENVIAR AL BACKEND
+            // =================================================
+
+            const respuesta = await fetch(
+                'http://localhost:3000/api/libros',
+                {
+                    method: 'POST',
+
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify(datos)
+                }
+            );
+
+
+            const resultado =
+                await respuesta.json();
+
+
+            if (!respuesta.ok || !resultado.success) {
+
+                throw new Error(
+                    resultado.mensaje ||
+                    'No fue posible registrar el libro'
+                );
+
+            }
+
+
+            // =================================================
+            // CERRAR MODAL
+            // =================================================
+
+            $('#modal_nuevo_libro').modal('hide');
+
+
+            // =================================================
+            // AGREGAR EL NUEVO LIBRO A LA LISTA
+            // =================================================
+
+            const libroNuevo = resultado.data;
+
+            libros.push(libroNuevo);
+
+            libros.sort(
+            (a, b) => a.Id_Libro - b.Id_Libro
+            );
+
+
+            // Si no hay filtros activos, también lo mostramos
+            const hayFiltros =
+                buscarLibro.value.trim() !== '' ||
+                filtroEstado.value !== '' ||
+                filtroDisponibilidad.value !== '';
+
+            if (!hayFiltros) {
+
+                librosFiltrados.push(libroNuevo);
+                librosFiltrados.sort(
+                (a, b) => a.Id_Libro - b.Id_Libro
+                );
+
+            }
+
+
+            // =================================================
+            // ACTUALIZAR INTERFAZ
+            // =================================================
+
+            actualizarTotal();
+
+            renderizarTabla();
+
+
+            alert('Libro registrado correctamente');
+
+
+        } catch (error) {
+
+            console.error(
+                'Error al registrar libro:',
+                error
+            );
+
+            alert(error.message);
+
+
+        } finally {
+
+            // Restaurar el botón
+            btnGuardar.disabled = false;
+
+            btnGuardar.innerHTML = `
+                <i class="fa-solid fa-save mr-1"></i>
+                Guardar libro
+            `;
+
+        }
+
+    });
 
 
     // =====================================================
@@ -834,18 +1030,105 @@ document
     // CAMBIAR ESTADO
     // =====================================================
 
-    window.cambiarEstadoLibro = function(id, estadoActual) {
+   window.cambiarEstadoLibro = async function(id, estadoActual) {
 
-        const accion =
-            estadoActual
-                ? 'desactivar'
-                : 'activar';
+    const accion = estadoActual
+        ? 'desactivar'
+        : 'activar';
 
-        alert(
-            `Aquí posteriormente podremos ${accion} el libro #${id}`
+    const confirmar = confirm(
+        `¿Estás seguro de que deseas ${accion} el libro #${id}?`
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `http://localhost:3000/api/libros/${id}/estado`,
+            {
+                method: 'PATCH',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify({
+                    Activo: !estadoActual
+                })
+            }
         );
 
-    };
+        const resultado = await respuesta.json();
+
+        if (!respuesta.ok || !resultado.success) {
+
+            throw new Error(
+                resultado.mensaje ||
+                `No fue posible ${accion} el libro`
+            );
+
+        }
+
+        const libroActualizado = resultado.data;
+
+        // ============================================
+        // ACTUALIZAR LIBRO EN MEMORIA
+        // ============================================
+
+        const indice = libros.findIndex(
+            libro =>
+                libro.Id_Libro === libroActualizado.Id_Libro
+        );
+
+        if (indice !== -1) {
+
+            libros[indice] = libroActualizado;
+
+        }
+
+        // ============================================
+        // ACTUALIZAR RESULTADOS FILTRADOS
+        // ============================================
+
+        const indiceFiltrado = librosFiltrados.findIndex(
+            libro =>
+                libro.Id_Libro === libroActualizado.Id_Libro
+        );
+
+        if (indiceFiltrado !== -1) {
+
+            librosFiltrados[indiceFiltrado] =
+                libroActualizado;
+
+        }
+
+        // ============================================
+        // ACTUALIZAR TABLA
+        // ============================================
+
+        renderizarTabla();
+
+        alert(
+            `Libro ${accion === 'activar'
+                ? 'activado'
+                : 'desactivado'} correctamente`
+        );
+
+    } catch (error) {
+
+        console.error(
+            'Error al cambiar estado del libro:',
+            error
+        );
+
+        alert(error.message);
+
+    }
+
+};
 
 
     // =====================================================
