@@ -1,171 +1,106 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     const tabla = document.getElementById('tabla_libros');
-    const totalLibros = document.getElementById('total_libros');
-
-    const estadoCargando = document.getElementById('estado_cargando');
-    const estadoVacio = document.getElementById('estado_vacio');
-
-    const infoPaginacion = document.getElementById('info_paginacion');
-
-    const btnAnterior = document.getElementById('btnAnterior');
-    const btnSiguiente = document.getElementById('btnSiguiente');
-    const paginaActual = document.getElementById('paginaActual');
-
-    const buscarLibro = document.getElementById('buscar_libro');
-    const filtroEstado = document.getElementById('filtro_estado');
-    const filtroDisponibilidad = document.getElementById('filtro_disponibilidad');
-
-    const btnBuscar = document.getElementById('btn_buscar');
-    const btnLimpiar = document.getElementById('btn_limpiar');
-
+    const total_libros = document.getElementById('total_libros');
+    const estado_cargando = document.getElementById('estado_cargando');
+    const estado_vacio = document.getElementById('estado_vacio');
+    const info_paginacion = document.getElementById('info_paginacion');
+    const btn_anterior = document.getElementById('btnAnterior');
+    const btn_siguiente = document.getElementById('btnSiguiente');
+    const pagina_actual = document.getElementById('paginaActual');
+    const buscar_libro = document.getElementById('buscar_libro');
+    const filtro_estado = document.getElementById('filtro_estado');
+    const filtro_disponibilidad = document.getElementById('filtro_disponibilidad');
+    const btn_buscar = document.getElementById('btn_buscar');
+    const btn_limpiar = document.getElementById('btn_limpiar');
     let libros = [];
-    let librosFiltrados = [];
-
+    let libros_filtrados = [];
     let pagina = 1;
-
-    const registrosPorPagina = 10;
-
-
+    const registros_por_pagina = 10;
     // =====================================================
     // CARGAR LIBROS
     // =====================================================
-
-    async function cargarLibros() {
-
-        mostrarCargando();
-
+    async function cargar_libros() {
+        mostrar_cargando();
         try {
-
             const respuesta = await fetch('http://localhost:3000/api/libros');
-
             const resultado = await respuesta.json();
-
             if (!respuesta.ok || !resultado.success) {
                 throw new Error(
-                    resultado.mensaje || 'No fue posible obtener los libros'
+                    resultado.mensaje ||
+                    'No fue posible obtener los libros'
                 );
             }
-
             libros = resultado.data || [];
-
-            librosFiltrados = [...libros];
-
+            libros_filtrados = [...libros];
             pagina = 1;
-
-            actualizarTotal();
-
-            renderizarTabla();
-
+            actualizar_total();
+            renderizar_tabla();
         } catch (error) {
-
             console.error('Error al cargar libros:', error);
-
-            mostrarError(error.message);
-
+            mostrar_error(error.message);
         }
-
     }
-
-
     // =====================================================
     // RENDERIZAR TABLA
     // =====================================================
-
-    function renderizarTabla() {
-
+    function renderizar_tabla() {
         tabla.innerHTML = '';
-
-        ocultarCargando();
-
-        if (librosFiltrados.length === 0) {
-
-            estadoVacio.classList.remove('d-none');
-
-            infoPaginacion.textContent = 'Mostrando 0 libros';
-
-            paginaActual.textContent = '1';
-
-            btnAnterior.disabled = true;
-            btnSiguiente.disabled = true;
-
+        ocultar_cargando();
+        if (libros_filtrados.length === 0) {
+            estado_vacio.classList.remove('d-none');
+            info_paginacion.textContent = 'Mostrando 0 libros';
+            pagina_actual.textContent = '1';
+            btn_anterior.disabled = true;
+            btn_siguiente.disabled = true;
             return;
         }
-
-        estadoVacio.classList.add('d-none');
-
-
-        // -----------------------------------------------
-        // Paginación
-        // -----------------------------------------------
-
-        const inicio = (pagina - 1) * registrosPorPagina;
-
-        const fin = inicio + registrosPorPagina;
-
-        const librosPagina =
-            librosFiltrados.slice(inicio, fin);
-
-
-        // -----------------------------------------------
-        // Crear filas
-        // -----------------------------------------------
-
-        librosPagina.forEach(libro => {
-
+        estado_vacio.classList.add('d-none');
+        const inicio = (pagina - 1) * registros_por_pagina;
+        const fin = inicio + registros_por_pagina;
+        const libros_pagina = libros_filtrados.slice(inicio, fin);
+        libros_pagina.forEach(libro => {
             const fila = document.createElement('tr');
-
             fila.innerHTML = `
-
                 <td class="pl-4 font-weight-bold text-muted">
                     #${libro.Id_Libro}
                 </td>
-
                 <td>
                     <span class="font-weight-bold">
-                        ${escapeHtml(libro.Titulo)}
+                        ${escape_html(libro.Titulo)}
                     </span>
                 </td>
-
                 <td>
-                    ${escapeHtml(libro.Autor || '—')}
+                    ${escape_html(libro.Autor || '—')}
                 </td>
-
                 <td>
-                    ${escapeHtml(libro.Editorial || '—')}
+                    ${escape_html(libro.Editorial || '—')}
                 </td>
-
                 <td>
                     <span class="badge badge-light border">
-                        ${escapeHtml(libro.ISBN || '—')}
+                        ${escape_html(libro.ISBN || '—')}
                     </span>
                 </td>
-
                 <td>
                     ${libro.Anio_Publicacion || '—'}
                 </td>
-
                 <td>
-                ${obtenerBadgeEstado(libro)}
+                    ${obtener_badge_estado(libro)}
                 </td>
-
                 <td class="text-center align-middle">
-                ${obtenerBadgeDisponibilidad(libro)}
+                    ${obtener_badge_disponibilidad(libro)}
                 </td>
-
-                    <td class="text-center align-middle">
+                <td class="text-center align-middle">
                     <div class="d-inline-flex justify-content-center align-items-center gap-1">
                         <button
                             class="btn btn-sm btn-outline-primary"
                             title="Editar"
-                            onclick="editarLibro(${libro.Id_Libro})">
+                            onclick="editar_libro(${libro.Id_Libro})">
                             <i class="fa-solid fa-pen"></i>
                         </button>
-
                         <button
                             class="btn btn-sm btn-outline-danger"
                             title="${libro.Activo ? 'Desactivar' : 'Activar'}"
-                            onclick="cambiarEstadoLibro(${libro.Id_Libro}, ${libro.Activo})">
+                            onclick="cambiar_estado_libro(${libro.Id_Libro}, ${libro.Activo})">
                             <i class="fa-solid ${libro.Activo ? 'fa-ban' : 'fa-check'}"></i>
                         </button>
                     </div>
@@ -173,1030 +108,527 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             tabla.appendChild(fila);
         });
-
-        // -----------------------------------------------
-        // Información de paginación
-        // -----------------------------------------------
-
-        const total = librosFiltrados.length;
-
-        const mostrandoDesde = inicio + 1;
-
-        const mostrandoHasta =
-            Math.min(fin, total);
-
-        infoPaginacion.textContent =
-            `Mostrando ${mostrandoDesde} a ${mostrandoHasta} de ${total} libros`;
-
-
-        // -----------------------------------------------
-        // Página actual
-        // -----------------------------------------------
-
-        const totalPaginas =
-            Math.ceil(total / registrosPorPagina);
-
-        paginaActual.textContent = pagina;
-
-
-        btnAnterior.disabled = pagina <= 1;
-
-        btnSiguiente.disabled =
-            pagina >= totalPaginas;
-
+        const total = libros_filtrados.length;
+        const mostrando_desde = inicio + 1;
+        const mostrando_hasta = Math.min(fin, total);
+        info_paginacion.textContent = `Mostrando ${mostrando_desde} a ${mostrando_hasta} de ${total} libros`;
+        const total_paginas = Math.ceil(total / registros_por_pagina);
+        pagina_actual.textContent = pagina;
+        btn_anterior.disabled = pagina <= 1;
+        btn_siguiente.disabled = pagina >= total_paginas;
     }
-
-
     // =====================================================
     // ESTADO DEL LIBRO
     // =====================================================
-
-    function obtenerBadgeEstado(libro) {
-
+    function obtener_badge_estado(libro) {
         if (libro.Activo) {
-
             return `
                 <span class="badge badge-success px-2 py-1">
                     Activo
                 </span>
             `;
-
         }
-
         return `
             <span class="badge badge-secondary px-2 py-1">
                 Inactivo
             </span>
         `;
-
     }
-
-    function obtenerBadgeDisponibilidad(libro) {
-
-    if (libro.Disponible) {
-
+    // =====================================================
+    // DISPONIBILIDAD DEL LIBRO
+    // =====================================================
+    function obtener_badge_disponibilidad(libro) {
+        if (libro.Disponible) {
+            return `
+                <span class="badge badge-success px-2 py-1">
+                    <i class="fa-solid fa-circle-check mr-1"></i>
+                    Disponible
+                </span>
+            `;
+        }
         return `
-            <span class="badge badge-success px-2 py-1">
-                <i class="fa-solid fa-circle-check mr-1"></i>
-                Disponible
+            <span class="badge badge-warning px-2 py-1">
+                <i class="fa-solid fa-clock mr-1"></i>
+                Prestado
             </span>
         `;
-
     }
-
-    return `
-        <span class="badge badge-warning px-2 py-1">
-            <i class="fa-solid fa-clock mr-1"></i>
-            Prestado
-        </span>
-    `;
-
-}
-
     // =====================================================
     // TOTAL DE LIBROS
     // =====================================================
-
-    function actualizarTotal() {
-
-        totalLibros.textContent =
-            `Total registrados: ${libros.length}`;
-
+    function actualizar_total() {
+        total_libros.textContent = `Total registrados: ${libros.length}`;
     }
-
-    function actualizarTotalFiltrados() {
-
-    totalLibros.textContent =
-        `Resultados: ${librosFiltrados.length}`;
-
-}
-
-
+    function actualizar_total_filtrados() {
+        total_libros.textContent = `Resultados: ${libros_filtrados.length}`;
+    }
     // =====================================================
     // BUSCAR / FILTRAR
     // =====================================================
-
-    async function aplicarFiltros() {
-
-    const termino = buscarLibro.value.trim();
-    const estado = filtroEstado.value;
-    const disponibilidad = filtroDisponibilidad.value;
-
-
-    // =====================================================
-    // SI NO HAY NINGÚN FILTRO
-    // =====================================================
-
-    if (!termino && estado === '' && disponibilidad === '') {
-
-        librosFiltrados = [...libros];
-
-        pagina = 1;
-
-        actualizarTotal();
-
-        renderizarTabla();
-
-        return;
-    }
-
-
-    mostrarCargando();
-
-
-    try {
-
-        let resultados = [];
-
-
-        // =====================================================
-        // 1. BÚSQUEDA
-        // =====================================================
-
-        if (termino) {
-
-            const respuesta = await fetch(
-                `http://localhost:3000/api/libros/buscar?termino=${encodeURIComponent(termino)}`
-            );
-
-
-            const resultado = await respuesta.json();
-
-
-            if (!respuesta.ok || !resultado.success) {
-
-                throw new Error(
-                    resultado.mensaje ||
-                    'No fue posible realizar la búsqueda'
+    async function aplicar_filtros() {
+        const termino = buscar_libro.value.trim();
+        const estado = filtro_estado.value;
+        const disponibilidad = filtro_disponibilidad.value;
+        if (!termino && estado === '' && disponibilidad === '') {
+            libros_filtrados = [...libros];
+            pagina = 1;
+            actualizar_total();
+            renderizar_tabla();
+            return;
+        }
+        mostrar_cargando();
+        try {
+            let resultados = [];
+            if (termino) {
+                const respuesta = await fetch(
+                    `http://localhost:3000/api/libros/buscar?termino=${encodeURIComponent(termino)}`
                 );
-
+                const resultado = await respuesta.json();
+                if (!respuesta.ok || !resultado.success) {
+                    throw new Error(
+                        resultado.mensaje ||
+                        'No fue posible realizar la búsqueda'
+                    );
+                }
+                resultados = resultado.data || [];
+            } else {
+                resultados = [...libros];
             }
-
-
-            resultados = resultado.data || [];
-
-        } else {
-
-            // Si no hay búsqueda utilizamos los libros
-            // que ya cargamos anteriormente.
-
-            resultados = [...libros];
-
-        }
-
-
-        // =====================================================
-        // 2. FILTRO POR ESTADO
-        // =====================================================
-
-        if (estado === '1') {
-
-            resultados = resultados.filter(
-                libro => Boolean(libro.Activo)
-            );
-
-        }
-
-
-        if (estado === '0') {
-
-            resultados = resultados.filter(
-                libro => !Boolean(libro.Activo)
-            );
-
-        }
-
-
-        // =====================================================
-        // 3. FILTRO POR DISPONIBILIDAD
-        // =====================================================
-
-        if (disponibilidad !== '') {
-
-            let endpoint = '';
-
-
-            if (disponibilidad === 'disponible') {
-
-                endpoint =
-                    'http://localhost:3000/api/libros/disponibles';
-
-            }
-
-
-            if (disponibilidad === 'prestado') {
-
-                endpoint =
-                    'http://localhost:3000/api/libros/prestados';
-
-            }
-
-
-            const respuestaDisponibilidad =
-                await fetch(endpoint);
-
-
-            const resultadoDisponibilidad =
-                await respuestaDisponibilidad.json();
-
-
-            if (
-                !respuestaDisponibilidad.ok ||
-                !resultadoDisponibilidad.success
-            ) {
-
-                throw new Error(
-                    resultadoDisponibilidad.mensaje ||
-                    'No fue posible consultar la disponibilidad de los libros'
+            if (estado === '1') {
+                resultados = resultados.filter(
+                    libro => Boolean(libro.Activo)
                 );
-
             }
-
-
-            const librosDisponibilidad =
-                resultadoDisponibilidad.data || [];
-
-
-            // Obtenemos solamente los IDs de los libros
-            // que pertenecen a la disponibilidad seleccionada.
-
-            const idsDisponibles =
-                new Set(
-                    librosDisponibilidad.map(
+            if (estado === '0') {
+                resultados = resultados.filter(
+                    libro => !Boolean(libro.Activo)
+                );
+            }
+            if (disponibilidad !== '') {
+                let endpoint = '';
+                if (disponibilidad === 'disponible') {
+                    endpoint = 'http://localhost:3000/api/libros/disponibles';
+                }
+                if (disponibilidad === 'prestado') {
+                    endpoint = 'http://localhost:3000/api/libros/prestados';
+                }
+                const respuesta_disponibilidad = await fetch(endpoint);
+                const resultado_disponibilidad = await respuesta_disponibilidad.json();
+                if (!respuesta_disponibilidad.ok || !resultado_disponibilidad.success) {
+                    throw new Error(
+                        resultado_disponibilidad.mensaje ||
+                        'No fue posible consultar la disponibilidad de los libros'
+                    );
+                }
+                const libros_disponibilidad = resultado_disponibilidad.data || [];
+                const ids_disponibles = new Set(
+                    libros_disponibilidad.map(
                         libro => libro.Id_Libro
                     )
                 );
-
-
-            // Intersectamos los resultados actuales
-            // con los libros disponibles/prestados.
-
-            resultados = resultados.filter(
-                libro => idsDisponibles.has(libro.Id_Libro)
-            );
-
+                resultados = resultados.filter(
+                    libro => ids_disponibles.has(libro.Id_Libro)
+                );
+            }
+            libros_filtrados = resultados;
+            pagina = 1;
+            actualizar_total_filtrados();
+            renderizar_tabla();
+        } catch (error) {
+            console.error('Error al aplicar filtros:', error);
+            mostrar_error(error.message);
         }
-
-
-        // =====================================================
-        // 4. ACTUALIZAR RESULTADOS
-        // =====================================================
-
-        librosFiltrados = resultados;
-
-        pagina = 1;
-
-
-        actualizarTotalFiltrados();
-
-        renderizarTabla();
-
-
-    } catch (error) {
-
-        console.error(
-            'Error al aplicar filtros:',
-            error
-        );
-
-
-        mostrarError(error.message);
-
     }
-
-}
-
     // =====================================================
     // LIMPIAR FILTROS
     // =====================================================
-
-    function limpiarFiltros() {
-
-        buscarLibro.value = '';
-
-        filtroEstado.value = '';
-
-        filtroDisponibilidad.value = '';
-
-        librosFiltrados = [...libros];
-
+    function limpiar_filtros() {
+        modal_manager.establecer_valor(
+            'buscar_libro',
+            ''
+        );
+        filtro_estado.value = '';
+        filtro_disponibilidad.value = '';
+        libros_filtrados = [...libros];
         pagina = 1;
-
-        renderizarTabla();
-
+        actualizar_total();
+        renderizar_tabla();
     }
-
-
     // =====================================================
     // PAGINACIÓN
     // =====================================================
-
-    btnAnterior.addEventListener('click', () => {
-
+    btn_anterior.addEventListener('click', () => {
         if (pagina > 1) {
-
             pagina--;
-
-            renderizarTabla();
-
+            renderizar_tabla();
         }
-
     });
-
-
-    btnSiguiente.addEventListener('click', () => {
-
-        const totalPaginas =
-            Math.ceil(
-                librosFiltrados.length /
-                registrosPorPagina
-            );
-
-        if (pagina < totalPaginas) {
-
+    btn_siguiente.addEventListener('click', () => {
+        const total_paginas = Math.ceil(
+            libros_filtrados.length /
+            registros_por_pagina
+        );
+        if (pagina < total_paginas) {
             pagina++;
-
-            renderizarTabla();
-
+            renderizar_tabla();
         }
-
     });
-
-
     // =====================================================
     // BOTONES
     // =====================================================
-
-    btnBuscar.addEventListener(
+    btn_buscar.addEventListener(
         'click',
-        aplicarFiltros
+        aplicar_filtros
     );
-
-
-    btnLimpiar.addEventListener(
+    btn_limpiar.addEventListener(
         'click',
-        limpiarFiltros
+        limpiar_filtros
     );
-
-
-    // Buscar presionando ENTER
-
-    buscarLibro.addEventListener('keydown', event => {
-
+    // =====================================================
+    // BUSCAR CON ENTER
+    // =====================================================
+    buscar_libro.addEventListener('keydown', event => {
         if (event.key === 'Enter') {
-
             event.preventDefault();
-
-            aplicarFiltros();
-
+            aplicar_filtros();
         }
-
     });
-
-
     // =====================================================
-// NUEVO LIBRO - ABRIR MODAL
-// =====================================================
-
-document
-    .getElementById('btn_nuevo_libro')
-    .addEventListener('click', () => {
-
-        // Limpiar el formulario antes de abrirlo
-        document
-            .getElementById('form_nuevo_libro')
-            .reset();
-
-        $('#modal_nuevo_libro').modal('show');
-
-    });
-
+    // NUEVO LIBRO - ABRIR MODAL
     // =====================================================
-// NUEVO LIBRO - GUARDAR
-// =====================================================
-
-document
-    .getElementById('form_nuevo_libro')
-    .addEventListener('submit', async event => {
-
-        event.preventDefault();
-
-
-        // =================================================
-        // OBTENER DATOS DEL FORMULARIO
-        // =================================================
-
-        const Titulo =
-            document
-                .getElementById('nuevo_titulo')
-                .value
-                .trim();
-
-        const Autor =
-            document
-                .getElementById('nuevo_autor')
-                .value
-                .trim();
-
-        const Editorial =
-            document
-                .getElementById('nuevo_editorial')
-                .value
-                .trim();
-
-        const ISBN =
-            document
-                .getElementById('nuevo_isbn')
-                .value
-                .trim();
-
-        const Anio_Publicacion =
-            document
-                .getElementById('nuevo_anio')
-                .value;
-
-
-        // =================================================
-        // VALIDACIÓN BÁSICA
-        // =================================================
-
-        if (!Titulo) {
-
-            alert('El título del libro es obligatorio');
-
-            return;
-
-        }
-
-
-        // =================================================
-        // PREPARAR DATOS
-        // =================================================
-
-        const datos = {
-            Titulo,
-            Autor: Autor || null,
-            Editorial: Editorial || null,
-            ISBN: ISBN || null,
-            Anio_Publicacion:
-                Anio_Publicacion || null
-        };
-
-
-        const btnGuardar =
-            document.getElementById('btn_guardar_nuevo');
-
-
-        try {
-
-            // Desactivar el botón mientras se guarda
-            btnGuardar.disabled = true;
-
-            btnGuardar.innerHTML = `
-                <i class="fa-solid fa-spinner fa-spin mr-1"></i>
-                Guardando...
-            `;
-
-
-            // =================================================
-            // ENVIAR AL BACKEND
-            // =================================================
-
-            const respuesta = await fetch(
-                'http://localhost:3000/api/libros',
-                {
-                    method: 'POST',
-
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-
-                    body: JSON.stringify(datos)
+    document
+        .getElementById('btn_nuevo_libro')
+        .addEventListener('click', () => {
+            modal_manager.abrir_con_formulario(
+                'modal_nuevo_libro',
+                'form_nuevo_libro'
+            );
+        });
+    // =====================================================
+    // NUEVO LIBRO - GUARDAR
+    // =====================================================
+    document
+        .getElementById('form_nuevo_libro')
+        .addEventListener('submit', async event => {
+            event.preventDefault();
+            const titulo = modal_manager.obtener_valor('nuevo_titulo');
+            const autor = modal_manager.obtener_valor('nuevo_autor');
+            const editorial = modal_manager.obtener_valor('nuevo_editorial');
+            const isbn = modal_manager.obtener_valor('nuevo_isbn');
+            const anio_publicacion = modal_manager.obtener_valor('nuevo_anio');
+            if (!titulo) {
+                alert('El título del libro es obligatorio');
+                return;
+            }
+            const datos = {
+                Titulo: titulo,
+                Autor: autor || null,
+                Editorial: editorial || null,
+                ISBN: isbn || null,
+                Anio_Publicacion: anio_publicacion || null,
+                Id_Usuario
+            };
+            try {
+                modal_manager.bloquear_boton(
+                    'btn_guardar_nuevo',
+                    'Guardando...'
+                );
+                const respuesta = await fetch(
+                    'http://localhost:3000/api/libros',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(datos)
+                    }
+                );
+                const resultado = await respuesta.json();
+                if (!respuesta.ok || !resultado.success) {
+                    throw new Error(
+                        resultado.mensaje ||
+                        'No fue posible registrar el libro'
+                    );
                 }
-            );
-
-
-            const resultado =
-                await respuesta.json();
-
-
-            if (!respuesta.ok || !resultado.success) {
-
-                throw new Error(
-                    resultado.mensaje ||
-                    'No fue posible registrar el libro'
+                modal_manager.cerrar(
+                    'modal_nuevo_libro'
                 );
-
-            }
-
-
-            // =================================================
-            // CERRAR MODAL
-            // =================================================
-
-            $('#modal_nuevo_libro').modal('hide');
-
-
-            // =================================================
-            // AGREGAR EL NUEVO LIBRO A LA LISTA
-            // =================================================
-
-            const libroNuevo = resultado.data;
-
-            libros.push(libroNuevo);
-
-            libros.sort(
-            (a, b) => a.Id_Libro - b.Id_Libro
-            );
-
-
-            // Si no hay filtros activos, también lo mostramos
-            const hayFiltros =
-                buscarLibro.value.trim() !== '' ||
-                filtroEstado.value !== '' ||
-                filtroDisponibilidad.value !== '';
-
-            if (!hayFiltros) {
-
-                librosFiltrados.push(libroNuevo);
-                librosFiltrados.sort(
-                (a, b) => a.Id_Libro - b.Id_Libro
+                const libro_nuevo = resultado.data;
+                libros.push(libro_nuevo);
+                libros.sort(
+                    (a, b) => a.Id_Libro - b.Id_Libro
                 );
-
+                const hay_filtros =
+                    buscar_libro.value.trim() !== '' ||
+                    filtro_estado.value !== '' ||
+                    filtro_disponibilidad.value !== '';
+                if (!hay_filtros) {
+                    libros_filtrados.push(libro_nuevo);
+                    libros_filtrados.sort(
+                        (a, b) => a.Id_Libro - b.Id_Libro
+                    );
+                }
+                actualizar_total();
+                renderizar_tabla();
+                alert('Libro registrado correctamente');
+            } catch (error) {
+                console.error(
+                    'Error al registrar libro:',
+                    error
+                );
+                alert(error.message);
+            } finally {
+                modal_manager.desbloquear_boton(
+                    'btn_guardar_nuevo'
+                );
             }
-
-
-            // =================================================
-            // ACTUALIZAR INTERFAZ
-            // =================================================
-
-            actualizarTotal();
-
-            renderizarTabla();
-
-
-            alert('Libro registrado correctamente');
-
-
-        } catch (error) {
-
-            console.error(
-                'Error al registrar libro:',
-                error
-            );
-
-            alert(error.message);
-
-
-        } finally {
-
-            // Restaurar el botón
-            btnGuardar.disabled = false;
-
-            btnGuardar.innerHTML = `
-                <i class="fa-solid fa-save mr-1"></i>
-                Guardar libro
-            `;
-
-        }
-
-    });
-
-
+        });
     // =====================================================
     // EDITAR
     // =====================================================
-
-    window.editarLibro = async function(id) {
-
-    try {
-
-        const respuesta = await fetch(
-            `http://localhost:3000/api/libros/${id}`
-        );
-
-        const resultado = await respuesta.json();
-
-        if (!respuesta.ok || !resultado.success) {
-
-            throw new Error(
-                resultado.mensaje ||
-                'No fue posible obtener la información del libro'
-            );
-
-        }
-
-        const libro = resultado.data;
-
-
-        // =====================================================
-        // CARGAR DATOS EN EL FORMULARIO
-        // =====================================================
-
-        document.getElementById('editar_id_libro').value =
-            libro.Id_Libro;
-
-        document.getElementById('editar_titulo').value =
-            libro.Titulo || '';
-
-        document.getElementById('editar_autor').value =
-            libro.Autor || '';
-
-        document.getElementById('editar_editorial').value =
-            libro.Editorial || '';
-
-        document.getElementById('editar_isbn').value =
-            libro.ISBN || '';
-
-        document.getElementById('editar_anio').value =
-            libro.Anio_Publicacion || '';
-
-
-        // =====================================================
-        // ABRIR MODAL
-        // =====================================================
-
-        $('#modal_editar_libro').modal('show');
-
-
-    } catch (error) {
-
-        console.error(
-            'Error al cargar libro para editar:',
-            error
-        );
-
-        alert(error.message);
-
-    }
-
-};
-
-    // =====================================================
-// GUARDAR EDICIÓN
-// =====================================================
-
-document
-    .getElementById('form_editar_libro')
-    .addEventListener('submit', async event => {
-
-        event.preventDefault();
-
-
-        const id =
-            document.getElementById('editar_id_libro').value;
-
-        const Titulo =
-            document.getElementById('editar_titulo').value.trim();
-
-        const Autor =
-            document.getElementById('editar_autor').value.trim();
-
-        const Editorial =
-            document.getElementById('editar_editorial').value.trim();
-
-        const ISBN =
-            document.getElementById('editar_isbn').value.trim();
-
-        const Anio_Publicacion =
-            document.getElementById('editar_anio').value;
-
-
-        // =====================================================
-        // VALIDACIÓN
-        // =====================================================
-
-        if (!Titulo) {
-
-            alert('El título del libro es obligatorio');
-
-            return;
-
-        }
-
-
-        // =====================================================
-        // DATOS
-        // =====================================================
-
-        const datos = {
-
-            Titulo,
-            Autor: Autor || null,
-            Editorial: Editorial || null,
-            ISBN: ISBN || null,
-            Anio_Publicacion:
-                Anio_Publicacion || null
-
-        };
-
-
-        const btnGuardar =
-            document.getElementById('btn_guardar_edicion');
-
-
+    window.editar_libro = async function(id) {
         try {
-
-            // Desactivar botón mientras se guarda
-
-            btnGuardar.disabled = true;
-
-            btnGuardar.innerHTML = `
-                <i class="fa-solid fa-spinner fa-spin mr-1"></i>
-                Guardando...
-            `;
-
-
-            // =================================================
-            // ACTUALIZAR LIBRO
-            // =================================================
-
             const respuesta = await fetch(
-                `http://localhost:3000/api/libros/${id}`,
-                {
-                    method: 'PUT',
-
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-
-                    body: JSON.stringify(datos)
-                }
+                `http://localhost:3000/api/libros/${id}`
             );
-
-
-            const resultado =
-                await respuesta.json();
-
-
+            const resultado = await respuesta.json();
             if (!respuesta.ok || !resultado.success) {
-
                 throw new Error(
                     resultado.mensaje ||
-                    'No fue posible actualizar el libro'
+                    'No fue posible obtener la información del libro'
                 );
-
             }
-
-
-            // =================================================
-            // CERRAR MODAL
-            // =================================================
-
-            $('#modal_editar_libro').modal('hide');
-
-
-            // =================================================
-            // ACTUALIZAR LIBRO EN MEMORIA
-            // =================================================
-
-            const libroActualizado =
-                resultado.data;
-
-
-            const indice =
-                libros.findIndex(
-                    libro =>
-                        libro.Id_Libro ===
-                        libroActualizado.Id_Libro
-                );
-
-
-            if (indice !== -1) {
-
-                libros[indice] =
-                    libroActualizado;
-
-            }
-
-
-            // Actualizar también los resultados filtrados
-
-            const indiceFiltrado =
-                librosFiltrados.findIndex(
-                    libro =>
-                        libro.Id_Libro ===
-                        libroActualizado.Id_Libro
-                );
-
-
-            if (indiceFiltrado !== -1) {
-
-                librosFiltrados[indiceFiltrado] =
-                    libroActualizado;
-
-            }
-
-
-            // =================================================
-            // ACTUALIZAR TABLA
-            // =================================================
-
-            renderizarTabla();
-
-
-            alert(
-                'Libro actualizado correctamente'
+            const libro = resultado.data;
+            modal_manager.establecer_valor(
+                'editar_id_libro',
+                libro.Id_Libro
             );
-
-
+            modal_manager.establecer_valor(
+                'editar_titulo',
+                libro.Titulo
+            );
+            modal_manager.establecer_valor(
+                'editar_autor',
+                libro.Autor
+            );
+            modal_manager.establecer_valor(
+                'editar_editorial',
+                libro.Editorial
+            );
+            modal_manager.establecer_valor(
+                'editar_isbn',
+                libro.ISBN
+            );
+            modal_manager.establecer_valor(
+                'editar_anio',
+                libro.Anio_Publicacion
+            );
+            modal_manager.abrir(
+                'modal_editar_libro'
+            );
         } catch (error) {
-
             console.error(
-                'Error al actualizar libro:',
+                'Error al cargar libro para editar:',
                 error
             );
-
             alert(error.message);
-
-
-        } finally {
-
-            // Restaurar botón
-
-            btnGuardar.disabled = false;
-
-            btnGuardar.innerHTML = `
-                <i class="fa-solid fa-save mr-1"></i>
-                Guardar cambios
-            `;
-
         }
-
-    });
-
-
+    };
+    // =====================================================
+    // GUARDAR EDICIÓN
+    // =====================================================
+    document
+        .getElementById('form_editar_libro')
+        .addEventListener('submit', async event => {
+            event.preventDefault();
+            const id = modal_manager.obtener_valor(
+                'editar_id_libro'
+            );
+            const titulo = modal_manager.obtener_valor(
+                'editar_titulo'
+            );
+            const autor = modal_manager.obtener_valor(
+                'editar_autor'
+            );
+            const editorial = modal_manager.obtener_valor(
+                'editar_editorial'
+            );
+            const isbn = modal_manager.obtener_valor(
+                'editar_isbn'
+            );
+            const anio_publicacion = modal_manager.obtener_valor(
+                'editar_anio'
+            );
+            if (!titulo) {
+                alert('El título del libro es obligatorio');
+                return;
+            }
+            const datos = {
+                Titulo: titulo,
+                Autor: autor || null,
+                Editorial: editorial || null,
+                ISBN: isbn || null,
+                Anio_Publicacion: anio_publicacion || null
+            };
+            try {
+                modal_manager.bloquear_boton(
+                    'btn_guardar_edicion',
+                    'Guardando...'
+                );
+                const respuesta = await fetch(
+                    `http://localhost:3000/api/libros/${id}`,
+                    {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(datos)
+                    }
+                );
+                const resultado = await respuesta.json();
+                if (!respuesta.ok || !resultado.success) {
+                    throw new Error(
+                        resultado.mensaje ||
+                        'No fue posible actualizar el libro'
+                    );
+                }
+                modal_manager.cerrar(
+                    'modal_editar_libro'
+                );
+                const libro_actualizado = resultado.data;
+                const indice = libros.findIndex(
+                    libro =>
+                        libro.Id_Libro ===
+                        libro_actualizado.Id_Libro
+                );
+                if (indice !== -1) {
+                    libros[indice] = libro_actualizado;
+                }
+                const indice_filtrado = libros_filtrados.findIndex(
+                    libro =>
+                        libro.Id_Libro ===
+                        libro_actualizado.Id_Libro
+                );
+                if (indice_filtrado !== -1) {
+                    libros_filtrados[indice_filtrado] =
+                        libro_actualizado;
+                }
+                renderizar_tabla();
+                alert(
+                    'Libro actualizado correctamente'
+                );
+            } catch (error) {
+                console.error(
+                    'Error al actualizar libro:',
+                    error
+                );
+                alert(error.message);
+            } finally {
+                modal_manager.desbloquear_boton(
+                    'btn_guardar_edicion'
+                );
+            }
+        });
     // =====================================================
     // CAMBIAR ESTADO
     // =====================================================
-
-   window.cambiarEstadoLibro = async function(id, estadoActual) {
-
-    const accion = estadoActual
-        ? 'desactivar'
-        : 'activar';
-
-    const confirmar = confirm(
-        `¿Estás seguro de que deseas ${accion} el libro #${id}?`
-    );
-
-    if (!confirmar) {
-        return;
-    }
-
-    try {
-
-        const respuesta = await fetch(
-            `http://localhost:3000/api/libros/${id}/estado`,
-            {
-                method: 'PATCH',
-
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-
-                body: JSON.stringify({
-                    Activo: !estadoActual
-                })
-            }
+    window.cambiar_estado_libro = async function(id, estado_actual) {
+        const accion = estado_actual
+            ? 'desactivar'
+            : 'activar';
+        const confirmar = confirm(
+            `¿Estás seguro de que deseas ${accion} el libro #${id}?`
         );
-
-        const resultado = await respuesta.json();
-
-        if (!respuesta.ok || !resultado.success) {
-
-            throw new Error(
-                resultado.mensaje ||
-                `No fue posible ${accion} el libro`
+        if (!confirmar) {
+            return;
+        }
+        try {
+            const respuesta = await fetch(
+                `http://localhost:3000/api/libros/${id}/estado`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Activo: !estado_actual
+                    })
+                }
             );
-
+            const resultado = await respuesta.json();
+            if (!respuesta.ok || !resultado.success) {
+                throw new Error(
+                    resultado.mensaje ||
+                    `No fue posible ${accion} el libro`
+                );
+            }
+            const libro_actualizado = resultado.data;
+            const indice = libros.findIndex(
+                libro =>
+                    libro.Id_Libro ===
+                    libro_actualizado.Id_Libro
+            );
+            if (indice !== -1) {
+                libros[indice] = libro_actualizado;
+            }
+            const indice_filtrado = libros_filtrados.findIndex(
+                libro =>
+                    libro.Id_Libro ===
+                    libro_actualizado.Id_Libro
+            );
+            if (indice_filtrado !== -1) {
+                libros_filtrados[indice_filtrado] =
+                    libro_actualizado;
+            }
+            renderizar_tabla();
+            alert(
+                `Libro ${
+                    accion === 'activar'
+                        ? 'activado'
+                        : 'desactivado'
+                } correctamente`
+            );
+        } catch (error) {
+            console.error(
+                'Error al cambiar estado del libro:',
+                error
+            );
+            alert(error.message);
         }
-
-        const libroActualizado = resultado.data;
-
-        // ============================================
-        // ACTUALIZAR LIBRO EN MEMORIA
-        // ============================================
-
-        const indice = libros.findIndex(
-            libro =>
-                libro.Id_Libro === libroActualizado.Id_Libro
-        );
-
-        if (indice !== -1) {
-
-            libros[indice] = libroActualizado;
-
-        }
-
-        // ============================================
-        // ACTUALIZAR RESULTADOS FILTRADOS
-        // ============================================
-
-        const indiceFiltrado = librosFiltrados.findIndex(
-            libro =>
-                libro.Id_Libro === libroActualizado.Id_Libro
-        );
-
-        if (indiceFiltrado !== -1) {
-
-            librosFiltrados[indiceFiltrado] =
-                libroActualizado;
-
-        }
-
-        // ============================================
-        // ACTUALIZAR TABLA
-        // ============================================
-
-        renderizarTabla();
-
-        alert(
-            `Libro ${accion === 'activar'
-                ? 'activado'
-                : 'desactivado'} correctamente`
-        );
-
-    } catch (error) {
-
-        console.error(
-            'Error al cambiar estado del libro:',
-            error
-        );
-
-        alert(error.message);
-
-    }
-
-};
-
-
+    };
     // =====================================================
     // UTILIDADES
     // =====================================================
-
-    function mostrarCargando() {
-
-        estadoCargando.classList.remove('d-none');
-
-        estadoVacio.classList.add('d-none');
-
+    function mostrar_cargando() {
+        estado_cargando.classList.remove('d-none');
+        estado_vacio.classList.add('d-none');
     }
-
-
-    function ocultarCargando() {
-
-        estadoCargando.classList.add('d-none');
-
+    function ocultar_cargando() {
+        estado_cargando.classList.add('d-none');
     }
-
-
-    function mostrarError(mensaje) {
-
-        ocultarCargando();
-
+    function mostrar_error(mensaje) {
+        ocultar_cargando();
         tabla.innerHTML = '';
-
-        estadoVacio.classList.remove('d-none');
-
-        estadoVacio.innerHTML = `
-
+        estado_vacio.classList.remove('d-none');
+        estado_vacio.innerHTML = `
             <div class="mb-3">
-
                 <i class="fa-solid fa-triangle-exclamation fa-3x text-danger"></i>
-
             </div>
-
             <h6 class="font-weight-bold text-dark">
                 Error al cargar libros
             </h6>
-
             <p class="text-muted small mb-0">
-                ${escapeHtml(mensaje)}
+                ${escape_html(mensaje)}
             </p>
-
         `;
-
     }
-
-
-    // Evitar insertar HTML proveniente de la BD
-
-    function escapeHtml(valor) {
-
+    function escape_html(valor) {
         const div = document.createElement('div');
-
         div.textContent = valor ?? '';
-
         return div.innerHTML;
-
     }
-
-
     // =====================================================
     // INICIO
     // =====================================================
-
-    cargarLibros();
-
+    cargar_libros();
 });
