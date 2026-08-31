@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Focus - Gestión de Alumnos</title>
+    <title>Focus - Información del Alumno</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
@@ -37,9 +37,12 @@
                 <img class="logo-abbr" src="./images/logo.png" alt="Logo">
                 <span class="brand-title font-weight-bold text-primary ml-2">FOCUS</span>
             </a>
+
             <div class="nav-control">
                 <div class="hamburger">
-                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
                 </div>
             </div>
         </div>
@@ -49,11 +52,13 @@
             <div class="header-content">
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
+
                         <div class="header-left">
                             <div class="search_bar dropdown">
                                 <span class="search_icon p-3 c-pointer" data-toggle="dropdown">
                                     <i class="fa-solid fa-magnifying-glass text-muted"></i>
                                 </span>
+
                                 <div class="dropdown-menu p-0 m-0">
                                     <form>
                                         <input class="form-control" type="search" placeholder="Buscar en el sistema..."
@@ -64,26 +69,36 @@
                         </div>
 
                         <ul class="navbar-nav header-right">
+
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="fa-regular fa-bell"></i>
                                     <div class="pulse-css"></div>
                                 </a>
                             </li>
+
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="fa-regular fa-user-circle fa-lg"></i>
                                 </a>
+
                                 <div class="dropdown-menu dropdown-menu-right shadow-sm">
+
                                     <a href="./app-profile.html" class="dropdown-item">
-                                        <i class="fa-regular fa-user mr-2"></i> Perfil
+                                        <i class="fa-regular fa-user mr-2"></i>
+                                        Perfil
                                     </a>
+
                                     <a href="./page-login.html" class="dropdown-item text-danger">
-                                        <i class="fa-solid fa-right-from-bracket mr-2"></i> Cerrar Sesión
+                                        <i class="fa-solid fa-right-from-bracket mr-2"></i>
+                                        Cerrar Sesión
                                     </a>
+
                                 </div>
                             </li>
+
                         </ul>
+
                     </div>
                 </nav>
             </div>
@@ -92,26 +107,69 @@
         <!-- Sidebar -->
         <div class="quixnav">
             <div class="quixnav-scroll">
+
                 <ul class="metismenu" id="menu">
-                    <li class="nav-label first">Navegación</li>
-                    <li><a href="/pages/dashboard/dashboard_u.html"><i class="fa-solid fa-house"></i><span
-                                class="nav-text">Dashboard</span></a></li>
 
-                    <li class="nav-label">Escolar</li>
-                    <li class="mm-active"><a href="/pages/modulos/alumnos.html"><i
-                                class="fa-solid fa-user-graduate"></i><span class="nav-text">Alumnos</span></a></li>
-
-                    <li class="nav-label">Biblioteca</li>
-                    <li><a href="#"><i class="fa-solid fa-book"></i><span class="nav-text">Libros</span></a></li>
-                    <li><a href="#"><i class="fa-solid fa-hand-holding"></i><span class="nav-text">Préstamos</span></a>
+                    <li class="nav-label first">
+                        Navegación
                     </li>
 
-                    <li class="nav-label">Control</li>
-                    <li><a href="#"><i class="fa-solid fa-file-invoice-dollar"></i><span
-                                class="nav-text">Adeudos</span></a></li>
-                    <li><a href="#"><i class="fa-solid fa-certificate"></i><span class="nav-text">Cartas No
-                                Adeudo</span></a></li>
+                    <li>
+                        <a href="/pages/dashboard/dashboard_u.html">
+                            <i class="fa-solid fa-house"></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-label">
+                        Escolar
+                    </li>
+
+                    <li class="mm-active">
+                        <a href="/pages/modulos/alumnos.html">
+                            <i class="fa-solid fa-user-graduate"></i>
+                            <span class="nav-text">Alumnos</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-label">
+                        Biblioteca
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-book"></i>
+                            <span class="nav-text">Libros</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-hand-holding"></i>
+                            <span class="nav-text">Préstamos</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-label">
+                        Control
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                            <span class="nav-text">Adeudos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-certificate"></i>
+                            <span class="nav-text">Cartas No Adeudo</span>
+                        </a>
+                    </li>
+
                 </ul>
+
             </div>
         </div>
 
@@ -121,73 +179,162 @@
 
                 <!-- Botón regresar -->
                 <div class="mb-3">
+
                     <a href="/pages/modulos/alumnos.html" class="btn btn-sm btn-outline-secondary">
-                        <i class="fa-solid fa-arrow-left mr-1"></i> Alumnos
+
+                        <i class="fa-solid fa-arrow-left mr-1"></i>
+                        Alumnos
+
                     </a>
+
                 </div>
 
                 <!-- Card Principal / Encabezado -->
                 <div class="card shadow-sm border-0 mb-4 rounded-lg">
+
                     <div class="card-body p-4">
+
                         <div class="d-flex justify-content-between align-items-center flex-wrap">
+
                             <div>
+
                                 <h3 class="mb-1 font-weight-bold text-dark">
-                                    <i class="fa-solid fa-user-circle text-primary mr-2"></i><span
-                                        id="nombre">Juan Pérez López</span>
+
+                                    <i class="fa-solid fa-user-circle text-primary mr-2"></i>
+
+                                    <span id="nombre">
+                                        Juan Pérez López
+                                    </span>
+
                                 </h3>
+
                                 <p class="text-muted mb-0 small">
-                                    Matrícula: <span class="font-weight-bold" id="numero_control">20230001</span>
+
+                                    Matrícula:
+
+                                    <span class="font-weight-bold" id="numero_control">
+                                        20230001
+                                    </span>
+
                                 </p>
+
                             </div>
+
                             <div class="mt-3 mt-md-0">
+
                                 <span class="badge badge-success px-3 py-2 font-weight-normal"
                                     style="font-size: 0.9rem;">
-                                    <i class="fa-solid fa-circle-check mr-1"></i> Sin adeudos
+
+                                    <i class="fa-solid fa-circle-check mr-1"></i>
+                                    Sin adeudos
+
                                 </span>
+
                             </div>
+
                         </div>
+
                         <hr class="my-3">
+
                         <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-sm btn-outline-primary mr-2">
-                                <i class="fa-solid fa-pen-to-square mr-1"></i> Editar
+
+                            <!-- BOTÓN EDITAR -->
+                            <button type="button" class="btn btn-sm btn-outline-primary mr-2" id="btn_editar_alumno">
+
+                                <i class="fa-solid fa-pen-to-square mr-1"></i>
+                                Editar
+
                             </button>
+
                             <button type="button" class="btn btn-sm btn-outline-success">
-                                <i class="fa-solid fa-certificate mr-1"></i> Carta de no adeudo
+
+                                <i class="fa-solid fa-certificate mr-1"></i>
+                                Carta de no adeudo
+
                             </button>
+
                         </div>
+
                     </div>
+
                 </div>
 
                 <div class="row">
+
                     <!-- Información del Alumno -->
                     <div class="col-lg-4 mb-4">
+
                         <div class="card shadow-sm border-0 rounded-lg h-100">
+
                             <div class="card-header bg-white border-bottom-0 py-3">
+
                                 <h6 class="mb-0 font-weight-bold text-dark">
-                                    <i class="fa-solid fa-id-card text-primary mr-2"></i>Información
+
+                                    <i class="fa-solid fa-id-card text-primary mr-2"></i>
+                                    Información
+
                                 </h6>
+
                             </div>
+
                             <div class="card-body p-0">
+
                                 <ul class="list-group list-group-flush">
+
                                     <li class="list-group-item d-flex justify-content-between">
-                                        <span class="text-muted">Matrícula</span>
-                                        <span class="font-weight-bold text-dark" id="numero_control2">20230001</span>
+
+                                        <span class="text-muted">
+                                            Matrícula
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark" id="numero_control2">
+                                            20230001
+                                        </span>
+
                                     </li>
+
                                     <li class="list-group-item d-flex justify-content-between">
-                                        <span class="text-muted">Carrera</span>
-                                        <span class="font-weight-bold text-dark" id="carrera">Sistemas</span>
+
+                                        <span class="text-muted">
+                                            Carrera
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark" id="carrera">
+                                            Sistemas
+                                        </span>
+
                                     </li>
+
                                     <li class="list-group-item d-flex justify-content-between">
-                                        <span class="text-muted">Semestre</span>
-                                        <span class="font-weight-bold text-dark" id="semestre">8</span>
+
+                                        <span class="text-muted">
+                                            Semestre
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark" id="semestre">
+                                            8
+                                        </span>
+
                                     </li>
+
                                     <li class="list-group-item d-flex justify-content-between">
-                                        <span class="text-muted">Activo</span>
-                                        <span class="font-weight-bold text-dark" id="activo">XXXXXXXXXXXXX</span>
+
+                                        <span class="text-muted">
+                                            Estado
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark" id="activo">
+                                            Activo
+                                        </span>
+
                                     </li>
+
                                 </ul>
+
                             </div>
+
                         </div>
+
                     </div>
 
                     <!-- Detalle de Préstamos y Adeudos -->
@@ -195,50 +342,112 @@
 
                         <!-- Préstamos actuales -->
                         <div class="card shadow-sm border-0 rounded-lg mb-4">
+
                             <div class="card-header bg-white border-bottom-0 py-3">
+
                                 <h6 class="mb-0 font-weight-bold text-dark">
-                                    <i class="fa-solid fa-hand-holding text-primary mr-2"></i>Préstamos actuales
+
+                                    <i class="fa-solid fa-hand-holding text-primary mr-2"></i>
+                                    Préstamos actuales
+
                                 </h6>
+
                             </div>
+
                             <div class="card-body p-0">
+
                                 <div class="table-responsive">
+
                                     <table class="table table-hover align-middle mb-0">
+
                                         <thead class="bg-light text-muted small text-uppercase">
+
                                             <tr>
-                                                <th class="border-top-0 pl-4">Libro</th>
-                                                <th class="border-top-0">Préstamo</th>
-                                                <th class="border-top-0">Devolución</th>
-                                                <th class="border-top-0">Estado</th>
+
+                                                <th class="border-top-0 pl-4">
+                                                    Libro
+                                                </th>
+
+                                                <th class="border-top-0">
+                                                    Préstamo
+                                                </th>
+
+                                                <th class="border-top-0">
+                                                    Devolución
+                                                </th>
+
+                                                <th class="border-top-0">
+                                                    Estado
+                                                </th>
+
                                             </tr>
+
                                         </thead>
+
                                         <tbody class="text-dark">
+
                                             <tr>
-                                                <td class="pl-4 font-weight-bold">Programación</td>
-                                                <td>10/08/26</td>
-                                                <td>17/08/26</td>
-                                                <td><span class="badge badge-warning text-white px-2 py-1">Activo</span>
+
+                                                <td class="pl-4 font-weight-bold">
+                                                    Programación
                                                 </td>
+
+                                                <td>
+                                                    10/08/26
+                                                </td>
+
+                                                <td>
+                                                    17/08/26
+                                                </td>
+
+                                                <td>
+
+                                                    <span class="badge badge-warning text-white px-2 py-1">
+                                                        Activo
+                                                    </span>
+
+                                                </td>
+
                                             </tr>
+
                                         </tbody>
+
                                     </table>
+
                                 </div>
+
                             </div>
+
                         </div>
 
                         <!-- Adeudos -->
                         <div class="card shadow-sm border-0 rounded-lg">
+
                             <div class="card-header bg-white border-bottom-0 py-3">
+
                                 <h6 class="mb-0 font-weight-bold text-dark">
-                                    <i class="fa-solid fa-file-invoice-dollar text-primary mr-2"></i>Adeudos
+
+                                    <i class="fa-solid fa-file-invoice-dollar text-primary mr-2"></i>
+                                    Adeudos
+
                                 </h6>
+
                             </div>
+
                             <div class="card-body p-4 text-center text-success">
+
                                 <i class="fa-solid fa-circle-check fa-2x mb-2"></i>
-                                <p class="mb-0 font-weight-bold">El alumno no tiene adeudos pendientes</p>
+
+                                <p class="mb-0 font-weight-bold">
+                                    El alumno no tiene adeudos pendientes
+                                </p>
+
                             </div>
+
                         </div>
 
                     </div>
+
                 </div>
 
             </div>
@@ -246,39 +455,311 @@
 
         <!-- Footer -->
         <div class="footer">
+
             <div class="copyright">
-                <p class="small text-muted mb-0">Copyright © Diseñado &amp; Desarrollado por <a href="#"
-                        target="_blank">Quixkit</a> 2026</p>
+
+                <p class="small text-muted mb-0">
+
+                    Copyright © Diseñado &amp; Desarrollado por
+
+                    <a href="#" target="_blank">
+                        Quixkit
+                    </a>
+
+                    2026
+
+                </p>
+
             </div>
+
         </div>
 
     </div>
-    <!-- Modal Popup Global -->
-    <div class="modal fade" id="modalPopup" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered">
+
+
+    <!-- =====================================================
+         MODAL MODIFICAR ALUMNO
+         ===================================================== -->
+
+    <div class="modal fade" id="modal_modificar_alumno" tabindex="-1" role="dialog"
+        aria-labelledby="modalModificarAlumnoLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
             <div class="modal-content">
+
+                <!-- HEADER -->
+                <div class="modal-header">
+
+                    <h5 class="modal-title font-weight-bold" id="modalModificarAlumnoLabel">
+
+                        <i class="fa-solid fa-user-pen text-primary mr-2"></i>
+
+                        Modificar alumno
+
+                    </h5>
+
+                    <button type="button" class="close" id="btn_cerrar_modal" data-dismiss="modal" aria-label="Cerrar">
+
+                        <span aria-hidden="true">&times;</span>
+
+                    </button>
+
+                </div>
+
+                <!-- FORMULARIO -->
+                <form id="form_modificar_alumno">
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- NOMBRE -->
+                            <div class="col-md-4 mb-3">
+
+                                <label for="modificar_nombre" class="font-weight-bold small">
+
+                                    Nombre
+
+                                </label>
+
+                                <input type="text" class="form-control" id="modificar_nombre" name="nombre"
+                                    placeholder="Nombre" required>
+
+                            </div>
+
+                            <!-- APELLIDO PATERNO -->
+                            <div class="col-md-4 mb-3">
+
+                                <label for="modificar_apellido_paterno" class="font-weight-bold small">
+
+                                    Apellido paterno
+
+                                </label>
+
+                                <input type="text" class="form-control" id="modificar_apellido_paterno"
+                                    name="apellido_paterno" placeholder="Apellido paterno" required>
+
+                            </div>
+
+                            <!-- APELLIDO MATERNO -->
+                            <div class="col-md-4 mb-3">
+
+                                <label for="modificar_apellido_materno" class="font-weight-bold small">
+
+                                    Apellido materno
+
+                                </label>
+
+                                <input type="text" class="form-control" id="modificar_apellido_materno"
+                                    name="apellido_materno" placeholder="Apellido materno" required>
+
+                            </div>
+
+                            <!-- NÚMERO DE CONTROL -->
+                            <div class="col-md-6 mb-3">
+
+                                <label for="modificar_numero_control" class="font-weight-bold small">
+
+                                    Número de control
+
+                                </label>
+
+                                <input type="text" class="form-control" id="modificar_numero_control"
+                                    name="numero_control" placeholder="Número de control" required>
+
+                            </div>
+
+                            <!-- SEMESTRE -->
+                            <div class="col-md-3 mb-3">
+
+                                <label for="modificar_semestre" class="font-weight-bold small">
+
+                                    Semestre
+
+                                </label>
+
+                                <select class="form-control" id="modificar_semestre" name="semestre" required>
+
+                                    <option value="">
+                                        Seleccione una opción...
+                                    </option>
+
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- CARRERA -->
+                            <div class="col-md-3 mb-3">
+
+                                <label for="modificar_carrera" class="font-weight-bold small">
+
+                                    Carrera
+
+                                </label>
+
+                                <select class="form-control" id="modificar_carrera" name="carrera" required>
+
+                                    <option value="">
+                                        Seleccione una opción...
+                                    </option>
+
+                                    <option value="Ingeniería en Gestión Empresarial">
+                                        Ingeniería en Gestión Empresarial
+                                    </option>
+
+                                    <option value="Ingeniería en Sistemas Computacionales">
+                                        Ingeniería en Sistemas Computacionales
+                                    </option>
+
+                                    <option value="Ingeniería en Sistemas Automotrices">
+                                        Ingeniería en Sistemas Automotrices
+                                    </option>
+
+                                    <option value="Ingeniería Ambiental">
+                                        Ingeniería Ambiental
+                                    </option>
+
+                                    <option value="Ingeniería Informática">
+                                        Ingeniería Informática
+                                    </option>
+
+                                    <option value="Ingeniería Electromecánica">
+                                        Ingeniería Electromecánica
+                                    </option>
+
+                                    <option value="Ingeniería Electrónica">
+                                        Ingeniería Electrónica
+                                    </option>
+
+                                    <option value="Ingeniería Industrial">
+                                        Ingeniería Industrial
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- ESTADO -->
+                            <div class="col-md-6 mb-3">
+
+                                <label for="modificar_activo" class="font-weight-bold small">
+
+                                    Estado
+
+                                </label>
+
+                                <select class="form-control" id="modificar_activo" name="activo" required>
+
+                                    <option value="1">
+                                        Activo
+                                    </option>
+
+                                    <option value="0">
+                                        Inactivo
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-outline-secondary" id="btn_cancelar_modal">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" id="btn_modificar_alumno">
+
+                            <i class="fa-solid fa-save mr-1"></i>
+
+                            Guardar cambios
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MODAL POPUP GLOBAL
+         ===================================================== -->
+
+    <div class="modal fade" id="modalPopup" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
                 <div class="modal-body text-center p-5">
+
                     <div id="modal-icono" class="mb-3"></div>
+
                     <h4 id="modal-titulo">
                         Procesando...
                     </h4>
+
                     <p id="modal-mensaje" class="text-muted mb-0">
+
                         Espere un momento...
+
                     </p>
+
                     <button id="modal-boton" type="button" class="btn btn-primary mt-4 d-none">
+
                         Aceptar
+
                     </button>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
-    <!-- Scripts -->
-    <script src="/vendor/js//vendor.bundle.base.js"></script>
+
+
+    <!-- =====================================================
+         SCRIPTS
+         ===================================================== -->
+
+    <script src="/vendor/js/vendor.bundle.base.js"></script>
+    <script src="/vendor/global/global.min.js"></script>
+
+    <script src="/js/modal_manager.js"></script>
     <script src="/js/popup.js"></script>
     <script src="/js/informacion.js"></script>
-    <script src="/vendor/global/global.min.js"></script>
+
     <script src="/js/quixnav-init.js"></script>
     <script src="/js/custom.min.js"></script>
+
 </body>
 
 </html>

@@ -1,180 +1,325 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const form = document.getElementById('loginForm');
-    const email = document.getElementById('email');
+    const nombre_usuario = document.getElementById('nombre_usuario');
     const password = document.getElementById('password');
-    const passwordToggle = document.getElementById('passwordToggle');
-    const submitButton = form?.querySelector('.signin-button');
-    const successMessage = document.getElementById('successMessage');
-    const emailError = document.getElementById('emailError');
-    const passwordError = document.getElementById('passwordError');
+    const password_toggle = document.getElementById('passwordToggle');
 
-    if (!form) return;
+    const submit_button = form?.querySelector('.signin-button');
+    const success_message = document.getElementById('successMessage');
 
-    passwordToggle?.addEventListener('click', () => {
+    const nombre_usuario_error = document.getElementById('nombreUsuarioError');
+    const password_error = document.getElementById('passwordError');
+
+    if (!form || !nombre_usuario || !password) {
+        console.error('No se encontraron los elementos necesarios del formulario.');
+        return;
+    }
+
+    // ==========================================
+    // MOSTRAR / OCULTAR CONTRASEÑA
+    // ==========================================
+
+    password_toggle?.addEventListener('click', () => {
+
         const mostrar = password.type === 'password';
+
         password.type = mostrar ? 'text' : 'password';
-        passwordToggle.querySelector('.eye-show')?.classList.toggle('show', !mostrar);
-        passwordToggle.querySelector('.eye-hide')?.classList.toggle('show', mostrar);
+
+        password_toggle
+            .querySelector('.eye-show')
+            ?.classList.toggle('show', !mostrar);
+
+        password_toggle
+            .querySelector('.eye-hide')
+            ?.classList.toggle('show', mostrar);
+
         password.focus();
     });
 
-    email.addEventListener('input', () => limpiarError(email, emailError));
-    password.addEventListener('input', () => limpiarError(password, passwordError));
+    // ==========================================
+    // EVENTOS DE CAMPOS
+    // ==========================================
 
-    email.addEventListener('blur', () => validarEmail());
-    password.addEventListener('blur', () => validarPassword());
+    nombre_usuario.addEventListener('input', () => {
+        limpiar_error(nombre_usuario, nombre_usuario_error);
+    });
+
+    password.addEventListener('input', () => {
+        limpiar_error(password, password_error);
+    });
+
+    nombre_usuario.addEventListener('blur', validar_nombre_usuario);
+    password.addEventListener('blur', validar_password);
+
+    // ==========================================
+    // ENVÍO DEL FORMULARIO
+    // ==========================================
 
     form.addEventListener('submit', async (e) => {
+
         e.preventDefault();
 
-        limpiarTodosLosErrores();
+        limpiar_todos_los_errores();
 
-        const emailValido = validarEmail();
-        const passwordValida = validarPassword();
+        const nombre_usuario_valido = validar_nombre_usuario();
+        const password_valida = validar_password();
 
-        if (!emailValido || !passwordValida) {
+        if (!nombre_usuario_valido || !password_valida) {
+
             form.style.animation = 'shake 0.5s ease-in-out';
+
             form.addEventListener('animationend', () => {
                 form.style.animation = '';
-            }, { once: true });
+            }, {
+                once: true
+            });
+
             return;
         }
 
-        await iniciarSesion();
+        await iniciar_sesion();
     });
+
+    // ==========================================
+    // RECUPERAR CONTRASEÑA
+    // ==========================================
 
     document.querySelector('.forgot-password')?.addEventListener('click', (e) => {
+
         e.preventDefault();
-        mostrarNotificacion('La recuperación de contraseña estará disponible próximamente.', 'info');
+
+        mostrar_notificacion(
+            'La recuperación de contraseña estará disponible próximamente.',
+            'info'
+        );
     });
+
+    // ==========================================
+    // ESTATUS DEL ALUMNO
+    // ==========================================
 
     document.querySelector('.signup-link')?.addEventListener('click', (e) => {
+
         e.preventDefault();
-        window.location.href = "pages/alumnos/status.html";
+
+        window.location.href = '/pages/alumnos/status.html';
     });
 
-    function validarEmail() {
-        const valor = email.value.trim();
+    // ==========================================
+    // VALIDAR NOMBRE DE USUARIO
+    // ==========================================
+
+    function validar_nombre_usuario() {
+
+        const valor = nombre_usuario.value.trim();
 
         if (!valor) {
-            mostrarError(email, emailError, 'Ingresa tu correo electrónico.');
-            return false;
-        }
 
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            mostrar_error(
+                nombre_usuario,
+                nombre_usuario_error,
+                'Ingresa tu nombre de usuario.'
+            );
 
-        if (!regex.test(valor)) {
-            mostrarError(email, emailError, 'Ingresa un correo electrónico válido.');
             return false;
         }
 
         return true;
     }
 
-    function validarPassword() {
+    // ==========================================
+    // VALIDAR CONTRASEÑA
+    // ==========================================
+
+    function validar_password() {
+
         const valor = password.value;
 
         if (!valor) {
-            mostrarError(password, passwordError, 'Ingresa tu contraseña.');
+
+            mostrar_error(
+                password,
+                password_error,
+                'Ingresa tu contraseña.'
+            );
+
             return false;
         }
 
         return true;
     }
 
-    async function iniciarSesion() {
-        submitButton?.classList.add('loading');
-        submitButton?.setAttribute('disabled', 'true');
+    // ==========================================
+    // INICIAR SESIÓN
+    // ==========================================
 
+    async function iniciar_sesion() {
+        submit_button?.classList.add('loading');
+        submit_button?.setAttribute('disabled', 'true');
         try {
-            const respuesta = await fetch('/api/auth/login', {
+            const respuesta = await fetch('http://localhost:3000/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+
                 body: JSON.stringify({
-                    email: email.value.trim(),
-                    password: password.value
+                    Usuario: nombre_usuario.value.trim(),
+                    Password: password.value
                 })
             });
 
             const resultado = await respuesta.json();
 
             if (!respuesta.ok || !resultado.success) {
-                throw new Error(resultado.message || 'Correo o contraseña incorrectos.');
+
+                throw new Error(
+                    resultado.message ||
+                    'Usuario o contraseña incorrectos.'
+                );
             }
 
             if (!resultado.token) {
-                throw new Error('El servidor no devolvió el token de autenticación.');
+
+                throw new Error(
+                    'El servidor no devolvió el token de autenticación.'
+                );
             }
 
-            sessionStorage.setItem('token', resultado.token);
+            // ==========================================
+            // GUARDAR SESIÓN
+            // ==========================================
+
+            sessionStorage.setItem(
+                'token',
+                resultado.token
+            );
 
             if (resultado.usuario) {
-                sessionStorage.setItem('usuario', JSON.stringify(resultado.usuario));
+
+                sessionStorage.setItem(
+                    'usuario',
+                    JSON.stringify(resultado.usuario)
+                );
             }
 
-            mostrarExito();
+            mostrar_exito();
+
+            // ==========================================
+            // REDIRECCIÓN
+            // ==========================================
 
             setTimeout(() => {
-                window.location.href = '/dashboard.html';
+
+                window.location.href =
+                    '/pages/dashboard/dashboard_u.html';
+
             }, 1000);
 
         } catch (error) {
-            mostrarNotificacion(
-                error.message || 'No fue posible iniciar sesión.',
+
+            console.error('Error al iniciar sesión:', error);
+
+            mostrar_notificacion(
+                error.message ||
+                'No fue posible iniciar sesión.',
                 'error'
             );
+
         } finally {
-            submitButton?.classList.remove('loading');
-            submitButton?.removeAttribute('disabled');
+
+            submit_button?.classList.remove('loading');
+            submit_button?.removeAttribute('disabled');
         }
     }
 
-    function mostrarError(campo, elemento, mensaje) {
+    // ==========================================
+    // MOSTRAR ERROR
+    // ==========================================
+
+    function mostrar_error(campo, elemento, mensaje) {
+
         campo.classList.add('error');
 
         if (elemento) {
+
             elemento.textContent = mensaje;
             elemento.classList.add('show');
         }
     }
 
-    function limpiarError(campo, elemento) {
+    // ==========================================
+    // LIMPIAR ERROR
+    // ==========================================
+
+    function limpiar_error(campo, elemento) {
+
         campo.classList.remove('error');
 
         if (elemento) {
+
             elemento.textContent = '';
             elemento.classList.remove('show');
         }
     }
 
-    function limpiarTodosLosErrores() {
-        limpiarError(email, emailError);
-        limpiarError(password, passwordError);
+    // ==========================================
+    // LIMPIAR TODOS LOS ERRORES
+    // ==========================================
+
+    function limpiar_todos_los_errores() {
+
+        limpiar_error(
+            nombre_usuario,
+            nombre_usuario_error
+        );
+
+        limpiar_error(
+            password,
+            password_error
+        );
     }
 
-    function mostrarExito() {
+    // ==========================================
+    // MOSTRAR ÉXITO
+    // ==========================================
+
+    function mostrar_exito() {
+
         form.style.transition = 'all 0.3s ease';
         form.style.opacity = '0';
         form.style.transform = 'translateY(-20px)';
 
         setTimeout(() => {
+
             form.style.display = 'none';
 
-            if (successMessage) {
-                successMessage.classList.add('show');
+            if (success_message) {
 
-                const titulo = successMessage.querySelector('h3');
-                const texto = successMessage.querySelector('p');
+                success_message.classList.add('show');
 
-                if (titulo) titulo.textContent = '¡Bienvenido a SILABB!';
-                if (texto) texto.textContent = 'Iniciando sesión...';
+                const titulo = success_message.querySelector('h3');
+                const texto = success_message.querySelector('p');
+
+                if (titulo) {
+                    titulo.textContent = '¡Bienvenido a SILABB!';
+                }
+
+                if (texto) {
+                    texto.textContent = 'Iniciando sesión...';
+                }
             }
+
         }, 300);
     }
 
-    function mostrarNotificacion(mensaje, tipo = 'info') {
+    // ==========================================
+    // MOSTRAR NOTIFICACIÓN
+    // ==========================================
+
+    function mostrar_notificacion(mensaje, tipo = 'info') {
+
         const anterior = form.querySelector('.notification');
 
         if (anterior) {
@@ -182,16 +327,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const colores = {
+
             error: {
                 fondo: 'rgba(239, 68, 68, 0.1)',
                 borde: 'rgba(239, 68, 68, 0.3)',
                 texto: '#ef4444'
             },
+
             info: {
                 fondo: 'rgba(6, 182, 212, 0.1)',
                 borde: 'rgba(6, 182, 212, 0.3)',
                 texto: '#06b6d4'
             },
+
             success: {
                 fondo: 'rgba(34, 197, 94, 0.1)',
                 borde: 'rgba(34, 197, 94, 0.3)',
@@ -202,7 +350,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const color = colores[tipo] || colores.info;
 
         const notificacion = document.createElement('div');
+
         notificacion.className = `notification ${tipo}`;
+
         notificacion.setAttribute(
             'role',
             tipo === 'error' ? 'alert' : 'status'
@@ -225,13 +375,16 @@ document.addEventListener('DOMContentLoaded', () => {
         form.appendChild(notificacion);
 
         setTimeout(() => {
-            notificacion.style.animation = 'slideOut 0.3s ease';
+
+            notificacion.style.animation =
+                'slideOut 0.3s ease';
 
             notificacion.addEventListener(
                 'animationend',
                 () => notificacion.remove(),
                 { once: true }
             );
+
         }, 3000);
     }
 });

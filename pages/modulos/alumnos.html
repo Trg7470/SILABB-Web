@@ -190,7 +190,7 @@
                             <button type="button" class="btn btn-outline-secondary btn-sm mr-2" id="btn_limpiar">
                                 <i class="fa-solid fa-rotate-left mr-1"></i> Limpiar Filtros
                             </button>
-                            <button type="button" class="btn btn-primary btn-sm mr-3" id="btn_registrar_alumno">
+                            <button type="button" class="btn btn-primary btn-sm mr-3" id="btn_nuevo_alumno">
                                 <i class="fa-solid fa-user-plus mr-1"></i> Registrar Alumno
                             </button>
                         </div>
@@ -274,63 +274,122 @@
         </div>
 
     </div>
+    <!-- Modal Registrar Alumno -->
+
     <div class="modal fade" id="modal_registrar_alumno" tabindex="-1" role="dialog"
         aria-labelledby="modalRegistrarAlumnoLabel" aria-hidden="true">
+
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
             <div class="modal-content">
+
                 <!-- HEADER -->
+
                 <div class="modal-header">
+
                     <h5 class="modal-title font-weight-bold" id="modalRegistrarAlumnoLabel">
+
                         <i class="fa-solid fa-user-plus text-primary mr-2"></i>
+
                         Registrar alumno
+
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
+
+                    <button type="button" class="close" id="btn_cerrar_modal_alumno" data-dismiss="modal"
+                        aria-label="Cerrar">
+
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+
                     </button>
+
                 </div>
+
                 <!-- FORMULARIO -->
+
                 <form id="form_nuevo_alumno">
+
                     <div class="modal-body">
+
                         <div class="row">
+
                             <!-- NOMBRE -->
+
                             <div class="col-md-4 mb-3">
-                                <label for="nuevo_nombre" class="font-weight-bold small">
+
+                                <label for="nombre" class="font-weight-bold small">
+
                                     Nombre
+
                                 </label>
-                                <input type="text" class="form-control" id="nuevo_nombre" name="nombre"
-                                    placeholder="Nombre" required>
+
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre"
+                                    required>
+
                             </div>
+
                             <!-- APELLIDO PATERNO -->
+
                             <div class="col-md-4 mb-3">
-                                <label for="nuevo_apellido_paterno" class="font-weight-bold small">
+
+                                <label for="apellido_paterno" class="font-weight-bold small">
+
                                     Apellido paterno
+
                                 </label>
-                                <input type="text" class="form-control" id="nuevo_apellido_paterno"
-                                    name="apellido_paterno" placeholder="Apellido paterno" required>
+
+                                <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno"
+                                    placeholder="Apellido paterno" required>
+
                             </div>
+
                             <!-- APELLIDO MATERNO -->
+
                             <div class="col-md-4 mb-3">
-                                <label for="nuevo_apellido_materno" class="font-weight-bold small">
+
+                                <label for="apellido_materno" class="font-weight-bold small">
+
                                     Apellido materno
+
                                 </label>
-                                <input type="text" class="form-control" id="nuevo_apellido_materno"
-                                    name="apellido_materno" placeholder="Apellido materno" required>
+
+                                <input type="text" class="form-control" id="apellido_materno" name="apellido_materno"
+                                    placeholder="Apellido materno" required>
+
                             </div>
+
                             <!-- NÚMERO DE CONTROL -->
+
                             <div class="col-md-6 mb-3">
-                                <label for="nuevo_numero_control" class="font-weight-bold small">
+
+                                <label for="numero_control" class="font-weight-bold small">
+
                                     Número de control
+
                                 </label>
-                                <input type="text" class="form-control" id="nuevo_numero_control" name="numero_control"
+
+                                <input type="text" class="form-control" id="numero_control" name="numero_control"
                                     placeholder="Número de control" required>
+
                             </div>
+
                             <!-- SEMESTRE -->
+
                             <div class="col-md-3 mb-3">
-                                <label for="nuevo_semestre" class="font-weight-bold small">
+
+                                <label for="semestre" class="font-weight-bold small">
+
                                     Semestre
+
                                 </label>
-                                <select class="form-control" id="nuevo_semestre" name="semestre" required>
-                                    <option value="">Seleccionar</option>
+
+                                <select class="form-control" id="semestre" name="semestre" required>
+
+                                    <option value="">
+                                        Seleccione una opción...
+                                    </option>
+
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -344,45 +403,94 @@
                                     <option value="11">11</option>
                                     <option value="12">12</option>
                                     <option value="13">13</option>
+
                                 </select>
+
                             </div>
+
                             <!-- CARRERA -->
+
                             <div class="col-md-3 mb-3">
-                                <label for="nuevo_carrera" class="font-weight-bold small">
+
+                                <label for="carrera" class="font-weight-bold small">
+
                                     Carrera
+
                                 </label>
-                                <select class="form-control" id="nuevo_carrera" name="carrera" required>
-                                    <option value="">Seleccione una opción...</option>
+
+                                <select class="form-control" id="carrera" name="carrera" required>
+
+                                    <option value="">
+                                        Seleccione una opción...
+                                    </option>
+
+                                    <option value="Ingeniería en Gestión Empresarial">
+                                        Ingeniería en Gestión Empresarial
+                                    </option>
+
+                                    <option value="Ingeniería en Sistemas Computacionales">
+                                        Ingeniería en Sistemas Computacionales
+                                    </option>
+
+                                    <option value="Ingeniería en Sistemas Automotrices">
+                                        Ingeniería en Sistemas Automotrices
+                                    </option>
+
+                                    <option value="Ingeniería Ambiental">
+                                        Ingeniería Ambiental
+                                    </option>
+
+                                    <option value="Ingeniería Informática">
+                                        Ingeniería Informática
+                                    </option>
+
+                                    <option value="Ingeniería Electromecánica">
+                                        Ingeniería Electromecánica
+                                    </option>
+
+                                    <option value="Ingeniería Electrónica">
+                                        Ingeniería Electrónica
+                                    </option>
+
+                                    <option value="Ingeniería Industrial">
+                                        Ingeniería Industrial
+                                    </option>
+
                                 </select>
+
                             </div>
-                            <!-- ACTIVO -->
-                            <div class="col-md-12 mt-2">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="nuevo_activo" name="activo"
-                                        checked>
-                                    <label class="custom-control-label font-weight-bold" for="nuevo_activo">
-                                        Alumno activo
-                                    </label>
-                                </div>
-                                <small class="text-muted ml-4">
-                                    El alumno se registrará como activo por defecto.
-                                </small>
-                            </div>
+
                         </div>
+
                     </div>
+
                     <!-- FOOTER -->
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+
+                        <button type="button" class="btn btn-outline-secondary" id="btn_cancelar_modal_alumno"
+                            data-dismiss="modal">
+
                             Cancelar
+
                         </button>
+
                         <button type="submit" class="btn btn-primary" id="btn_registrar_alumno">
+
                             <i class="fa-solid fa-save mr-1"></i>
+
                             Registrar alumno
+
                         </button>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
     <!-- Modal Popup Global -->
     <div class="modal fade" id="modalPopup" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -404,10 +512,13 @@
         </div>
     </div>
     <!-- Scripts -->
-    <script src="/vendor/js//vendor.bundle.base.js"></script>
+    <script src="/vendor/js/vendor.bundle.base.js"></script>
+    <script src="/vendor/global/global.min.js"></script>
+
+    <script src="/js/modal_manager.js"></script>
     <script src="/js/popup.js"></script>
     <script src="/js/alumnos.js"></script>
-    <script src="/vendor/global/global.min.js"></script>
+
     <script src="/js/quixnav-init.js"></script>
     <script src="/js/custom.min.js"></script>
 </body>
