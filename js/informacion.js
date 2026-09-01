@@ -1,3 +1,11 @@
+let alumno;
+const usuario =
+    JSON.parse(
+        sessionStorage.getItem("usuario")
+    );
+const id_usuario =
+    usuario.Id_Usuario;
+
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const numero_control = urlParams.get("numero_control");
@@ -25,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (formulario) {
         formulario.addEventListener("submit", function (event) {
             event.preventDefault();
-            guardar_modificacion(numero_control);
+            guardar_modificacion();
         });
     }
 
@@ -48,8 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-async function consultar_alumno(numero_control)
-{
+async function consultar_alumno(numero_control) {
     try {
         const response = await fetch(`http://localhost:3000/api/alumnos/numero-control/${numero_control}`);
 
@@ -71,8 +78,7 @@ async function consultar_alumno(numero_control)
     }
 }
 
-async function modificar_alumno(numero_control)
-{
+async function modificar_alumno(numero_control) {
     try {
         const response = await fetch(`http://localhost:3000/api/alumnos/numero-control/${numero_control}`);
 
@@ -81,7 +87,7 @@ async function modificar_alumno(numero_control)
         }
 
         const result = await response.json();
-        const alumno = result.data;
+        alumno = result.data;
 
         document.getElementById("modificar_nombre").value = alumno.Nombre;
         document.getElementById("modificar_apellido_paterno").value = alumno.Apellido_Paterno;
@@ -98,8 +104,7 @@ async function modificar_alumno(numero_control)
     }
 }
 
-async function guardar_modificacion(numero_control)
-{
+async function guardar_modificacion() {
     try {
         const datos = {
             Nombre: document.getElementById("modificar_nombre").value,
@@ -108,10 +113,11 @@ async function guardar_modificacion(numero_control)
             Numero_Control: document.getElementById("modificar_numero_control").value,
             Semestre: document.getElementById("modificar_semestre").value,
             Carrera: document.getElementById("modificar_carrera").value,
-            Activo: document.getElementById("modificar_activo").value
+            Activo: document.getElementById("modificar_activo").value,
+            Id_Usuario: id_usuario
         };
 
-        const response = await fetch(`http://localhost:3000/api/alumnos/numero-control/${numero_control}`, {
+        const response = await fetch(`http://localhost:3000/api/alumnos/${alumno.Id_Alumno}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
