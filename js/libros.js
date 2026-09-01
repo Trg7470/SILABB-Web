@@ -559,7 +559,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirmar) {
             return;
         }
+
+        const usuario=json.parse(sessionStorage.getItem("usuario"));
+                    if(!usuario || !usuario.Id_Usuario){
+                        alert("No se encontró la información del usuario. Por favor, inicia sesión nuevamente.");
+                        return;
+                    }
+                    const id_usuario=usuario.Id_Usuario;
         try {
+
             const respuesta = await fetch(
                 `http://localhost:3000/api/libros/${id}/estado`,
                 {
@@ -567,8 +575,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    
                     body: JSON.stringify({
-                        Activo: !estado_actual
+                        Activo: !estado_actual,
+                        Id_Usuario: id_usuario
                     })
                 }
             );

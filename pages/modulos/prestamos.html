@@ -13,17 +13,12 @@
 
     <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.theme.default.min.css">
-
-    <!-- CSS compartido -->
     <link rel="stylesheet" href="/css/alumnos.css">
 </head>
 
 <body>
 
-    <!-- ===================================================== -->
     <!-- PRELOADER -->
-    <!-- ===================================================== -->
-
     <div id="preloader">
         <div class="sk-three-bounce">
             <div class="sk-child sk-bounce1"></div>
@@ -36,7 +31,7 @@
     <div id="main-wrapper">
 
         <!-- ===================================================== -->
-        <!-- NAV HEADER -->
+        <!-- HEADER -->
         <!-- ===================================================== -->
 
         <div class="nav-header">
@@ -65,7 +60,7 @@
 
 
         <!-- ===================================================== -->
-        <!-- HEADER -->
+        <!-- HEADER SUPERIOR -->
         <!-- ===================================================== -->
 
         <div class="header">
@@ -108,6 +103,8 @@
 
                         <ul class="navbar-nav header-right">
 
+                            <!-- NOTIFICACIONES -->
+
                             <li class="nav-item dropdown notification_dropdown">
 
                                 <a class="nav-link"
@@ -123,6 +120,8 @@
 
                             </li>
 
+
+                            <!-- PERFIL -->
 
                             <li class="nav-item dropdown header-profile">
 
@@ -145,8 +144,7 @@
 
                                     </a>
 
-                                    <a href="#"
-                                        class="dropdown-item text-danger">
+                                    <a href="#" class="dropdown-item text-danger">
 
                                         <i class="fa-solid fa-right-from-bracket mr-2"></i>
 
@@ -170,7 +168,7 @@
 
 
         <!-- ===================================================== -->
-        <!-- SIDEBAR -->
+        <!-- MENÚ LATERAL -->
         <!-- ===================================================== -->
 
         <div class="quixnav">
@@ -239,7 +237,7 @@
                     </li>
 
 
-                    <!-- MÓDULO ACTIVO -->
+                    <!-- PRÉSTAMOS ACTIVO -->
 
                     <li class="mm-active">
 
@@ -307,7 +305,7 @@
 
 
                 <!-- ================================================= -->
-                <!-- ENCABEZADO DEL MÓDULO -->
+                <!-- ENCABEZADO -->
                 <!-- ================================================= -->
 
                 <div class="card shadow-sm border-0 mb-4 rounded-lg">
@@ -326,7 +324,7 @@
 
                             <p class="text-muted mb-0 small">
 
-                                Consulta y administración de los préstamos de biblioteca.
+                                Consulta y administración de los préstamos de la biblioteca.
 
                             </p>
 
@@ -364,7 +362,7 @@
 
                             <!-- BUSCADOR -->
 
-                            <div class="col-xl-8 col-lg-8 mb-3 mb-xl-0">
+                            <div class="col-xl-6 col-lg-6 mb-3 mb-xl-0">
 
                                 <label
                                     class="form-label font-weight-bold small text-uppercase text-muted"
@@ -392,7 +390,7 @@
                                         type="text"
                                         id="buscar_prestamo"
                                         class="form-control border-left-0 bg-light"
-                                        placeholder="Alumno, número de control, título o autor..."
+                                        placeholder="Alumno, número de control o libro..."
                                         autocomplete="off">
 
                                 </div>
@@ -402,7 +400,7 @@
 
                             <!-- ESTADO -->
 
-                            <div class="col-xl-4 col-lg-4 mb-3 mb-xl-0">
+                            <div class="col-xl-3 col-lg-3 mb-3 mb-xl-0">
 
                                 <label
                                     class="form-label font-weight-bold small text-uppercase text-muted"
@@ -437,8 +435,48 @@
 
                             </div>
 
+
+                            <!-- TIPO DE FECHA -->
+
+                            <div class="col-xl-3 col-lg-3 mb-3 mb-xl-0">
+
+                                <label
+                                    class="form-label font-weight-bold small text-uppercase text-muted"
+                                    for="filtro_fecha">
+
+                                    Fecha
+
+                                </label>
+
+
+                                <select
+                                    class="form-control bg-light"
+                                    id="filtro_fecha">
+
+                                    <option value="">
+                                        Todas
+                                    </option>
+
+                                    <option value="prestamo">
+                                        Fecha de préstamo
+                                    </option>
+
+                                    <option value="vencimiento">
+                                        Fecha de vencimiento
+                                    </option>
+
+                                    <option value="devolucion">
+                                        Fecha de devolución
+                                    </option>
+
+                                </select>
+
+                            </div>
+
                         </div>
 
+
+                        <!-- BOTONES -->
 
                         <div class="d-flex justify-content-end mt-4">
 
@@ -478,7 +516,6 @@
 
                 <div class="card shadow-sm border-0 rounded-lg">
 
-
                     <div class="card-header bg-white border-bottom-0 py-3">
 
                         <div class="d-flex justify-content-between align-items-center">
@@ -510,7 +547,6 @@
 
                     <div class="card-body p-0">
 
-
                         <div class="table-responsive">
 
                             <table class="table table-hover align-middle mb-0">
@@ -528,6 +564,10 @@
                                         </th>
 
                                         <th class="border-top-0">
+                                            No. Control
+                                        </th>
+
+                                        <th class="border-top-0">
                                             Libro
                                         </th>
 
@@ -537,6 +577,10 @@
 
                                         <th class="border-top-0">
                                             Vencimiento
+                                        </th>
+
+                                        <th class="border-top-0">
+                                            Devolución
                                         </th>
 
                                         <th class="border-top-0">
@@ -555,6 +599,7 @@
                                 <tbody
                                     id="tabla_prestamos"
                                     class="text-dark">
+
                                 </tbody>
 
                             </table>
@@ -562,7 +607,9 @@
                         </div>
 
 
+                        <!-- ================================================= -->
                         <!-- ESTADO VACÍO -->
+                        <!-- ================================================= -->
 
                         <div
                             id="estado_vacio"
@@ -570,15 +617,17 @@
 
                             <div class="mb-3">
 
-                                <i class="fa-solid fa-book-open fa-3x text-muted"></i>
+                                <i class="fa-solid fa-hand-holding fa-3x text-muted"></i>
 
                             </div>
+
 
                             <h6 class="font-weight-bold text-dark">
 
                                 No se encontraron préstamos
 
                             </h6>
+
 
                             <p class="text-muted small mb-0">
 
@@ -589,7 +638,9 @@
                         </div>
 
 
+                        <!-- ================================================= -->
                         <!-- CARGANDO -->
+                        <!-- ================================================= -->
 
                         <div
                             id="estado_cargando"
@@ -605,6 +656,7 @@
 
                             </div>
 
+
                             <p class="text-muted small mt-2 mb-0">
 
                                 Cargando préstamos...
@@ -614,9 +666,12 @@
                         </div>
 
 
+                        <!-- ================================================= -->
                         <!-- PAGINACIÓN -->
+                        <!-- ================================================= -->
 
-                        <div class="d-flex justify-content-between align-items-center p-4 border-top">
+                        <div
+                            class="d-flex justify-content-between align-items-center p-4 border-top">
 
                             <span
                                 class="text-muted small"
@@ -678,7 +733,7 @@
 
 
         <!-- ===================================================== -->
-        <!-- MODAL NUEVO PRÉSTAMO -->
+        <!-- MODAL: NUEVO PRÉSTAMO -->
         <!-- ===================================================== -->
 
         <div
@@ -695,6 +750,8 @@
 
                 <div class="modal-content border-0 shadow">
 
+
+                    <!-- HEADER -->
 
                     <div class="modal-header">
 
@@ -724,6 +781,8 @@
                     </div>
 
 
+                    <!-- FORMULARIO -->
+
                     <form id="form_nuevo_prestamo">
 
                         <div class="modal-body">
@@ -740,7 +799,10 @@
                                         class="font-weight-bold">
 
                                         Alumno
-                                        <span class="text-danger">*</span>
+
+                                        <span class="text-danger">
+                                            *
+                                        </span>
 
                                     </label>
 
@@ -751,15 +813,15 @@
                                         required>
 
                                         <option value="">
-                                            Seleccione un alumno...
+                                            Seleccionar alumno...
                                         </option>
 
                                     </select>
 
 
-                                    <small class="text-muted">
+                                    <small class="form-text text-muted">
 
-                                        Se mostrarán únicamente alumnos activos.
+                                        Selecciona el alumno que realizará el préstamo.
 
                                     </small>
 
@@ -775,7 +837,10 @@
                                         class="font-weight-bold">
 
                                         Libro
-                                        <span class="text-danger">*</span>
+
+                                        <span class="text-danger">
+                                            *
+                                        </span>
 
                                     </label>
 
@@ -786,15 +851,15 @@
                                         required>
 
                                         <option value="">
-                                            Seleccione un libro...
+                                            Seleccionar libro disponible...
                                         </option>
 
                                     </select>
 
 
-                                    <small class="text-muted">
+                                    <small class="form-text text-muted">
 
-                                        Se mostrarán únicamente libros activos y disponibles.
+                                        Solo se mostrarán libros disponibles.
 
                                     </small>
 
@@ -810,7 +875,10 @@
                                         class="font-weight-bold">
 
                                         Fecha de préstamo
-                                        <span class="text-danger">*</span>
+
+                                        <span class="text-danger">
+                                            *
+                                        </span>
 
                                     </label>
 
@@ -833,7 +901,10 @@
                                         class="font-weight-bold">
 
                                         Fecha de vencimiento
-                                        <span class="text-danger">*</span>
+
+                                        <span class="text-danger">
+                                            *
+                                        </span>
 
                                     </label>
 
@@ -846,10 +917,13 @@
 
                                 </div>
 
+
                             </div>
 
                         </div>
 
+
+                        <!-- FOOTER -->
 
                         <div class="modal-footer">
 
@@ -886,7 +960,7 @@
 
 
         <!-- ===================================================== -->
-        <!-- MODAL DETALLES -->
+        <!-- MODAL: DETALLE DEL PRÉSTAMO -->
         <!-- ===================================================== -->
 
         <div
@@ -912,7 +986,7 @@
 
                             <i class="fa-solid fa-circle-info text-primary mr-2"></i>
 
-                            Detalles del préstamo
+                            Detalle del préstamo
 
                         </h5>
 
@@ -937,188 +1011,141 @@
                         <div class="row">
 
 
-                            <!-- ID -->
-
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
 
                                 <label class="font-weight-bold small text-muted">
-                                    ID DEL PRÉSTAMO
+                                    ID del préstamo
                                 </label>
 
                                 <div
-                                    class="form-control bg-light"
-                                    id="detalle_id_prestamo">
-                                    —
+                                    id="detalle_id_prestamo"
+                                    class="form-control bg-light">
                                 </div>
 
                             </div>
 
-
-                            <!-- ESTADO -->
-
-                            <div class="col-md-4 mb-3">
-
-                                <label class="font-weight-bold small text-muted">
-                                    ESTADO
-                                </label>
-
-                                <div
-                                    class="form-control bg-light"
-                                    id="detalle_estado">
-                                    —
-                                </div>
-
-                            </div>
-
-
-                            <!-- USUARIO -->
-
-                            <div class="col-md-4 mb-3">
-
-                                <label class="font-weight-bold small text-muted">
-                                    REGISTRADO POR
-                                </label>
-
-                                <div
-                                    class="form-control bg-light"
-                                    id="detalle_usuario">
-                                    —
-                                </div>
-
-                            </div>
-
-
-                            <!-- ALUMNO -->
 
                             <div class="col-md-6 mb-3">
 
                                 <label class="font-weight-bold small text-muted">
-                                    ALUMNO
+                                    Estado
                                 </label>
 
                                 <div
-                                    class="form-control bg-light"
-                                    id="detalle_alumno">
-                                    —
+                                    id="detalle_estado"
+                                    class="form-control bg-light">
                                 </div>
 
                             </div>
 
-
-                            <!-- NÚMERO CONTROL -->
 
                             <div class="col-md-6 mb-3">
 
                                 <label class="font-weight-bold small text-muted">
-                                    NÚMERO DE CONTROL
+                                    Alumno
                                 </label>
 
                                 <div
-                                    class="form-control bg-light"
-                                    id="detalle_numero_control">
-                                    —
+                                    id="detalle_alumno"
+                                    class="form-control bg-light">
                                 </div>
 
                             </div>
 
 
-                            <!-- CARRERA -->
+                            <div class="col-md-6 mb-3">
+
+                                <label class="font-weight-bold small text-muted">
+                                    Número de control
+                                </label>
+
+                                <div
+                                    id="detalle_numero_control"
+                                    class="form-control bg-light">
+                                </div>
+
+                            </div>
+
 
                             <div class="col-md-12 mb-3">
 
                                 <label class="font-weight-bold small text-muted">
-                                    CARRERA
+                                    Carrera
                                 </label>
 
                                 <div
-                                    class="form-control bg-light"
-                                    id="detalle_carrera">
-                                    —
+                                    id="detalle_carrera"
+                                    class="form-control bg-light">
                                 </div>
 
                             </div>
 
 
-                            <!-- LIBRO -->
-
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
 
                                 <label class="font-weight-bold small text-muted">
-                                    LIBRO
+                                    Libro
                                 </label>
 
                                 <div
-                                    class="form-control bg-light"
-                                    id="detalle_libro">
-                                    —
+                                    id="detalle_libro"
+                                    class="form-control bg-light">
                                 </div>
 
                             </div>
 
-
-                            <!-- AUTOR -->
-
-                            <div class="col-md-6 mb-3">
-
-                                <label class="font-weight-bold small text-muted">
-                                    AUTOR
-                                </label>
-
-                                <div
-                                    class="form-control bg-light"
-                                    id="detalle_autor">
-                                    —
-                                </div>
-
-                            </div>
-
-
-                            <!-- FECHA PRÉSTAMO -->
 
                             <div class="col-md-4 mb-3">
 
                                 <label class="font-weight-bold small text-muted">
-                                    FECHA DE PRÉSTAMO
+                                    Fecha de préstamo
                                 </label>
 
                                 <div
-                                    class="form-control bg-light"
-                                    id="detalle_fecha_prestamo">
-                                    —
+                                    id="detalle_fecha_prestamo"
+                                    class="form-control bg-light">
                                 </div>
 
                             </div>
 
 
-                            <!-- FECHA VENCIMIENTO -->
-
                             <div class="col-md-4 mb-3">
 
                                 <label class="font-weight-bold small text-muted">
-                                    FECHA DE VENCIMIENTO
+                                    Fecha de vencimiento
                                 </label>
 
                                 <div
-                                    class="form-control bg-light"
-                                    id="detalle_fecha_vencimiento">
-                                    —
+                                    id="detalle_fecha_vencimiento"
+                                    class="form-control bg-light">
                                 </div>
 
                             </div>
 
 
-                            <!-- FECHA DEVOLUCIÓN -->
-
                             <div class="col-md-4 mb-3">
 
                                 <label class="font-weight-bold small text-muted">
-                                    FECHA DE DEVOLUCIÓN
+                                    Fecha de devolución
                                 </label>
 
                                 <div
-                                    class="form-control bg-light"
-                                    id="detalle_fecha_devolucion">
-                                    —
+                                    id="detalle_fecha_devolucion"
+                                    class="form-control bg-light">
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-12">
+
+                                <label class="font-weight-bold small text-muted">
+                                    Registrado por
+                                </label>
+
+                                <div
+                                    id="detalle_usuario"
+                                    class="form-control bg-light">
                                 </div>
 
                             </div>
@@ -1136,173 +1163,6 @@
                             data-dismiss="modal">
 
                             Cerrar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ===================================================== -->
-        <!-- MODAL DEVOLUCIÓN -->
-        <!-- ===================================================== -->
-
-        <div
-            class="modal fade"
-            id="modal_devolver_prestamo"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="titulo_modal_devolver_prestamo"
-            aria-hidden="true">
-
-            <div
-                class="modal-dialog modal-dialog-centered"
-                role="document">
-
-                <div class="modal-content border-0 shadow">
-
-
-                    <div class="modal-header">
-
-                        <h5
-                            class="modal-title font-weight-bold"
-                            id="titulo_modal_devolver_prestamo">
-
-                            <i class="fa-solid fa-arrow-rotate-left text-primary mr-2"></i>
-
-                            Registrar devolución
-
-                        </h5>
-
-
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Cerrar">
-
-                            <span aria-hidden="true">
-                                &times;
-                            </span>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="modal-body">
-
-                        <input
-                            type="hidden"
-                            id="devolver_id_prestamo">
-
-
-                        <div class="text-center mb-4">
-
-                            <div class="mb-3">
-
-                                <i class="fa-solid fa-book-open fa-3x text-primary"></i>
-
-                            </div>
-
-
-                            <h6 class="font-weight-bold text-dark">
-
-                                ¿Registrar devolución?
-
-                            </h6>
-
-
-                            <p class="text-muted small mb-0">
-
-                                Confirma los datos antes de continuar.
-
-                            </p>
-
-                        </div>
-
-
-                        <div class="bg-light rounded p-3">
-
-
-                            <div class="mb-3">
-
-                                <small class="text-muted d-block">
-
-                                    Alumno
-
-                                </small>
-
-                                <strong id="devolver_alumno">
-
-                                    —
-
-                                </strong>
-
-                            </div>
-
-
-                            <div>
-
-                                <small class="text-muted d-block">
-
-                                    Libro
-
-                                </small>
-
-                                <strong id="devolver_libro">
-
-                                    —
-
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="alert alert-light border mt-3 mb-0">
-
-                            <small class="text-muted">
-
-                                <i class="fa-solid fa-circle-info text-primary mr-1"></i>
-
-                                El préstamo cambiará a estado
-                                <strong>DEVUELTO</strong> y se registrará automáticamente
-                                la fecha de devolución.
-
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="modal-footer">
-
-                        <button
-                            type="button"
-                            class="btn btn-outline-secondary"
-                            data-dismiss="modal">
-
-                            Cancelar
-
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            id="btn_confirmar_devolucion">
-
-                            <i class="fa-solid fa-check mr-1"></i>
-
-                            Confirmar devolución
 
                         </button>
 
@@ -1346,10 +1206,8 @@
 
     <script src="/js/custom.min.js"></script>
 
-    <!-- Administrador genérico de modales -->
     <script src="/js/modal_manager.js"></script>
 
-    <!-- Lógica del módulo -->
     <script src="/js/prestamos.js"></script>
 
 </body>
