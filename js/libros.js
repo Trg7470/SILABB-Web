@@ -320,13 +320,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('El título del libro es obligatorio');
                 return;
             }
+
+            const usuario =
+        JSON.parse(
+            sessionStorage.getItem("usuario")
+        );
+
+        const id_usuario =
+        usuario.Id_Usuario;
+
             const datos = {
                 Titulo: titulo,
                 Autor: autor || null,
                 Editorial: editorial || null,
                 ISBN: isbn || null,
                 Anio_Publicacion: anio_publicacion || null,
-                Id_Usuario
+                Id_Usuario: id_usuario
             };
             try {
                 modal_manager.bloquear_boton(
@@ -463,12 +472,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('El título del libro es obligatorio');
                 return;
             }
+            const usuario =
+        JSON.parse(
+            sessionStorage.getItem("usuario")
+        );  
+        const id_usuario =
+        usuario.Id_Usuario;
+        
             const datos = {
                 Titulo: titulo,
                 Autor: autor || null,
                 Editorial: editorial || null,
                 ISBN: isbn || null,
-                Anio_Publicacion: anio_publicacion || null
+                Anio_Publicacion: anio_publicacion || null,
+                Id_Usuario: id_usuario
             };
             try {
                 modal_manager.bloquear_boton(
