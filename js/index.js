@@ -210,12 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // REDIRECCIÓN
             // ==========================================
 
-            setTimeout(() => {
-
-                window.location.href =
-                    '/pages/dashboard/dashboard_u.html';
-
-            }, 1000);
 
         } catch (error) {
 
@@ -231,6 +225,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             submit_button?.classList.remove('loading');
             submit_button?.removeAttribute('disabled');
+             setTimeout(() => {
+
+                window.location.href =
+                    '/pages/dashboard/dashboard_u.html';
+
+            }, 1000);
         }
     }
 
