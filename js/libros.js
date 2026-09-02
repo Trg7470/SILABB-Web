@@ -162,83 +162,106 @@ document.addEventListener('DOMContentLoaded', () => {
     function actualizar_total_filtrados() {
         total_libros.textContent = `Resultados: ${libros_filtrados.length}`;
     }
+
     // =====================================================
-    // BUSCAR / FILTRAR
-    // =====================================================
-    async function aplicar_filtros() {
-        const termino = buscar_libro.value.trim();
-        const estado = filtro_estado.value;
-        const disponibilidad = filtro_disponibilidad.value;
-        if (!termino && estado === '' && disponibilidad === '') {
-            libros_filtrados = [...libros];
-            pagina = 1;
-            actualizar_total();
-            renderizar_tabla();
-            return;
-        }
-        mostrar_cargando();
-        try {
-            let resultados = [];
-            if (termino) {
-                const respuesta = await fetch(
-                    `http://localhost:3000/api/libros/buscar?termino=${encodeURIComponent(termino)}`
+// BUSCAR / FILTRAR
+// =====================================================
+
+function aplicar_filtros() {
+
+    const termino =
+        buscar_libro.value
+            .trim()
+            .toLowerCase();
+
+    const estado =
+        filtro_estado.value;
+
+    const disponibilidad =
+        filtro_disponibilidad.value;
+
+    libros_filtrados =
+        libros.filter(libro => {
+
+            // -----------------------------------------
+            // BÚSQUEDA POR TEXTO
+            // -----------------------------------------
+
+            const titulo =
+                String(libro.Titulo ?? '')
+                    .toLowerCase();
+
+            const autor =
+                String(libro.Autor ?? '')
+                    .toLowerCase();
+
+            const editorial =
+                String(libro.Editorial ?? '')
+                    .toLowerCase();
+
+            const isbn =
+                String(libro.ISBN ?? '')
+                    .toLowerCase();
+
+            const coincide_texto =
+                !termino ||
+                titulo.includes(termino) ||
+                autor.includes(termino) ||
+                editorial.includes(termino) ||
+                isbn.includes(termino);
+
+            // -----------------------------------------
+            // FILTRO DE ESTADO
+            // -----------------------------------------
+
+            const coincide_estado =
+                !estado ||
+                (
+                    estado === '1' &&
+                    Boolean(libro.Activo)
+                ) ||
+                (
+                    estado === '0' &&
+                    !Boolean(libro.Activo)
                 );
-                const resultado = await respuesta.json();
-                if (!respuesta.ok || !resultado.success) {
-                    throw new Error(
-                        resultado.mensaje ||
-                        'No fue posible realizar la búsqueda'
-                    );
-                }
-                resultados = resultado.data || [];
-            } else {
-                resultados = [...libros];
-            }
-            if (estado === '1') {
-                resultados = resultados.filter(
-                    libro => Boolean(libro.Activo)
+
+            // -----------------------------------------
+            // FILTRO DE DISPONIBILIDAD
+            // -----------------------------------------
+
+            const coincide_disponibilidad =
+                !disponibilidad ||
+                (
+                    disponibilidad === 'disponible' &&
+                    Boolean(libro.Disponible)
+                ) ||
+                (
+                    disponibilidad === 'prestado' &&
+                    !Boolean(libro.Disponible)
                 );
-            }
-            if (estado === '0') {
-                resultados = resultados.filter(
-                    libro => !Boolean(libro.Activo)
-                );
-            }
-            if (disponibilidad !== '') {
-                let endpoint = '';
-                if (disponibilidad === 'disponible') {
-                    endpoint = 'http://localhost:3000/api/libros/disponibles';
-                }
-                if (disponibilidad === 'prestado') {
-                    endpoint = 'http://localhost:3000/api/libros/prestados';
-                }
-                const respuesta_disponibilidad = await fetch(endpoint);
-                const resultado_disponibilidad = await respuesta_disponibilidad.json();
-                if (!respuesta_disponibilidad.ok || !resultado_disponibilidad.success) {
-                    throw new Error(
-                        resultado_disponibilidad.mensaje ||
-                        'No fue posible consultar la disponibilidad de los libros'
-                    );
-                }
-                const libros_disponibilidad = resultado_disponibilidad.data || [];
-                const ids_disponibles = new Set(
-                    libros_disponibilidad.map(
-                        libro => libro.Id_Libro
-                    )
-                );
-                resultados = resultados.filter(
-                    libro => ids_disponibles.has(libro.Id_Libro)
-                );
-            }
-            libros_filtrados = resultados;
-            pagina = 1;
-            actualizar_total_filtrados();
-            renderizar_tabla();
-        } catch (error) {
-            console.error('Error al aplicar filtros:', error);
-            mostrar_error(error.message);
-        }
+
+            return (
+                coincide_texto &&
+                coincide_estado &&
+                coincide_disponibilidad
+            );
+
+        });
+
+    pagina = 1;
+
+    if (
+        !termino &&
+        estado === '' &&
+        disponibilidad === ''
+    ) {
+        actualizar_total();
+    } else {
+        actualizar_total_filtrados();
     }
+
+    renderizar_tabla();
+}
     // =====================================================
     // LIMPIAR FILTROS
     // =====================================================
@@ -273,26 +296,40 @@ document.addEventListener('DOMContentLoaded', () => {
             renderizar_tabla();
         }
     });
-    // =====================================================
-    // BOTONES
-    // =====================================================
-    btn_buscar.addEventListener(
-        'click',
-        aplicar_filtros
-    );
-    btn_limpiar.addEventListener(
-        'click',
-        limpiar_filtros
-    );
-    // =====================================================
-    // BUSCAR CON ENTER
-    // =====================================================
-    buscar_libro.addEventListener('keydown', event => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            aplicar_filtros();
-        }
-    });
+
+
+// =====================================================
+// BOTONES Y FILTROS
+// =====================================================
+
+btn_buscar.addEventListener(
+    'click',
+    aplicar_filtros
+);
+
+btn_limpiar.addEventListener(
+    'click',
+    limpiar_filtros
+);
+
+// Búsqueda automática al escribir
+buscar_libro.addEventListener(
+    'input',
+    aplicar_filtros
+);
+
+// Filtrar automáticamente al cambiar estado
+filtro_estado.addEventListener(
+    'change',
+    aplicar_filtros
+);
+
+// Filtrar automáticamente al cambiar disponibilidad
+filtro_disponibilidad.addEventListener(
+    'change',
+    aplicar_filtros
+);
+
     // =====================================================
     // NUEVO LIBRO - ABRIR MODAL
     // =====================================================

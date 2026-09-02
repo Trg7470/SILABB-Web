@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (total_prestamos) {
 
             total_prestamos.textContent =
-                prestamos_filtrados.length;
+                `Total registrados: ${prestamos_filtrados.length}`;
 
         }
 
