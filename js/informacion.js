@@ -106,6 +106,7 @@ async function modificar_alumno(numero_control) {
 
 async function guardar_modificacion() {
     try {
+
         const datos = {
             Nombre: document.getElementById("modificar_nombre").value,
             Apellido_Paterno: document.getElementById("modificar_apellido_paterno").value,
@@ -113,20 +114,32 @@ async function guardar_modificacion() {
             Numero_Control: document.getElementById("modificar_numero_control").value,
             Semestre: document.getElementById("modificar_semestre").value,
             Carrera: document.getElementById("modificar_carrera").value,
-            Activo: document.getElementById("modificar_activo").value,
+            Activo: Number(document.getElementById("modificar_activo").value),
             Id_Usuario: id_usuario
         };
 
-        const response = await fetch(`http://localhost:3000/api/alumnos/${alumno.Id_Alumno}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(datos)
-        });
+        console.log("Datos enviados:", datos);
+
+        const response = await fetch(
+            `http://localhost:3000/api/alumnos/${alumno.Id_Alumno}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(datos)
+            }
+        );
+
+        const resultado = await response.json();
+
+        console.log("Respuesta API:", resultado);
 
         if (!response.ok) {
-            throw new Error(`Error al modificar alumno: ${response.status}`);
+            throw new Error(
+                resultado.mensaje ||
+                `Error al modificar alumno: ${response.status}`
+            );
         }
 
         $("#modal_modificar_alumno").modal("hide");
@@ -134,6 +147,9 @@ async function guardar_modificacion() {
         await consultar_alumno(datos.Numero_Control);
 
     } catch (error) {
-        console.error("Error al modificar alumno:", error);
+        console.error(
+            "Error al modificar alumno:",
+            error.message
+        );
     }
 }
