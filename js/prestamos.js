@@ -780,7 +780,7 @@ if (btn_limpiar) {
                         alumno.Id_Alumno;
 
                     opcion.textContent =
-                    `${alumno.Numero_control} - ${alumno.Nombre ?? ''} ${alumno.Apellido_Paterno ?? ''} ${alumno.Apellido_Materno ?? ''}`.trim();
+    `${alumno.Numero_Control ?? 'Sin control'} - ${alumno.Nombre ?? ''} ${alumno.Apellido_Paterno ?? ''} ${alumno.Apellido_Materno ?? ''}`.trim();
 
                     select.appendChild(opcion);
 
@@ -1169,147 +1169,6 @@ if (btn_limpiar) {
 
     }
 
-    // ==========================================
-    // VER DETALLE
-    // ==========================================
-
-    window.ver_detalle_prestamo =
-        async function (id) {
-
-            try {
-
-                const respuesta =
-                    await fetch(
-                        `${API_URL}/prestamos/${id}`
-                    );
-
-                if (!respuesta.ok) {
-
-                    throw new Error(
-                        'No fue posible obtener el préstamo'
-                    );
-
-                }
-
-                const resultado =
-                    await respuesta.json();
-
-                if (!resultado.success) {
-
-                    throw new Error(
-                        resultado.mensaje ||
-                        'No fue posible obtener el préstamo'
-                    );
-
-                }
-
-                const prestamo =
-                    resultado.data;
-
-                llenar_detalle_prestamo(
-                    prestamo
-                );
-
-                modal_manager.abrir(
-                    'modal_detalle_prestamo'
-                );
-
-            } catch (error) {
-
-                console.error(
-                    'Error al obtener detalle:',
-                    error
-                );
-
-                mostrar_error(
-                    error.message
-                );
-
-            }
-
-        };
-
-    // ==========================================
-    // LLENAR MODAL DE DETALLE
-    // ==========================================
-
-    function llenar_detalle_prestamo(prestamo) {
-
-        modal_manager.establecer_valor(
-            'detalle_id_prestamo',
-            prestamo.Id_Prestamo
-        );
-        modal_manager.establecer_valor(
-            'detalle_alumno',
-            `${prestamo.Alumno ?? ''} ${prestamo.Apellido_Paterno ?? ''} ${prestamo.Apellido_Materno ?? ''}`.trim()
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_numero_control',
-            prestamo.Numero_Control
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_carrera',
-            prestamo.Carrera
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_libro',
-            prestamo.Titulo
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_fecha_prestamo',
-            convertir_fecha_input(
-                prestamo.Fecha_Prestamo
-            )
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_fecha_vencimiento',
-            convertir_fecha_input(
-                prestamo.Fecha_Vencimiento
-            )
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_fecha_devolucion',
-            prestamo.Fecha_Devolucion
-                ? convertir_fecha_input(
-                    prestamo.Fecha_Devolucion
-                )
-                : 'Pendiente'
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_usuario',
-            prestamo.Usuario
-        );
-
-        establecer_estado_detalle(
-            prestamo.Estado
-        );
-
-    }
-
-    // ==========================================
-    // ESTADO EN MODAL DE DETALLE
-    // ==========================================
-
-    function establecer_estado_detalle(estado) {
-
-        const elemento =
-            document.getElementById(
-                'detalle_estado'
-            );
-
-        if (!elemento) return;
-
-        elemento.innerHTML =
-            obtener_badge_estado(estado);
-
-    }
 
     // ==========================================
     // DEVOLVER PRÉSTAMO
@@ -1385,10 +1244,6 @@ if (btn_limpiar) {
                     );
 
                 }
-
-                modal_manager.cerrar(
-                    'modal_detalle_prestamo'
-                );
 
                 mostrar_exito(
                     'Préstamo devuelto correctamente'

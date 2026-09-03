@@ -427,7 +427,7 @@ function mostrar_error() {
 
         estado.innerHTML =
             `<i class="fa-solid fa-triangle-exclamation mr-1"></i>
-             Error`;
+            Error`;
 
     }
 
