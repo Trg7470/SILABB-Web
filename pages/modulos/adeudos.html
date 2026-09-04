@@ -1,30 +1,47 @@
+```html
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
+
     <meta charset="utf-8">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>SILABB - Gestión de Préstamos</title>
+    <title>SILABB - Gestión de Adeudos</title>
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.carousel.min.css">
+
     <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.theme.default.min.css">
+
     <link rel="stylesheet" href="/css/alumnos.css">
+
 </head>
 
 <body>
 
+    <!-- ===================================================== -->
     <!-- PRELOADER -->
+    <!-- ===================================================== -->
+
     <div id="preloader">
+
         <div class="sk-three-bounce">
+
             <div class="sk-child sk-bounce1"></div>
+
             <div class="sk-child sk-bounce2"></div>
+
             <div class="sk-child sk-bounce3"></div>
+
         </div>
+
     </div>
 
 
@@ -49,9 +66,13 @@
             <div class="nav-control">
 
                 <div class="hamburger">
+
                     <span class="line"></span>
+
                     <span class="line"></span>
+
                     <span class="line"></span>
+
                 </div>
 
             </div>
@@ -103,7 +124,9 @@
 
                         <ul class="navbar-nav header-right">
 
+                            <!-- ================================================= -->
                             <!-- NOTIFICACIONES -->
+                            <!-- ================================================= -->
 
                             <li class="nav-item dropdown notification_dropdown">
 
@@ -121,7 +144,9 @@
                             </li>
 
 
+                            <!-- ================================================= -->
                             <!-- PERFIL -->
+                            <!-- ================================================= -->
 
                             <li class="nav-item dropdown header-profile">
 
@@ -182,6 +207,8 @@
                     </li>
 
 
+                    <!-- DASHBOARD -->
+
                     <li>
 
                         <a href="/pages/dashboard/dashboard_u.html">
@@ -197,10 +224,16 @@
                     </li>
 
 
+                    <!-- ================================================= -->
+                    <!-- ESCOLAR -->
+                    <!-- ================================================= -->
+
                     <li class="nav-label">
                         Escolar
                     </li>
 
+
+                    <!-- ALUMNOS -->
 
                     <li>
 
@@ -217,10 +250,16 @@
                     </li>
 
 
+                    <!-- ================================================= -->
+                    <!-- BIBLIOTECA -->
+                    <!-- ================================================= -->
+
                     <li class="nav-label">
                         Biblioteca
                     </li>
 
+
+                    <!-- LIBROS -->
 
                     <li>
 
@@ -237,9 +276,9 @@
                     </li>
 
 
-                    <!-- PRÉSTAMOS ACTIVO -->
+                    <!-- PRÉSTAMOS -->
 
-                    <li class="mm-active">
+                    <li>
 
                         <a href="/pages/modulos/prestamos.html">
 
@@ -254,14 +293,20 @@
                     </li>
 
 
+                    <!-- ================================================= -->
+                    <!-- CONTROL -->
+                    <!-- ================================================= -->
+
                     <li class="nav-label">
                         Control
                     </li>
 
 
-                    <li>
+                    <!-- ADEUDOS ACTIVO -->
 
-                        <a href="#">
+                    <li class="mm-active">
+
+                        <a href="/pages/modulos/adeudos.html">
 
                             <i class="fa-solid fa-file-invoice-dollar"></i>
 
@@ -273,6 +318,8 @@
 
                     </li>
 
+
+                    <!-- CARTAS NO ADEUDO -->
 
                     <li>
 
@@ -316,15 +363,16 @@
 
                             <h4 class="mb-1 font-weight-bold text-dark">
 
-                                <i class="fa-solid fa-hand-holding text-primary mr-2"></i>
+                                <i class="fa-solid fa-file-invoice-dollar text-primary mr-2"></i>
 
-                                Gestión de Préstamos
+                                Gestión de Adeudos
 
                             </h4>
 
+
                             <p class="text-muted mb-0 small">
 
-                                Consulta y administración de los préstamos de la biblioteca.
+                                Consulta y administración de los adeudos registrados en la biblioteca.
 
                             </p>
 
@@ -336,7 +384,7 @@
                             <span
                                 class="badge badge-primary px-3 py-2 font-weight-normal"
                                 style="font-size: 0.85rem;"
-                                id="total_prestamos">
+                                id="total_adeudos">
 
                                 Total registrados: 0
 
@@ -362,13 +410,13 @@
 
                             <!-- BUSCADOR -->
 
-                            <div class="col-xl-6 col-lg-6 mb-3 mb-xl-0">
+                            <div class="col-xl-8 col-lg-8 mb-3 mb-xl-0">
 
                                 <label
                                     class="form-label font-weight-bold small text-uppercase text-muted"
-                                    for="buscar_prestamo">
+                                    for="buscar_adeudo">
 
-                                    Buscar préstamo
+                                    Buscar adeudo
 
                                 </label>
 
@@ -388,9 +436,9 @@
 
                                     <input
                                         type="text"
-                                        id="buscar_prestamo"
+                                        id="buscar_adeudo"
                                         class="form-control border-left-0 bg-light"
-                                        placeholder="Alumno, número de control o libro..."
+                                        placeholder="Buscar por ID, número de control del alumno, libro..."
                                         autocomplete="off">
 
                                 </div>
@@ -400,7 +448,7 @@
 
                             <!-- ESTADO -->
 
-                            <div class="col-xl-3 col-lg-3 mb-3 mb-xl-0">
+                            <div class="col-xl-4 col-lg-4 mb-3 mb-xl-0">
 
                                 <label
                                     class="form-label font-weight-bold small text-uppercase text-muted"
@@ -419,54 +467,12 @@
                                         Todos
                                     </option>
 
-                                    <option value="PRESTADO">
-                                        Prestados
+                                    <option value="PENDIENTE">
+                                        Pendientes
                                     </option>
 
-                                    <option value="VENCIDO">
-                                        Vencidos
-                                    </option>
-
-                                    <option value="DEVUELTO">
-                                        Devueltos
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <!-- TIPO DE FECHA -->
-
-                            <div class="col-xl-3 col-lg-3 mb-3 mb-xl-0">
-
-                                <label
-                                    class="form-label font-weight-bold small text-uppercase text-muted"
-                                    for="filtro_fecha">
-
-                                    Fecha
-
-                                </label>
-
-
-                                <select
-                                    class="form-control bg-light"
-                                    id="filtro_fecha">
-
-                                    <option value="">
-                                        Todas
-                                    </option>
-
-                                    <option value="prestamo">
-                                        Fecha de préstamo
-                                    </option>
-
-                                    <option value="vencimiento">
-                                        Fecha de vencimiento
-                                    </option>
-
-                                    <option value="devolucion">
-                                        Fecha de devolución
+                                    <option value="RESUELTO">
+                                        Resueltos
                                     </option>
 
                                 </select>
@@ -476,7 +482,9 @@
                         </div>
 
 
+                        <!-- ================================================= -->
                         <!-- BOTONES -->
+                        <!-- ================================================= -->
 
                         <div class="d-flex justify-content-end mt-4">
 
@@ -524,7 +532,7 @@
 
                                 <i class="fa-solid fa-list text-primary mr-2"></i>
 
-                                Registro de préstamos
+                                Registro de adeudos
 
                             </h6>
 
@@ -532,11 +540,11 @@
                             <button
                                 type="button"
                                 class="btn btn-primary btn-sm"
-                                id="btn_nuevo_prestamo">
+                                id="btn_nuevo_adeudo">
 
                                 <i class="fa-solid fa-plus mr-1"></i>
 
-                                Nuevo préstamo
+                                Nuevo adeudo
 
                             </button>
 
@@ -547,57 +555,54 @@
 
                     <div class="card-body p-0">
 
+
+                        <!-- ================================================= -->
+                        <!-- TABLA RESPONSIVE -->
+                        <!-- ================================================= -->
+
                         <div class="table-responsive">
 
                             <table class="table table-hover align-middle mb-0">
 
-                                <thead class="bg-light text-muted small text-uppercase">
+                            <thead class="bg-light text-muted small text-uppercase">
+                                <tr>
+                                    <th class="border-top-0 pl-4">
+                                        ID Adeudo
+                                    </th>
 
-                                    <tr>
+                                    <th class="border-top-0">
+                                        Número de control
+                                    </th>
 
-                                        <th class="border-top-0 pl-4">
-                                            ID
-                                        </th>
+                                    <th class="border-top-0">
+                                        Préstamo
+                                    </th>
 
-                                        <th class="border-top-0">
-                                            Alumno
-                                        </th>
+                                    <th class="border-top-0">
+                                        Fecha del adeudo
+                                    </th>
 
-                                        <th class="border-top-0">
-                                            No. Control
-                                        </th>
+                                    <th class="border-top-0">
+                                        Tipo
+                                    </th>
 
-                                        <th class="border-top-0">
-                                            Libro
-                                        </th>
+                                    <th class="border-top-0">
+                                        Estado
+                                    </th>
 
-                                        <th class="border-top-0">
-                                            Fecha préstamo
-                                        </th>
+                                    <th class="border-top-0">
+                                        Fecha de resolución
+                                    </th>
 
-                                        <th class="border-top-0">
-                                            Vencimiento
-                                        </th>
-
-                                        <th class="border-top-0">
-                                            Devolución
-                                        </th>
-
-                                        <th class="border-top-0">
-                                            Estado
-                                        </th>
-
-                                        <th class="border-top-0 text-center pr-4">
-                                            Acciones
-                                        </th>
-
-                                    </tr>
-
-                                </thead>
+                                    <th class="border-top-0 text-center pr-4">
+                                        Acciones
+                                    </th>
+                                </tr>
+                            </thead>
 
 
                                 <tbody
-                                    id="tabla_prestamos"
+                                    id="tabla_adeudos"
                                     class="text-dark">
 
                                 </tbody>
@@ -617,14 +622,14 @@
 
                             <div class="mb-3">
 
-                                <i class="fa-solid fa-hand-holding fa-3x text-muted"></i>
+                                <i class="fa-solid fa-file-invoice-dollar fa-3x text-muted"></i>
 
                             </div>
 
 
                             <h6 class="font-weight-bold text-dark">
 
-                                No se encontraron préstamos
+                                No se encontraron adeudos
 
                             </h6>
 
@@ -659,7 +664,7 @@
 
                             <p class="text-muted small mt-2 mb-0">
 
-                                Cargando préstamos...
+                                Cargando adeudos...
 
                             </p>
 
@@ -677,7 +682,7 @@
                                 class="text-muted small"
                                 id="info_paginacion">
 
-                                Mostrando 0 préstamos
+                                Mostrando 0 adeudos
 
                             </span>
 
@@ -733,35 +738,39 @@
 
 
         <!-- ===================================================== -->
-        <!-- MODAL: NUEVO PRÉSTAMO -->
+        <!-- MODAL: NUEVO ADEUDO -->
         <!-- ===================================================== -->
 
         <div
             class="modal fade"
-            id="modal_nuevo_prestamo"
+            id="modal_nuevo_adeudo"
             tabindex="-1"
             role="dialog"
-            aria-labelledby="titulo_modal_nuevo_prestamo"
+            aria-labelledby="titulo_modal_nuevo_adeudo"
             aria-hidden="true">
+
 
             <div
                 class="modal-dialog modal-lg modal-dialog-centered"
                 role="document">
 
+
                 <div class="modal-content border-0 shadow">
 
 
+                    <!-- ================================================= -->
                     <!-- HEADER -->
+                    <!-- ================================================= -->
 
                     <div class="modal-header">
 
                         <h5
                             class="modal-title font-weight-bold"
-                            id="titulo_modal_nuevo_prestamo">
+                            id="titulo_modal_nuevo_adeudo">
 
-                            <i class="fa-solid fa-book-medical text-primary mr-2"></i>
+                            <i class="fa-solid fa-file-circle-plus text-primary mr-2"></i>
 
-                            Registrar nuevo préstamo
+                            Registrar nuevo adeudo
 
                         </h5>
 
@@ -781,24 +790,29 @@
                     </div>
 
 
+                    <!-- ================================================= -->
                     <!-- FORMULARIO -->
+                    <!-- ================================================= -->
 
-                    <form id="form_nuevo_prestamo">
+                    <form id="form_nuevo_adeudo">
+
 
                         <div class="modal-body">
 
                             <div class="row">
 
 
-                                <!-- ALUMNO -->
+                                <!-- ================================================= -->
+                                <!-- PRÉSTAMO -->
+                                <!-- ================================================= -->
 
                                 <div class="col-md-12 mb-3">
 
                                     <label
-                                        for="nuevo_id_alumno"
+                                        for="nuevo_id_prestamo"
                                         class="font-weight-bold">
 
-                                        Alumno
+                                        Préstamo
 
                                         <span class="text-danger">
                                             *
@@ -809,11 +823,11 @@
 
                                     <select
                                         class="form-control"
-                                        id="nuevo_id_alumno"
+                                        id="nuevo_id_prestamo"
                                         required>
 
                                         <option value="">
-                                            Seleccionar alumno...
+                                            Seleccionar préstamo...
                                         </option>
 
                                     </select>
@@ -821,22 +835,24 @@
 
                                     <small class="form-text text-muted">
 
-                                        Selecciona el alumno que realizará el préstamo.
+                                        Selecciona el préstamo al que pertenece el adeudo.
 
                                     </small>
 
                                 </div>
 
 
-                                <!-- LIBRO -->
+                                <!-- ================================================= -->
+                                <!-- TIPO -->
+                                <!-- ================================================= -->
 
                                 <div class="col-md-12 mb-3">
 
                                     <label
-                                        for="nuevo_id_libro"
+                                        for="nuevo_tipo"
                                         class="font-weight-bold">
 
-                                        Libro
+                                        Tipo de adeudo
 
                                         <span class="text-danger">
                                             *
@@ -847,11 +863,11 @@
 
                                     <select
                                         class="form-control"
-                                        id="nuevo_id_libro"
+                                        id="nuevo_tipo"
                                         required>
 
                                         <option value="">
-                                            Seleccionar libro disponible...
+                                            Seleccionar tipo...
                                         </option>
 
                                     </select>
@@ -859,22 +875,24 @@
 
                                     <small class="form-text text-muted">
 
-                                        Solo se mostrarán libros disponibles.
+                                        Selecciona el tipo de adeudo registrado.
 
                                     </small>
 
                                 </div>
 
 
-                                <!-- FECHA PRÉSTAMO -->
+                                <!-- ================================================= -->
+                                <!-- DESCRIPCIÓN -->
+                                <!-- ================================================= -->
 
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
 
                                     <label
-                                        for="nuevo_fecha_prestamo"
+                                        for="nuevo_descripcion"
                                         class="font-weight-bold">
 
-                                        Fecha de préstamo
+                                        Descripción
 
                                         <span class="text-danger">
                                             *
@@ -883,47 +901,30 @@
                                     </label>
 
 
-                                    <input
-                                        type="datetime-local"
+                                    <textarea
                                         class="form-control"
-                                        id="nuevo_fecha_prestamo"
-                                        required>
+                                        id="nuevo_descripcion"
+                                        rows="4"
+                                        placeholder="Describe el adeudo..."
+                                        required></textarea>
+
+
+                                    <small class="form-text text-muted">
+
+                                        Especifica los detalles del adeudo.
+
+                                    </small>
 
                                 </div>
-
-
-                                <!-- FECHA VENCIMIENTO -->
-
-                                <div class="col-md-6 mb-3">
-
-                                    <label
-                                        for="nuevo_fecha_vencimiento"
-                                        class="font-weight-bold">
-
-                                        Fecha de vencimiento
-
-                                        <span class="text-danger">
-                                            *
-                                        </span>
-
-                                    </label>
-
-
-                                    <input
-                                        type="datetime-local"
-                                        class="form-control"
-                                        id="nuevo_fecha_vencimiento"
-                                        required>
-
-                                </div>
-
 
                             </div>
 
                         </div>
 
 
+                        <!-- ================================================= -->
                         <!-- FOOTER -->
+                        <!-- ================================================= -->
 
                         <div class="modal-footer">
 
@@ -944,7 +945,7 @@
 
                                 <i class="fa-solid fa-save mr-1"></i>
 
-                                Registrar préstamo
+                                Registrar adeudo
 
                             </button>
 
@@ -992,8 +993,9 @@
 
     <script src="/js/modal_manager.js"></script>
 
-    <script src="/js/prestamos.js"></script>
+    <script src="/js/adeudos.js"></script>
 
 </body>
 
 </html>
+```

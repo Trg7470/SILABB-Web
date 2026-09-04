@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Información del Préstamo</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
+
+    <!-- CSS del Tema y Librerías -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="/css/alumnos.css">
+
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+
+        <div class="sk-three-bounce">
+
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+
+        </div>
+
+    </div>
+
+
+    <div id="main-wrapper">
+
+
+        <!-- =====================================================
+             NAV HEADER
+        ====================================================== -->
+
+        <div class="nav-header">
+
+            <a href="/pages/dashboard/dashboard_u.html" class="brand-logo">
+
+                <img class="logo-abbr" src="./images/logo.png" alt="Logo">
+
+                <span class="brand-title font-weight-bold text-primary ml-2">
+                    FOCUS
+                </span>
+
+            </a>
+
+
+            <div class="nav-control">
+
+                <div class="hamburger">
+
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <div class="header">
+
+            <div class="header-content">
+
+                <nav class="navbar navbar-expand">
+
+                    <div class="collapse navbar-collapse justify-content-between">
+
+
+                        <div class="header-left">
+
+                            <div class="search_bar dropdown">
+
+                                <span class="search_icon p-3 c-pointer"
+                                    data-toggle="dropdown">
+
+                                    <i class="fa-solid fa-magnifying-glass text-muted"></i>
+
+                                </span>
+
+
+                                <div class="dropdown-menu p-0 m-0">
+
+                                    <form>
+
+                                        <input class="form-control"
+                                            type="search"
+                                            placeholder="Buscar en el sistema..."
+                                            aria-label="Search">
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <ul class="navbar-nav header-right">
+
+
+                            <!-- Notificaciones -->
+
+                            <li class="nav-item dropdown notification_dropdown">
+
+                                <a class="nav-link"
+                                    href="#"
+                                    role="button"
+                                    data-toggle="dropdown">
+
+                                    <i class="fa-regular fa-bell"></i>
+
+                                    <div class="pulse-css"></div>
+
+                                </a>
+
+                            </li>
+
+
+
+                            <!-- Perfil -->
+
+                            <li class="nav-item dropdown header-profile">
+
+                                <a class="nav-link"
+                                    href="#"
+                                    role="button"
+                                    data-toggle="dropdown">
+
+                                    <i class="fa-regular fa-user-circle fa-lg"></i>
+
+                                </a>
+
+
+                                <div class="dropdown-menu dropdown-menu-right shadow-sm">
+
+                                    <a href="./app-profile.html"
+                                        class="dropdown-item">
+
+                                        <i class="fa-regular fa-user mr-2"></i>
+
+                                        Perfil
+
+                                    </a>
+
+
+                                    <a href="./page-login.html"
+                                        class="dropdown-item text-danger">
+
+                                        <i class="fa-solid fa-right-from-bracket mr-2"></i>
+
+                                        Cerrar Sesión
+
+                                    </a>
+
+                                </div>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </nav>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+
+        <div class="quixnav">
+
+            <div class="quixnav-scroll">
+
+                <ul class="metismenu" id="menu">
+
+
+                    <li class="nav-label first">
+                        Navegación
+                    </li>
+
+
+                    <li>
+
+                        <a href="/pages/dashboard/dashboard_u.html">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            <span class="nav-text">
+                                Dashboard
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+
+                    <li class="nav-label">
+                        Escolar
+                    </li>
+
+
+                    <li>
+
+                        <a href="/pages/modulos/alumnos.html">
+
+                            <i class="fa-solid fa-user-graduate"></i>
+
+                            <span class="nav-text">
+                                Alumnos
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+
+                    <li class="nav-label">
+                        Biblioteca
+                    </li>
+
+
+                    <li>
+
+                        <a href="/pages/modulos/libros.html">
+
+                            <i class="fa-solid fa-book"></i>
+
+                            <span class="nav-text">
+                                Libros
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="mm-active">
+
+                        <a href="/pages/modulos/prestamos.html">
+
+                            <i class="fa-solid fa-hand-holding"></i>
+
+                            <span class="nav-text">
+                                Préstamos
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+
+                    <li class="nav-label">
+                        Control
+                    </li>
+
+
+                    <li>
+
+                        <a href="#">
+
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+
+                            <span class="nav-text">
+                                Adeudos
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="#">
+
+                            <i class="fa-solid fa-certificate"></i>
+
+                            <span class="nav-text">
+                                Cartas No Adeudo
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             CONTENT BODY
+        ====================================================== -->
+
+        <div class="content-body">
+
+            <div class="container-fluid">
+
+
+                <!-- BOTÓN REGRESAR -->
+
+                <div class="mb-3">
+
+                    <a href="/pages/modulos/prestamos.html"
+                        class="btn btn-sm btn-outline-secondary">
+
+                        <i class="fa-solid fa-arrow-left mr-1"></i>
+
+                        Préstamos
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     CARD PRINCIPAL
+                ================================================== -->
+
+                <div class="card shadow-sm border-0 mb-4 rounded-lg">
+
+                    <div class="card-body p-4">
+
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+
+                            <div>
+
+                                <h3 class="mb-1 font-weight-bold text-dark">
+
+                                    <i class="fa-solid fa-hand-holding text-primary mr-2"></i>
+
+                                    Préstamo
+
+                                    <span id="detalle_id_prestamo">
+                                        #--
+                                    </span>
+
+                                </h3>
+
+
+                                <p class="text-muted mb-0 small">
+
+                                    Alumno:
+
+                                    <span class="font-weight-bold"
+                                        id="detalle_alumno">
+
+                                        Cargando...
+
+                                    </span>
+
+                                </p>
+
+                            </div>
+
+
+
+                            <!-- ESTADO -->
+
+                            <div class="mt-3 mt-md-0">
+
+                                <span id="detalle_estado"
+                                    class="badge badge-secondary px-3 py-2 font-weight-normal"
+                                    style="font-size: 0.9rem;">
+
+                                    <i class="fa-solid fa-circle-info mr-1"></i>
+
+                                    Cargando...
+
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     INFORMACIÓN
+                ================================================== -->
+
+                <div class="row">
+
+
+                    <!-- INFORMACIÓN DEL ALUMNO -->
+
+                    <div class="col-lg-5 mb-4">
+
+                        <div class="card shadow-sm border-0 rounded-lg h-100">
+
+
+                            <div class="card-header bg-white border-bottom-0 py-3">
+
+                                <h6 class="mb-0 font-weight-bold text-dark">
+
+                                    <i class="fa-solid fa-user-graduate text-primary mr-2"></i>
+
+                                    Información del alumno
+
+                                </h6>
+
+                            </div>
+
+
+
+                            <div class="card-body p-0">
+
+                                <ul class="list-group list-group-flush">
+
+
+                                    <!-- NÚMERO DE CONTROL -->
+
+                                    <li class="list-group-item d-flex justify-content-between">
+
+                                        <span class="text-muted">
+
+                                            Número de control
+
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark"
+                                            id="detalle_numero_control">
+
+                                            --
+
+                                        </span>
+
+                                    </li>
+
+
+
+                                    <!-- ALUMNO -->
+
+                                    <li class="list-group-item d-flex justify-content-between">
+
+                                        <span class="text-muted">
+
+                                            Alumno
+
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark text-right"
+                                            id="detalle_alumno_info">
+
+                                            --
+
+                                        </span>
+
+                                    </li>
+
+
+
+                                    <!-- CARRERA -->
+
+                                    <li class="list-group-item d-flex justify-content-between">
+
+                                        <span class="text-muted">
+
+                                            Carrera
+
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark text-right"
+                                            id="detalle_carrera">
+
+                                            --
+
+                                        </span>
+
+                                    </li>
+
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- INFORMACIÓN DEL PRÉSTAMO -->
+
+                    <div class="col-lg-7 mb-4">
+
+                        <div class="card shadow-sm border-0 rounded-lg h-100">
+
+
+                            <div class="card-header bg-white border-bottom-0 py-3">
+
+                                <h6 class="mb-0 font-weight-bold text-dark">
+
+                                    <i class="fa-solid fa-book text-primary mr-2"></i>
+
+                                    Información del préstamo
+
+                                </h6>
+
+                            </div>
+
+
+
+                            <div class="card-body p-0">
+
+                                <ul class="list-group list-group-flush">
+
+
+                                    <!-- LIBRO -->
+
+                                    <li class="list-group-item d-flex justify-content-between">
+
+                                        <span class="text-muted">
+
+                                            Libro
+
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark text-right"
+                                            id="detalle_libro">
+
+                                            Cargando...
+
+                                        </span>
+
+                                    </li>
+
+
+
+                                    <!-- FECHA PRÉSTAMO -->
+
+                                    <li class="list-group-item d-flex justify-content-between">
+
+                                        <span class="text-muted">
+
+                                            Fecha de préstamo
+
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark"
+                                            id="detalle_fecha_prestamo">
+
+                                            --
+
+                                        </span>
+
+                                    </li>
+
+
+
+                                    <!-- FECHA VENCIMIENTO -->
+
+                                    <li class="list-group-item d-flex justify-content-between">
+
+                                        <span class="text-muted">
+
+                                            Fecha de vencimiento
+
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark"
+                                            id="detalle_fecha_vencimiento">
+
+                                            --
+
+                                        </span>
+
+                                    </li>
+
+
+
+                                    <!-- FECHA DEVOLUCIÓN -->
+
+                                    <li class="list-group-item d-flex justify-content-between">
+
+                                        <span class="text-muted">
+
+                                            Fecha de devolución
+
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark"
+                                            id="detalle_fecha_devolucion">
+
+                                            Pendiente
+
+                                        </span>
+
+                                    </li>
+
+
+
+                                    <!-- USUARIO -->
+
+                                    <li class="list-group-item d-flex justify-content-between">
+
+                                        <span class="text-muted">
+
+                                            Registrado por
+
+                                        </span>
+
+                                        <span class="font-weight-bold text-dark text-right"
+                                            id="detalle_usuario">
+
+                                            --
+
+                                        </span>
+
+                                    </li>
+
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RESUMEN
+                ================================================== -->
+
+                <div class="card shadow-sm border-0 rounded-lg mb-4">
+
+                    <div class="card-header bg-white border-bottom-0 py-3">
+
+                        <h6 class="mb-0 font-weight-bold text-dark">
+
+                            <i class="fa-solid fa-circle-info text-primary mr-2"></i>
+
+                            Resumen del préstamo
+
+                        </h6>
+
+                    </div>
+
+
+                    <div class="card-body text-center">
+
+                        <i id="resumen_icono"
+                            class="fa-solid fa-book-open fa-2x mb-2 text-primary"></i>
+
+
+                        <p id="resumen_mensaje"
+                            class="mb-0 font-weight-bold text-dark">
+
+                            Cargando información del préstamo...
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <div class="footer">
+
+            <div class="copyright">
+
+                <p class="small text-muted mb-0">
+
+                    Copyright © Diseñado &amp; Desarrollado por
+
+                    <a href="#" target="_blank">
+                        Quixkit
+                    </a>
+
+                    2026
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SCRIPTS
+    ====================================================== -->
+
+    <script src="/vendor/js/vendor.bundle.base.js"></script>
+
+    <script src="/vendor/global/global.min.js"></script>
+
+    <script src="/js/quixnav-init.js"></script>
+
+    <script src="/js/custom.min.js"></script>
+
+    <script src="/js/informacion_prestamo.js"></script>
+
+
+</body>
+
+</html>

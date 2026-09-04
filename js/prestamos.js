@@ -151,6 +151,21 @@ document.addEventListener('DOMContentLoaded', () => {
             prestamos_filtrados.slice(inicio, fin);
 
         registros_pagina.forEach(prestamo => {
+            const nombre_completo =
+        prestamo.Alumno || 'Sin nombre';
+
+            const partes_nombre =
+                    nombre_completo
+                        .trim()
+                        .split(/\s+/);
+
+            const iniciales =
+                    partes_nombre
+                        .slice(0, 2)
+                        .map(parte =>
+                            parte.charAt(0).toUpperCase()
+                        )
+                        .join('');
 
             const fila =
                 document.createElement('tr');
@@ -178,23 +193,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     : '<span class="text-muted">Pendiente</span>';
 
             fila.innerHTML = `
-                <td>
-                    ${escape_html(
-                        prestamo.Id_Prestamo
-                    )}
+                <td class="pl-4 font-weight-bold text-muted">
+                #${escape_html(
+                    prestamo.Id_Prestamo
+                )}
                 </td>
 
                 <td>
-                    ${escape_html(
-                        prestamo.Alumno || 'Sin nombre'
-                    )}
-                </td>
+                   <div class="d-flex align-items-center">
+            <div
+                class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mr-2 font-weight-bold"
+                style="width: 32px; height: 32px; font-size: 0.75rem;">
+                ${escape_html(iniciales)}
+            </div>
 
-                <td>
-                    ${escape_html(
-                        prestamo.Numero_Control || 'Sin registro'
-                    )}
-                </td>
+            <span class="font-weight-bold">
+                ${escape_html(nombre_completo)}
+            </span>
+        </div>
+    </td>
+
+    <td>
+        <span class="badge badge-light border">
+            ${escape_html(
+                prestamo.Numero_Control || 'Sin registro'
+            )}
+        </span>
+    </td>
 
                 <td>
                     <strong>
@@ -236,14 +261,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>
                     <div class="d-flex">
 
-                        <button
-                            type="button"
+                        <a
+                            href="/pages/prestamos/informacion.html?id_prestamo=${prestamo.Id_Prestamo}"
                             class="btn btn-info btn-sm mr-1"
-                            onclick="ver_detalle_prestamo(${prestamo.Id_Prestamo})"
                             title="Ver detalle"
                         >
                             <i class="fa-solid fa-eye"></i>
-                        </button>
+                        </a>
 
                         ${
                             prestamo.Estado !== 'DEVUELTO'
@@ -368,134 +392,102 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // BÚSQUEDA Y FILTROS
-    // ==========================================
+// BÚSQUEDA Y FILTROS
+// ==========================================
 
-    function aplicar_filtros() {
+function aplicar_filtros() {
 
-        const termino =
-            buscar_prestamo
-                ? buscar_prestamo.value
+    const termino =
+        buscar_prestamo.value
+            .trim()
+            .toLowerCase();
+
+    const estado =
+        filtro_estado.value;
+
+    const tipo_fecha =
+        filtro_fecha.value;
+
+    prestamos_filtrados =
+        prestamos.filter(prestamo => {
+
+            // -----------------------------------------
+            // BÚSQUEDA POR TEXTO
+            // -----------------------------------------
+
+            const alumno =
+                `${prestamo.Alumno ?? ''} ${prestamo.Apellido_Paterno ?? ''} ${prestamo.Apellido_Materno ?? ''}`
                     .trim()
-                    .toLowerCase()
-                : '';
+                    .toLowerCase();
 
-        const estado =
-            filtro_estado
-                ? filtro_estado.value
-                : '';
+            const numero_control =
+                String(
+                    prestamo.Numero_Control ?? ''
+                ).toLowerCase();
 
-        const tipo_fecha =
-            filtro_fecha
-                ? filtro_fecha.value
-                : '';
+            const libro =
+                String(
+                    prestamo.Titulo ?? ''
+                ).toLowerCase();
 
-        prestamos_filtrados =
-            prestamos.filter(prestamo => {
+            const coincide_busqueda =
+                !termino ||
+                alumno.includes(termino) ||
+                numero_control.includes(termino) ||
+                libro.includes(termino);
 
-                // -----------------------------
-                // BÚSQUEDA
-                // -----------------------------
+            // -----------------------------------------
+            // FILTRO DE ESTADO
+            // -----------------------------------------
 
-                let coincide_busqueda = true;
+            const coincide_estado =
+                !estado ||
+                prestamo.Estado === estado;
 
-                if (termino) {
+            // -----------------------------------------
+            // FILTRO DE FECHA
+            // -----------------------------------------
 
-                    const alumno =
-                        (
-                            prestamo.Alumno ||
-                            ''
-                        ).toLowerCase();
+            let coincide_fecha = true;
 
-                    const numero_control =
-                        (
-                            prestamo.Numero_Control ||
-                            ''
-                        ).toLowerCase();
+            if (tipo_fecha) {
 
-                    const libro =
-                        (
-                            prestamo.Titulo ||
-                            ''
-                        ).toLowerCase();
+                let fecha = '';
 
-                    coincide_busqueda =
-                        alumno.includes(termino) ||
-                        numero_control.includes(termino) ||
-                        libro.includes(termino);
+                switch (tipo_fecha) {
 
+                    case 'prestamo':
+                        fecha =
+                            prestamo.Fecha_Prestamo;
+                        break;
+
+                    case 'vencimiento':
+                        fecha =
+                            prestamo.Fecha_Vencimiento;
+                        break;
+
+                    case 'devolucion':
+                        fecha =
+                            prestamo.Fecha_Devolucion;
+                        break;
                 }
 
-                // -----------------------------
-                // ESTADO
-                // -----------------------------
+                coincide_fecha =
+                    Boolean(fecha);
+            }
 
-                let coincide_estado = true;
+            return (
+                coincide_busqueda &&
+                coincide_estado &&
+                coincide_fecha
+            );
+        });
 
-                if (estado) {
+    // Reiniciar paginación
+    pagina_actual = 1;
 
-                    coincide_estado =
-                        prestamo.Estado === estado;
-
-                }
-
-                // -----------------------------
-                // FECHA
-                // -----------------------------
-
-                let coincide_fecha = true;
-
-                if (tipo_fecha) {
-
-                    let fecha = '';
-
-                    switch (tipo_fecha) {
-
-                        case 'prestamo':
-                            fecha =
-                                prestamo.Fecha_Prestamo;
-                            break;
-
-                        case 'vencimiento':
-                            fecha =
-                                prestamo.Fecha_Vencimiento;
-                            break;
-
-                        case 'devolucion':
-                            fecha =
-                                prestamo.Fecha_Devolucion;
-                            break;
-
-                    }
-
-                    /*
-                     * Por ahora el selector de fecha
-                     * se utiliza para indicar qué campo
-                     * de fecha revisar.
-                     *
-                     * No se filtra por un rango porque
-                     * el HTML actual no tiene inputs
-                     * de fecha.
-                     */
-
-                    coincide_fecha =
-                        Boolean(fecha);
-
-                }
-
-                return (
-                    coincide_busqueda &&
-                    coincide_estado &&
-                    coincide_fecha
-                );
-
-            });
-
-        pagina_actual = 1;
-
-        renderizar_tabla();
-
-    }
+    renderizar_tabla();
+}
 
     // ==========================================
     // LIMPIAR FILTROS
@@ -642,79 +634,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // BOTÓN BUSCAR
-    // ==========================================
+// BOTÓN BUSCAR
+// ==========================================
 
-    if (btn_buscar) {
+if (btn_buscar) {
+    btn_buscar.addEventListener(
+        'click',
+        aplicar_filtros
+    );
+}
 
-        btn_buscar.addEventListener(
-            'click',
-            aplicar_filtros
-        );
+// ==========================================
+// BÚSQUEDA AUTOMÁTICA AL ESCRIBIR
+// ==========================================
 
-    }
+if (buscar_prestamo) {
+    buscar_prestamo.addEventListener(
+        'input',
+        aplicar_filtros
+    );
+}
 
-    // ==========================================
-    // ENTER EN BÚSQUEDA
-    // ==========================================
+// ==========================================
+// CAMBIO DE ESTADO
+// ==========================================
 
-    if (buscar_prestamo) {
+if (filtro_estado) {
+    filtro_estado.addEventListener(
+        'change',
+        aplicar_filtros
+    );
+}
 
-        buscar_prestamo.addEventListener(
-            'keydown',
-            event => {
+// ==========================================
+// CAMBIO DE FECHA
+// ==========================================
 
-                if (event.key === 'Enter') {
+if (filtro_fecha) {
+    filtro_fecha.addEventListener(
+        'change',
+        aplicar_filtros
+    );
+}
 
-                    event.preventDefault();
+// ==========================================
+// LIMPIAR
+// ==========================================
 
-                    aplicar_filtros();
-
-                }
-
-            }
-        );
-
-    }
-
-    // ==========================================
-    // CAMBIO DE ESTADO
-    // ==========================================
-
-    if (filtro_estado) {
-
-        filtro_estado.addEventListener(
-            'change',
-            aplicar_filtros
-        );
-
-    }
-
-    // ==========================================
-    // CAMBIO DE FECHA
-    // ==========================================
-
-    if (filtro_fecha) {
-
-        filtro_fecha.addEventListener(
-            'change',
-            aplicar_filtros
-        );
-
-    }
-
-    // ==========================================
-    // LIMPIAR
-    // ==========================================
-
-    if (btn_limpiar) {
-
-        btn_limpiar.addEventListener(
-            'click',
-            limpiar_filtros
-        );
-
-    }
+if (btn_limpiar) {
+    btn_limpiar.addEventListener(
+        'click',
+        limpiar_filtros
+    );
+}
 
     // ==========================================
     // NUEVO PRÉSTAMO
@@ -808,7 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         alumno.Id_Alumno;
 
                     opcion.textContent =
-                        `${alumno.Numero_Control} - ${alumno.Nombre}`;
+    `${alumno.Numero_Control ?? 'Sin control'} - ${alumno.Nombre ?? ''} ${alumno.Apellido_Paterno ?? ''} ${alumno.Apellido_Materno ?? ''}`.trim();
 
                     select.appendChild(opcion);
 
@@ -1197,148 +1169,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    // ==========================================
-    // VER DETALLE
-    // ==========================================
-
-    window.ver_detalle_prestamo =
-        async function (id) {
-
-            try {
-
-                const respuesta =
-                    await fetch(
-                        `${API_URL}/prestamos/${id}`
-                    );
-
-                if (!respuesta.ok) {
-
-                    throw new Error(
-                        'No fue posible obtener el préstamo'
-                    );
-
-                }
-
-                const resultado =
-                    await respuesta.json();
-
-                if (!resultado.success) {
-
-                    throw new Error(
-                        resultado.mensaje ||
-                        'No fue posible obtener el préstamo'
-                    );
-
-                }
-
-                const prestamo =
-                    resultado.data;
-
-                llenar_detalle_prestamo(
-                    prestamo
-                );
-
-                modal_manager.abrir(
-                    'modal_detalle_prestamo'
-                );
-
-            } catch (error) {
-
-                console.error(
-                    'Error al obtener detalle:',
-                    error
-                );
-
-                mostrar_error(
-                    error.message
-                );
-
-            }
-
-        };
-
-    // ==========================================
-    // LLENAR MODAL DE DETALLE
-    // ==========================================
-
-    function llenar_detalle_prestamo(prestamo) {
-
-        modal_manager.establecer_valor(
-            'detalle_id_prestamo',
-            prestamo.Id_Prestamo
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_alumno',
-            prestamo.Alumno
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_numero_control',
-            prestamo.Numero_Control
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_carrera',
-            prestamo.Carrera
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_libro',
-            prestamo.Titulo
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_fecha_prestamo',
-            convertir_fecha_input(
-                prestamo.Fecha_Prestamo
-            )
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_fecha_vencimiento',
-            convertir_fecha_input(
-                prestamo.Fecha_Vencimiento
-            )
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_fecha_devolucion',
-            prestamo.Fecha_Devolucion
-                ? convertir_fecha_input(
-                    prestamo.Fecha_Devolucion
-                )
-                : 'Pendiente'
-        );
-
-        modal_manager.establecer_valor(
-            'detalle_usuario',
-            prestamo.Usuario
-        );
-
-        establecer_estado_detalle(
-            prestamo.Estado
-        );
-
-    }
-
-    // ==========================================
-    // ESTADO EN MODAL DE DETALLE
-    // ==========================================
-
-    function establecer_estado_detalle(estado) {
-
-        const elemento =
-            document.getElementById(
-                'detalle_estado'
-            );
-
-        if (!elemento) return;
-
-        elemento.innerHTML =
-            obtener_badge_estado(estado);
-
-    }
 
     // ==========================================
     // DEVOLVER PRÉSTAMO
@@ -1414,10 +1244,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     );
 
                 }
-
-                modal_manager.cerrar(
-                    'modal_detalle_prestamo'
-                );
 
                 mostrar_exito(
                     'Préstamo devuelto correctamente'
