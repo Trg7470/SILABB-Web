@@ -10,19 +10,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // ELEMENTOS DEL DOM
     // ==========================================
 
-    const tabla_adeudos = document.getElementById('tabla_adeudos');
-    const total_adeudos = document.getElementById('total_adeudos');
-    const buscar_adeudo = document.getElementById('buscar_adeudo');
-    const filtro_estado = document.getElementById('filtro_estado');
-    const btn_limpiar = document.getElementById('btn_limpiar');
-    const btn_buscar = document.getElementById('btn_buscar');
-    const estado_vacio = document.getElementById('estado_vacio');
-    const estado_cargando = document.getElementById('estado_cargando');
-    const info_paginacion = document.getElementById('info_paginacion');
-    const btnAnterior = document.getElementById('btnAnterior');
-    const paginaActual = document.getElementById('paginaActual');
-    const btnSiguiente = document.getElementById('btnSiguiente');
-    const btn_nuevo_adeudo = document.getElementById('btn_nuevo_adeudo');
+    const tabla_adeudos =
+        document.getElementById('tabla_adeudos');
+
+    const total_adeudos =
+        document.getElementById('total_adeudos');
+
+    const buscar_adeudo =
+        document.getElementById('buscar_adeudo');
+
+    const filtro_estado =
+        document.getElementById('filtro_estado');
+
+    const btn_limpiar =
+        document.getElementById('btn_limpiar');
+
+    const btn_buscar =
+        document.getElementById('btn_buscar');
+
+    const estado_vacio =
+        document.getElementById('estado_vacio');
+
+    const estado_cargando =
+        document.getElementById('estado_cargando');
+
+    const info_paginacion =
+        document.getElementById('info_paginacion');
+
+    const btnAnterior =
+        document.getElementById('btnAnterior');
+
+    const paginaActual =
+        document.getElementById('paginaActual');
+
+    const btnSiguiente =
+        document.getElementById('btnSiguiente');
+
+    const btn_nuevo_adeudo =
+        document.getElementById('btn_nuevo_adeudo');
 
     // ==========================================
     // VARIABLES
@@ -30,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let adeudos = [];
     let adeudos_filtrados = [];
-    let prestamos = [];
 
     let pagina_actual = 1;
 
@@ -46,77 +70,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
 
-            // ==========================================
-            // OBTENER ADEUDOS
-            // ==========================================
-
-            const respuesta_adeudos =
+            const respuesta =
                 await fetch(`${API_URL}/adeudos`);
 
-            if (!respuesta_adeudos.ok) {
+            if (!respuesta.ok) {
                 throw new Error(
                     'No fue posible obtener los adeudos'
                 );
             }
 
-            const resultado_adeudos =
-                await respuesta_adeudos.json();
+            const resultado =
+                await respuesta.json();
 
-            if (!resultado_adeudos.success) {
+            if (!resultado.success) {
                 throw new Error(
-                    resultado_adeudos.mensaje ||
+                    resultado.mensaje ||
                     'Error al obtener adeudos'
                 );
             }
 
-            const datos_adeudos =
-                resultado_adeudos.data || [];
-
-            // ==========================================
-            // OBTENER PRÉSTAMOS
-            // ==========================================
-
-            const respuesta_prestamos =
-                await fetch(`${API_URL}/prestamos`);
-
-            if (!respuesta_prestamos.ok) {
-                throw new Error(
-                    'No fue posible obtener los préstamos'
-                );
-            }
-
-            const resultado_prestamos =
-                await respuesta_prestamos.json();
-
-            if (!resultado_prestamos.success) {
-                throw new Error(
-                    resultado_prestamos.mensaje ||
-                    'Error al obtener préstamos'
-                );
-            }
-
-            prestamos =
-                resultado_prestamos.data || [];
-
-            // ==========================================
-            // COMBINAR INFORMACIÓN
-            // ==========================================
-
             adeudos =
-                datos_adeudos.map(adeudo => {
-
-                    const prestamo =
-                        prestamos.find(
-                            p =>
-                                Number(p.Id_Prestamo) ===
-                                Number(adeudo.Id_Prestamo)
-                        );
-
-                    return {
-                        ...adeudo,
-                        prestamo: prestamo || null
-                    };
-                });
+                resultado.data || [];
 
             adeudos_filtrados =
                 [...adeudos];
@@ -150,7 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderizar_tabla() {
 
-        if (!tabla_adeudos) return;
+        if (!tabla_adeudos) {
+            return;
+        }
 
         tabla_adeudos.innerHTML = '';
 
@@ -159,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mostrar_vacio();
 
             actualizar_total();
+
             actualizar_paginacion();
 
             return;
@@ -180,250 +157,263 @@ document.addEventListener('DOMContentLoaded', () => {
                 fin
             );
 
-        registros_pagina.forEach(adeudo => {
+        registros_pagina.forEach(
+            adeudo => {
 
-            const prestamo =
-                adeudo.prestamo;
+                // ==========================================
+                // ALUMNO
+                // ==========================================
 
-            // ==========================================
-            // INFORMACIÓN DEL ALUMNO
-            // ==========================================
+                const nombre_alumno =
+                    adeudo.Alumno ||
+                    'Alumno no disponible';
 
-            const nombre_completo =
-                prestamo
-                    ? `${prestamo.Nombre ?? ''} ${prestamo.Apellido_Paterno ?? ''} ${prestamo.Apellido_Materno ?? ''}`.trim()
-                    : 'Alumno no disponible';
+                const iniciales =
+                    obtener_iniciales(
+                        nombre_alumno
+                    );
 
-            const iniciales =
-                obtener_iniciales(nombre_completo);
+                const numero_control =
+                    adeudo.Numero_Control ||
+                    'Sin registro';
 
-            // ==========================================
-            // INFORMACIÓN DEL LIBRO
-            // ==========================================
+                // ==========================================
+                // LIBRO
+                // ==========================================
 
-            const titulo_libro =
-                prestamo?.Titulo ||
-                'Libro no disponible';
+                const titulo_libro =
+                    adeudo.Titulo ||
+                    'Libro no disponible';
 
-            // ==========================================
-            // NÚMERO DE CONTROL
-            // ==========================================
+                // ==========================================
+                // FECHAS
+                // ==========================================
 
-            const numero_control =
-                prestamo?.Numero_Control ||
-                'Sin registro';
+                const fecha_creacion =
+                    formatear_fecha(
+                        adeudo.Fecha_Creacion
+                    );
 
-            // ==========================================
-            // FECHAS
-            // ==========================================
-
-            const fecha_creacion =
-                formatear_fecha(
-                    adeudo.Fecha_Creacion
-                );
-
-            const fecha_resolucion =
-                adeudo.Fecha_Resolucion
-                    ? formatear_fecha(
-                        adeudo.Fecha_Resolucion
-                    )
-                    : '<span class="text-muted">Pendiente</span>';
-
-            // ==========================================
-            // ESTADO
-            // ==========================================
-
-            const estado_badge =
-                obtener_badge_estado(
-                    adeudo.Estado
-                );
-
-            // ==========================================
-            // CREAR FILA
-            // ==========================================
-
-            const fila =
-                document.createElement('tr');
-
-            fila.innerHTML = `
-
-                <!-- ID -->
-                <td class="pl-4 font-weight-bold text-muted">
-
-                    #${escape_html(
-                        adeudo.Id_Adeudo
-                    )}
-
-                </td>
-
-                <!-- ALUMNO -->
-                <td>
-
-                    <div class="d-flex align-items-center">
-
-                        <div
-                            class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mr-2 font-weight-bold"
-                            style="
-                                width: 32px;
-                                height: 32px;
-                                font-size: 0.75rem;
-                            "
-                        >
-                            ${escape_html(iniciales)}
-                        </div>
-
-                        <div>
-
-                            <span class="font-weight-bold">
-
-                                ${escape_html(
-                                    nombre_completo
-                                )}
-
+                const fecha_resolucion =
+                    adeudo.Fecha_Resolucion
+                        ? formatear_fecha(
+                            adeudo.Fecha_Resolucion
+                        )
+                        : `
+                            <span class="text-muted">
+                                Pendiente
                             </span>
+                        `;
 
-                            <br>
+                // ==========================================
+                // ESTADO
+                // ==========================================
 
-                            <small class="text-muted">
+                const estado_badge =
+                    obtener_badge_estado(
+                        adeudo.Estado
+                    );
 
+                // ==========================================
+                // FILA
+                // ==========================================
+
+                const fila =
+                    document.createElement('tr');
+
+                fila.innerHTML = `
+
+                    <!-- ID ADEUDO -->
+
+                    <td class="pl-4 font-weight-bold text-muted">
+                        #${escape_html(
+                            adeudo.Id_Adeudo
+                        )}
+                    </td>
+
+                    <!-- ALUMNO -->
+
+                    <td>
+
+                        <div class="d-flex align-items-center">
+
+                            <div
+                                class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mr-2 font-weight-bold"
+                                style="
+                                    width: 32px;
+                                    height: 32px;
+                                    font-size: 0.75rem;
+                                    flex-shrink: 0;
+                                "
+                            >
                                 ${escape_html(
-                                    numero_control
+                                    iniciales
                                 )}
+                            </div>
 
-                            </small>
+                            <div>
+
+                                <span class="font-weight-bold">
+                                    ${escape_html(
+                                        nombre_alumno
+                                    )}
+                                </span>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    ${escape_html(
+                                        numero_control
+                                    )}
+                                </small>
+
+                            </div>
 
                         </div>
 
-                    </div>
+                    </td>
 
-                </td>
+                    <!-- PRÉSTAMO / LIBRO -->
 
-                <!-- PRÉSTAMO / LIBRO -->
-                <td>
+                    <td>
 
-                    <span class="badge badge-light border">
+                        <span class="badge badge-light border">
+                            #${escape_html(
+                                adeudo.Id_Prestamo
+                            )}
+                        </span>
 
-                        #${escape_html(
-                            adeudo.Id_Prestamo
-                        )}
+                        <br>
 
-                    </span>
+                        <strong>
+                            ${escape_html(
+                                titulo_libro
+                            )}
+                        </strong>
 
-                    <br>
+                    </td>
 
-                    <strong>
+                    <!-- FECHA DEL ADEUDO -->
 
-                        ${escape_html(
-                            titulo_libro
-                        )}
+                    <td>
+                        ${fecha_creacion}
+                    </td>
 
-                    </strong>
+                    <!-- TIPO -->
 
-                </td>
+                    <td>
 
-                <!-- TIPO -->
-                <td>
+                        <span class="badge badge-light border">
 
-                    <span class="badge badge-light border">
+                            ${escape_html(
+                                obtener_texto_tipo(
+                                    adeudo.Tipo
+                                )
+                            )}
 
-                        ${escape_html(
-                            adeudo.Tipo ||
-                            'Sin tipo'
-                        )}
+                        </span>
 
-                    </span>
+                    </td>
 
-                </td>
+                    <!-- FECHA DE RESOLUCIÓN -->
 
-                <!-- DESCRIPCIÓN -->
-                <td>
+                    <td>
+                        ${fecha_resolucion}
+                    </td>
 
-                    <span>
+                    <!-- ESTADO -->
 
-                        ${escape_html(
-                            adeudo.Descripcion ||
-                            'Sin descripción'
-                        )}
+                    <td>
+                        ${estado_badge}
+                    </td>
 
-                    </span>
+                    <!-- ACCIONES -->
 
-                </td>
+                    <td>
 
-                <!-- FECHA CREACIÓN -->
-                <td>
+                        <div class="dropdown">
 
-                    ${fecha_creacion}
+                            <button
+                                type="button"
+                                class="btn btn-light btn-sm"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                title="Acciones"
+                            >
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
 
-                </td>
+                            <div class="dropdown-menu dropdown-menu-right">
 
-                <!-- ESTADO -->
-                <td>
+                                <!-- VER DETALLES -->
 
-                    ${estado_badge}
+                                <a
+                                    class="dropdown-item"
+                                    href="/pages/adeudos/informacion.html?id_adeudo=${encodeURIComponent(
+                                        adeudo.Id_Adeudo
+                                    )}"
+                                >
 
-                </td>
+                                    <i class="fa-solid fa-eye mr-2 text-primary"></i>
 
-                <!-- FECHA RESOLUCIÓN -->
-                <td>
+                                    Ver detalles
 
-                    ${fecha_resolucion}
+                                </a>
 
-                </td>
+                                ${
+                                    adeudo.Estado === 'PENDIENTE'
+                                        ? `
 
-                <!-- ACCIONES -->
-                <td>
+                                            <!-- RESOLVER -->
 
-                    <div class="d-flex">
+                                            <button
+                                                type="button"
+                                                class="dropdown-item"
+                                                onclick="resolver_adeudo(${adeudo.Id_Adeudo})"
+                                            >
 
-                        ${
-                            adeudo.Estado === 'PENDIENTE'
-                                ? `
+                                                <i class="fa-solid fa-check mr-2 text-success"></i>
 
-                                    <button
-                                        type="button"
-                                        class="btn btn-success btn-sm mr-1"
-                                        onclick="resolver_adeudo(${adeudo.Id_Adeudo})"
-                                        title="Resolver adeudo"
-                                    >
+                                                Resolver
 
-                                        <i class="fa-solid fa-check"></i>
+                                            </button>
 
-                                    </button>
+                                            <!-- ELIMINAR -->
 
-                                `
-                                : ''
-                        }
+                                            <button
+                                                type="button"
+                                                class="dropdown-item text-danger"
+                                                onclick="eliminar_adeudo(${adeudo.Id_Adeudo})"
+                                            >
 
-                        ${
-                            adeudo.Estado !== 'RESUELTO'
-                                ? `
+                                                <i class="fa-solid fa-trash mr-2"></i>
 
-                                    <button
-                                        type="button"
-                                        class="btn btn-danger btn-sm"
-                                        onclick="eliminar_adeudo(${adeudo.Id_Adeudo})"
-                                        title="Eliminar adeudo"
-                                    >
+                                                Eliminar
 
-                                        <i class="fa-solid fa-trash"></i>
+                                            </button>
 
-                                    </button>
+                                        `
+                                        : ''
+                                }
 
-                                `
-                                : ''
-                        }
+                            </div>
 
-                    </div>
+                        </div>
 
-                </td>
+                    </td>
 
-            `;
+                `;
 
-            tabla_adeudos.appendChild(fila);
+                tabla_adeudos.appendChild(
+                    fila
+                );
 
-        });
+            }
+        );
 
         actualizar_total();
+
         actualizar_paginacion();
     }
 
@@ -452,6 +442,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         .toUpperCase()
             )
             .join('');
+    }
+
+    // ==========================================
+    // TEXTO DEL TIPO DE ADEUDO
+    // ==========================================
+
+    function obtener_texto_tipo(tipo) {
+
+        switch (tipo) {
+
+            case 'LIBRO_NO_DEVUELTO':
+                return 'Libro no devuelto';
+
+            case 'LIBRO_PERDIDO':
+                return 'Libro perdido';
+
+            case 'LIBRO_DANADO':
+                return 'Libro dañado';
+
+            case 'OTRO':
+                return 'Otro';
+
+            default:
+                return tipo || 'Sin tipo';
+        }
     }
 
     // ==========================================
@@ -524,9 +539,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fecha_objeto.getTime()
             )
         ) {
-
             return 'Fecha inválida';
-
         }
 
         return fecha_objeto.toLocaleString(
@@ -555,144 +568,130 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-// ==========================================
-// BÚSQUEDA Y FILTROS
-// ==========================================
-function aplicar_filtros() {
+    // ==========================================
+    // BÚSQUEDA Y FILTROS
+    // ==========================================
 
-    const termino =
-        buscar_adeudo
-            ? buscar_adeudo.value
-                .trim()
-                .toLowerCase()
-            : '';
+    function aplicar_filtros() {
 
-    const estado =
-        filtro_estado
-            ? filtro_estado.value
-            : '';
+        const termino =
+            buscar_adeudo
+                ? buscar_adeudo.value
+                    .trim()
+                    .toLowerCase()
+                : '';
 
-    adeudos_filtrados =
-        adeudos.filter(adeudo => {
+        const estado =
+            filtro_estado
+                ? filtro_estado.value
+                : '';
 
-            const prestamo =
-                adeudo.prestamo;
+        adeudos_filtrados =
+            adeudos.filter(
+                adeudo => {
 
-            // ==========================================
-            // ID DEL ADEUDO
-            // ==========================================
-            const id_adeudo =
-                String(
-                    adeudo.Id_Adeudo ?? ''
-                ).toLowerCase();
+                    // ==========================================
+                    // DATOS PARA BÚSQUEDA
+                    // ==========================================
 
-            // ==========================================
-            // ID DEL PRÉSTAMO
-            // ==========================================
-            const id_prestamo =
-                String(
-                    adeudo.Id_Prestamo ?? ''
-                ).toLowerCase();
+                    const id_adeudo =
+                        String(
+                            adeudo.Id_Adeudo ?? ''
+                        ).toLowerCase();
 
-            // ==========================================
-            // NÚMERO DE CONTROL
-            // ==========================================
-            const numero_control =
-                String(
-                    prestamo?.Numero_Control ?? ''
-                ).toLowerCase();
+                    const id_prestamo =
+                        String(
+                            adeudo.Id_Prestamo ?? ''
+                        ).toLowerCase();
 
-            // ==========================================
-            // NOMBRE DEL ALUMNO
-            // ==========================================
-            const alumno =
-                prestamo
-                    ? `${prestamo.Nombre ?? ''} ${prestamo.Apellido_Paterno ?? ''} ${prestamo.Apellido_Materno ?? ''}`
-                        .trim()
-                        .toLowerCase()
-                    : '';
+                    const numero_control =
+                        String(
+                            adeudo.Numero_Control ?? ''
+                        ).toLowerCase();
 
-            // ==========================================
-            // LIBRO
-            // ==========================================
-            const libro =
-                String(
-                    prestamo?.Titulo ?? ''
-                ).toLowerCase();
+                    const alumno =
+                        String(
+                            adeudo.Alumno ?? ''
+                        ).toLowerCase();
 
-            // ==========================================
-            // TIPO DE ADEUDO
-            // ==========================================
-            const tipo =
-                String(
-                    adeudo.Tipo ?? ''
-                ).toLowerCase();
+                    const libro =
+                        String(
+                            adeudo.Titulo ?? ''
+                        ).toLowerCase();
 
-            // ==========================================
-            // DESCRIPCIÓN
-            // ==========================================
-            const descripcion =
-                String(
-                    adeudo.Descripcion ?? ''
-                ).toLowerCase();
+                    const tipo =
+                        obtener_texto_tipo(
+                            adeudo.Tipo
+                        ).toLowerCase();
 
-            // ==========================================
-            // ESTADO
-            // ==========================================
-            const estado_adeudo =
-                String(
-                    adeudo.Estado ?? ''
-                ).toLowerCase();
+                    const descripcion =
+                        String(
+                            adeudo.Descripcion ?? ''
+                        ).toLowerCase();
 
-            // ==========================================
-            // COINCIDENCIA DE BÚSQUEDA
-            // ==========================================
-            const coincide_busqueda =
-                !termino ||
+                    const estado_adeudo =
+                        String(
+                            adeudo.Estado ?? ''
+                        ).toLowerCase();
 
-                // ID del adeudo
-                id_adeudo.includes(termino) ||
+                    // ==========================================
+                    // COINCIDENCIA
+                    // ==========================================
 
-                // ID del préstamo
-                id_prestamo.includes(termino) ||
+                    const coincide_busqueda =
+                        !termino ||
 
-                // Número de control
-                numero_control.includes(termino) ||
+                        id_adeudo.includes(
+                            termino
+                        ) ||
 
-                // Nombre del alumno
-                alumno.includes(termino) ||
+                        id_prestamo.includes(
+                            termino
+                        ) ||
 
-                // Título del libro
-                libro.includes(termino) ||
+                        numero_control.includes(
+                            termino
+                        ) ||
 
-                // Tipo de adeudo
-                tipo.includes(termino) ||
+                        alumno.includes(
+                            termino
+                        ) ||
 
-                // Descripción
-                descripcion.includes(termino) ||
+                        libro.includes(
+                            termino
+                        ) ||
 
-                // Estado
-                estado_adeudo.includes(termino);
+                        tipo.includes(
+                            termino
+                        ) ||
 
-            // ==========================================
-            // FILTRO POR ESTADO
-            // ==========================================
-            const coincide_estado =
-                !estado ||
-                adeudo.Estado === estado;
+                        descripcion.includes(
+                            termino
+                        ) ||
 
-            return (
-                coincide_busqueda &&
-                coincide_estado
+                        estado_adeudo.includes(
+                            termino
+                        );
+
+                    // ==========================================
+                    // FILTRO POR ESTADO
+                    // ==========================================
+
+                    const coincide_estado =
+                        !estado ||
+                        adeudo.Estado === estado;
+
+                    return (
+                        coincide_busqueda &&
+                        coincide_estado
+                    );
+                }
             );
-        });
 
-    // Regresar a la primera página
-    pagina_actual = 1;
+        pagina_actual = 1;
 
-    // Actualizar tabla
-    renderizar_tabla();
-}
+        renderizar_tabla();
+    }
 
     // ==========================================
     // LIMPIAR FILTROS
@@ -795,10 +794,8 @@ function aplicar_filtros() {
                     renderizar_tabla();
 
                 }
-
             }
         );
-
     }
 
     // ==========================================
@@ -827,10 +824,8 @@ function aplicar_filtros() {
                     renderizar_tabla();
 
                 }
-
             }
         );
-
     }
 
     // ==========================================
@@ -843,7 +838,6 @@ function aplicar_filtros() {
             'click',
             aplicar_filtros
         );
-
     }
 
     // ==========================================
@@ -856,7 +850,6 @@ function aplicar_filtros() {
             'input',
             aplicar_filtros
         );
-
     }
 
     // ==========================================
@@ -869,7 +862,6 @@ function aplicar_filtros() {
             'change',
             aplicar_filtros
         );
-
     }
 
     // ==========================================
@@ -882,7 +874,6 @@ function aplicar_filtros() {
             'click',
             limpiar_filtros
         );
-
     }
 
     // ==========================================
@@ -904,7 +895,6 @@ function aplicar_filtros() {
 
             }
         );
-
     }
 
     // ==========================================
@@ -918,7 +908,9 @@ function aplicar_filtros() {
                 'nuevo_id_prestamo'
             );
 
-        if (!select) return;
+        if (!select) {
+            return;
+        }
 
         try {
 
@@ -991,7 +983,6 @@ function aplicar_filtros() {
                     select.appendChild(
                         opcion
                     );
-
                 }
             );
 
@@ -1011,7 +1002,6 @@ function aplicar_filtros() {
             mostrar_error(
                 error.message
             );
-
         }
     }
 
@@ -1033,7 +1023,7 @@ function aplicar_filtros() {
                 event.preventDefault();
 
                 // ==========================================
-                // OBTENER DATOS
+                // DATOS DEL FORMULARIO
                 // ==========================================
 
                 const id_prestamo =
@@ -1062,7 +1052,6 @@ function aplicar_filtros() {
                     );
 
                     return;
-
                 }
 
                 if (!tipo) {
@@ -1072,7 +1061,6 @@ function aplicar_filtros() {
                     );
 
                     return;
-
                 }
 
                 if (
@@ -1085,7 +1073,6 @@ function aplicar_filtros() {
                     );
 
                     return;
-
                 }
 
                 // ==========================================
@@ -1102,7 +1089,6 @@ function aplicar_filtros() {
                     );
 
                     return;
-
                 }
 
                 const id_usuario =
@@ -1115,7 +1101,6 @@ function aplicar_filtros() {
                     );
 
                     return;
-
                 }
 
                 // ==========================================
@@ -1221,10 +1206,8 @@ function aplicar_filtros() {
                     );
 
                 }
-
             }
         );
-
     }
 
     // ==========================================
@@ -1248,7 +1231,6 @@ function aplicar_filtros() {
                 );
 
                 return;
-
             }
 
             const id_usuario =
@@ -1261,7 +1243,6 @@ function aplicar_filtros() {
                 );
 
                 return;
-
             }
 
             // ==========================================
@@ -1274,7 +1255,9 @@ function aplicar_filtros() {
                     'El adeudo se marcará como resuelto.'
                 );
 
-            if (!confirmar) return;
+            if (!confirmar) {
+                return;
+            }
 
             try {
 
@@ -1328,9 +1311,7 @@ function aplicar_filtros() {
                 mostrar_error(
                     error.message
                 );
-
             }
-
         };
 
     // ==========================================
@@ -1354,7 +1335,6 @@ function aplicar_filtros() {
                 );
 
                 return;
-
             }
 
             const id_usuario =
@@ -1367,7 +1347,6 @@ function aplicar_filtros() {
                 );
 
                 return;
-
             }
 
             // ==========================================
@@ -1380,7 +1359,9 @@ function aplicar_filtros() {
                     'Esta acción eliminará el adeudo permanentemente.'
                 );
 
-            if (!confirmar) return;
+            if (!confirmar) {
+                return;
+            }
 
             try {
 
@@ -1434,9 +1415,7 @@ function aplicar_filtros() {
                 mostrar_error(
                     error.message
                 );
-
             }
-
         };
 
     // ==========================================
@@ -1453,9 +1432,7 @@ function aplicar_filtros() {
                 );
 
             if (!usuario) {
-
                 return null;
-
             }
 
             return JSON.parse(
@@ -1470,7 +1447,6 @@ function aplicar_filtros() {
             );
 
             return null;
-
         }
     }
 
@@ -1484,14 +1460,12 @@ function aplicar_filtros() {
 
             estado_cargando.style.display =
                 'block';
-
         }
 
         if (estado_vacio) {
 
             estado_vacio.style.display =
                 'none';
-
         }
     }
 
@@ -1505,7 +1479,6 @@ function aplicar_filtros() {
 
             estado_cargando.style.display =
                 'none';
-
         }
     }
 
@@ -1515,13 +1488,60 @@ function aplicar_filtros() {
 
     function mostrar_vacio() {
 
-        if (estado_vacio) {
-
-            estado_vacio.style.display =
-                'block';
-
-        }
+    if (!estado_vacio) {
+        return;
     }
+
+    const termino =
+        buscar_adeudo
+            ? buscar_adeudo.value.trim()
+            : '';
+
+    const estado =
+        filtro_estado
+            ? filtro_estado.value
+            : '';
+
+    const hay_filtros =
+        termino !== '' ||
+        estado !== '';
+
+    if (hay_filtros) {
+
+        estado_vacio.innerHTML = `
+            <div class="mb-3">
+                <i class="fa-solid fa-magnifying-glass fa-3x text-muted"></i>
+            </div>
+
+            <h6 class="font-weight-bold text-dark">
+                No se encontraron adeudos
+            </h6>
+
+            <p class="text-muted small mb-0">
+                No hay registros que coincidan con los criterios de búsqueda.
+            </p>
+        `;
+
+    } else {
+
+        estado_vacio.innerHTML = `
+            <div class="mb-3">
+                <i class="fa-solid fa-file-invoice-dollar fa-3x text-muted"></i>
+            </div>
+
+            <h6 class="font-weight-bold text-dark">
+                No hay adeudos registrados
+            </h6>
+
+            <p class="text-muted small mb-0">
+                Actualmente no existen adeudos registrados en el sistema.
+            </p>
+        `;
+    }
+
+    estado_vacio.classList.remove('d-none');
+    estado_vacio.style.display = 'block';
+}
 
     // ==========================================
     // OCULTAR VACÍO
@@ -1533,7 +1553,6 @@ function aplicar_filtros() {
 
             estado_vacio.style.display =
                 'none';
-
         }
     }
 
@@ -1548,13 +1567,9 @@ function aplicar_filtros() {
         ) {
 
             Swal.fire({
-
                 icon: 'error',
-
                 title: 'Error',
-
                 text: mensaje
-
             });
 
         } else {
@@ -1638,7 +1653,6 @@ function aplicar_filtros() {
             return confirm(
                 `${titulo}\n\n${texto}`
             );
-
         }
 
         const resultado =
@@ -1675,26 +1689,30 @@ function aplicar_filtros() {
         ) {
 
             return '';
-
         }
 
         return String(valor)
+
             .replace(
                 /&/g,
                 '&amp;'
             )
+
             .replace(
                 /</g,
                 '&lt;'
             )
+
             .replace(
                 />/g,
                 '&gt;'
             )
+
             .replace(
                 /"/g,
                 '&quot;'
             )
+
             .replace(
                 /'/g,
                 '&#039;'

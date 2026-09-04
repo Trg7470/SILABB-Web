@@ -1385,14 +1385,69 @@ if (btn_limpiar) {
 
     function mostrar_vacio() {
 
-        if (estado_vacio) {
-
-            estado_vacio.style.display =
-                'block';
-
-        }
-
+    if (!estado_vacio) {
+        return;
     }
+
+    const termino =
+        buscar_prestamo
+            ? buscar_prestamo.value.trim()
+            : '';
+
+    const estado =
+        filtro_estado
+            ? filtro_estado.value
+            : '';
+
+    const tipo_fecha =
+        filtro_fecha
+            ? filtro_fecha.value
+            : '';
+
+    const hay_filtros =
+        termino !== '' ||
+        estado !== '' ||
+        tipo_fecha !== '';
+
+    if (hay_filtros) {
+
+        estado_vacio.innerHTML = `
+            <div class="mb-3">
+                <i class="fa-solid fa-magnifying-glass fa-3x text-muted"></i>
+            </div>
+
+            <h6 class="font-weight-bold text-dark">
+                No se encontraron préstamos
+            </h6>
+
+            <p class="text-muted small mb-0">
+                No hay registros que coincidan con los criterios de búsqueda.
+            </p>
+        `;
+
+    } else {
+
+        estado_vacio.innerHTML = `
+            <div class="mb-3">
+                <i class="fa-solid fa-book-open fa-3x text-muted"></i>
+            </div>
+
+            <h6 class="font-weight-bold text-dark">
+                No hay préstamos registrados
+            </h6>
+
+            <p class="text-muted small mb-0">
+                Actualmente no existen préstamos registrados en el sistema.
+            </p>
+        `;
+    }
+
+    // IMPORTANTE:
+    // El HTML tiene la clase d-none, así que debemos quitarla.
+    estado_vacio.classList.remove('d-none');
+
+    estado_vacio.style.display = 'block';
+}
 
     // ==========================================
     // OCULTAR VACÍO
@@ -1400,14 +1455,13 @@ if (btn_limpiar) {
 
     function ocultar_vacio() {
 
-        if (estado_vacio) {
+    if (estado_vacio) {
 
-            estado_vacio.style.display =
-                'none';
+        estado_vacio.classList.add('d-none');
 
-        }
-
+        estado_vacio.style.display = 'none';
     }
+}
 
     // ==========================================
     // MENSAJE DE ERROR
